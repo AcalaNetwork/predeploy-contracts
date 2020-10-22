@@ -2,7 +2,7 @@
 pragma solidity ^0.5.0;
 
 library MultiCurrency {
-  function totalIssuance(uint256 currencyId) internal returns(uint256[1] memory p) {
+  function totalSupply(uint256 currencyId) internal returns(uint256[1] memory p) {
       uint256[1] memory input;
 
       uint256 x = 0 << 32;
@@ -18,14 +18,14 @@ library MultiCurrency {
       return p;
   }
 
-  function balance(uint256 currencyId, uint256 addr) internal returns(uint256[1] memory p) {
+  function balanceOf(uint256 currencyId, address account) internal returns(uint256[1] memory p) {
       uint256[2] memory input;
 
       uint256 x = 1 << 32;
       x += currencyId;
 
       input[0] = x << 216;
-      input[1] = addr << 96;
+      input[1] = uint256(account) << 96;
 
       assembly {
         if iszero(staticcall(gas, 0x0000000000000000001, input, 0x40, p, 0x20)) {
@@ -35,15 +35,15 @@ library MultiCurrency {
       return p;
   }
 
-  function transfer(uint256 currencyId, uint256 src, uint256 dest, uint256 amount) internal {
+  function transfer(uint256 currencyId, address sender, address recipient, uint256 amount) internal {
       uint256[4] memory input;
 
       uint256 x = 2 << 32;
       x += currencyId;
 
       input[0] = x << 216;
-      input[1] = src << 96;
-      input[2] = dest << 96;
+      input[1] = uint256(sender) << 96;
+      input[2] = uint256(recipient) << 96;
       input[3] = amount << 128;
 
       assembly {
