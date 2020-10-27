@@ -47,3 +47,5 @@ data
 
 #yarn
 yarn-error.log
+
+**/tmp/**

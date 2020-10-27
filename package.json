@@ -5,7 +5,14 @@
   "repository": "https://github.com/AcalaNetwork/predeploy-contracts.git",
   "author": "Shaopeng Wang <spxwang@gmail.com>",
   "license": "Apache-2.0",
+  "scripts": {
+    "generate-bytecode": "node generate/generate.js",
+    "truffle-compile": "truffle compile"
+  },
   "dependencies": {
     "@openzeppelin/contracts": "2.5.0"
+  },
+  "devDependencies": {
+    "truffle": "^5.1.50"
   }
 }
