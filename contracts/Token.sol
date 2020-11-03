@@ -16,11 +16,11 @@ contract ERC20 is IERC20 {
 
     mapping (address => mapping (address => uint256)) private _allowances;
 
-    uint256 private _currencyId;
+    uint256 private constant _currencyId = 0xffff;
 
-    string private _name;
-    string private _symbol;
-    uint8 private _decimals = 18;
+    string private constant _name = "TEMPLATE";
+    string private constant _symbol = "TEMP";
+    uint8 private constant _decimals = 18;
 
     /**
      * @dev Returns the name of the token.

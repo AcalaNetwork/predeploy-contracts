@@ -30,17 +30,17 @@ const generate = async () => {
     const replaced = fileData
       .replace(/contract ERC20 is IERC20/g, `contract ${name}ERC20 is IERC20`)
       .replace(/import "\.\/MultiCurrency.sol";/g, `import "../MultiCurrency.sol";`)
-      .replace(/uint256 private _currencyId;/, `uint256 private _currencyId = ${currencyId};`)
-      .replace(/string private _name;/g, `string private _name = "${name}";`)
-      .replace(/string private _symbol;/g, `string private _symbol = "${symbol}";`);
+      .replace(/uint256 private constant _currencyId = 0xffff;/, `uint256 private constant _currencyId = ${currencyId};`)
+      .replace(/string private constant _name = "TEMPLATE";/g, `string private constant _name = "${name}";`)
+      .replace(/string private constant _symbol = "TEMP";/g, `string private constant _symbol = "${symbol}";`);
     await writeFile(contractPath, replaced, 'utf8');
   }
 
   await exec('yarn truffle-compile');
 
   const bytecodes = tokens.reduce((output, { name }) => {
-    const { bytecode } = require(`../build/contracts/${name}ERC20.json`);
-    return [...output, { name, bytecode }];
+    const { deployedBytecode } = require(`../build/contracts/${name}ERC20.json`);
+    return [...output, [name, deployedBytecode]];
   }, []);
 
   const bytecodesFile = path.join(__dirname, '..', 'resources', 'bytecodes.json');
