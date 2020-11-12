@@ -1,26 +1,28 @@
 pragma solidity ^0.5.0;
 
 library P {
-    function balanceOf(address addr) public view returns (uint256[1] memory p) {
+    function balanceOf(address addr) public view returns (uint256) {
         uint256[2] memory input;
 
         input[0] = 0;
         input[1] = uint256(addr) << 96;
 
+        uint256[1] memory output;
+
         assembly {
             if iszero(
-                staticcall(gas, 0x0000000000000000401, input, 0x40, p, 0x20)
+                staticcall(gas, 0x0000000000000000401, input, 0x40, output, 0x20)
             ) {
                 revert(0, 0)
             }
         }
-        return p;
+        return output[0];
     }
 
     function ownerOf(uint256 class_id, uint256 token_id)
         public
         view
-        returns (uint256[1] memory p)
+        returns (address)
     {
         uint256[3] memory input;
 
@@ -28,14 +30,16 @@ library P {
         input[1] = class_id << 192;
         input[2] = token_id << 192;
 
+        uint256[1] memory output;
+
         assembly {
             if iszero(
-                staticcall(gas, 0x0000000000000000401, input, 0x60, p, 0x20)
+                staticcall(gas, 0x0000000000000000401, input, 0x60, output, 0x20)
             ) {
                 revert(0, 0)
             }
         }
-        return p;
+        return address(output[0]);
     }
 
     function transfer(
