@@ -1,6 +1,6 @@
 pragma solidity ^0.5.0;
 
-library P {
+library NFT {
     function balanceOf(address addr) public view returns (uint256) {
         uint256[2] memory input;
 
