@@ -1,11 +1,11 @@
 pragma solidity ^0.5.0;
 
 library NFT {
-    function balanceOf(address addr) public view returns (uint256) {
+    function balanceOf(address account) public view returns (uint256) {
         uint256[2] memory input;
 
         input[0] = 0;
-        input[1] = uint256(addr) << 96;
+        input[1] = uint256(account);
 
         uint256[1] memory output;
 
@@ -26,9 +26,9 @@ library NFT {
     {
         uint256[3] memory input;
 
-        input[0] = 1 << 248;
-        input[1] = class_id << 192;
-        input[2] = token_id << 192;
+        input[0] = 1;
+        input[1] = class_id;
+        input[2] = token_id;
 
         uint256[1] memory output;
 
@@ -50,11 +50,11 @@ library NFT {
     ) public view {
         uint256[5] memory input;
 
-        input[0] = 2 << 248;
-        input[1] = uint256(from) << 96;
-        input[2] = uint256(to) << 96;
-        input[3] = class_id << 192;
-        input[4] = token_id << 192;
+        input[0] = 2;
+        input[1] = uint256(from);
+        input[2] = uint256(to);
+        input[3] = class_id;
+        input[4] = token_id;
 
         assembly {
             if iszero(
