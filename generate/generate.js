@@ -43,6 +43,10 @@ const generate = async () => {
     return [...output, [name, deployedBytecode]];
   }, []);
 
+  // add StateRent bytecodes
+  const { deployedBytecode } = require(`../build/contracts/StateRent.json`);
+  bytecodes.push(['StateRent', deployedBytecode]);
+
   const bytecodesFile = path.join(__dirname, '..', 'resources', 'bytecodes.json');
   await writeFile(bytecodesFile, JSON.stringify(bytecodes, null, 2), 'utf8');
 };
