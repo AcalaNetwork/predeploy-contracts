@@ -91,6 +91,40 @@ library StateRentLib {
         return address(output[0]);
     }
 
+    function developerDeposit() internal view returns (uint256) {
+        uint256[1] memory input;
+
+        input[0] = 5;
+
+        uint256[1] memory output;
+
+        assembly {
+            if iszero(
+                staticcall(gas, 0x0000000000000000402, input, 0x20, output, 0x20)
+            ) {
+                revert(0, 0)
+            }
+        }
+        return output[0];
+    }
+
+    function deploymentFee() internal view returns (uint256) {
+        uint256[1] memory input;
+
+        input[0] = 6;
+
+        uint256[1] memory output;
+
+        assembly {
+            if iszero(
+                staticcall(gas, 0x0000000000000000402, input, 0x20, output, 0x20)
+            ) {
+                revert(0, 0)
+            }
+        }
+        return output[0];
+    }
+
     function addStorageQuota(
         address sender,
         address contract_address,
@@ -98,7 +132,7 @@ library StateRentLib {
     ) internal view {
         uint256[4] memory input;
 
-        input[0] = 5;
+        input[0] = 7;
         input[1] = uint256(sender);
         input[2] = uint256(contract_address);
         input[3] = bytes_size;
@@ -119,7 +153,7 @@ library StateRentLib {
     ) internal view {
         uint256[4] memory input;
 
-        input[0] = 6;
+        input[0] = 8;
         input[1] = uint256(sender);
         input[2] = uint256(contract_address);
         input[3] = bytes_size;
@@ -139,7 +173,7 @@ library StateRentLib {
     ) internal view {
         uint256[3] memory input;
 
-        input[0] = 7;
+        input[0] = 9;
         input[1] = uint256(sender);
         input[2] = uint256(contract_address);
 
@@ -158,7 +192,7 @@ library StateRentLib {
     ) internal view {
         uint256[3] memory input;
 
-        input[0] = 8;
+        input[0] = 10;
         input[1] = uint256(sender);
         input[2] = uint256(contract_address);
 
@@ -178,7 +212,7 @@ library StateRentLib {
     ) internal view {
         uint256[4] memory input;
 
-        input[0] = 9;
+        input[0] = 11;
         input[1] = uint256(sender);
         input[2] = uint256(contract_address);
         input[3] = uint256(new_maintainer);
@@ -199,7 +233,7 @@ library StateRentLib {
     ) internal view {
         uint256[4] memory input;
 
-        input[0] = 10;
+        input[0] = 12;
         input[1] = uint256(sender);
         input[2] = uint256(contract_address);
         input[3] = uint256(invalid_maintainer);

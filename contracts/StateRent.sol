@@ -34,6 +34,14 @@ contract StateRent {
         return StateRentLib.maintainerOf(contract_address);
     }
 
+    function developerDeposit() public view returns (uint256) {
+        return StateRentLib.developerDeposit();
+    }
+
+    function deploymentFee() public view returns (uint256) {
+        return StateRentLib.deploymentFee();
+    }
+
     function addStorageQuota(
         address contract_address,
         uint256 bytes_size
