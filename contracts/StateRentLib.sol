@@ -132,7 +132,7 @@ library StateRentLib {
     ) internal view {
         uint256[4] memory input;
 
-        input[0] = 7;
+        input[0] = 128;
         input[1] = uint256(sender);
         input[2] = uint256(contract_address);
         input[3] = bytes_size;
@@ -153,7 +153,7 @@ library StateRentLib {
     ) internal view {
         uint256[4] memory input;
 
-        input[0] = 8;
+        input[0] = 129;
         input[1] = uint256(sender);
         input[2] = uint256(contract_address);
         input[3] = bytes_size;
@@ -173,7 +173,7 @@ library StateRentLib {
     ) internal view {
         uint256[3] memory input;
 
-        input[0] = 9;
+        input[0] = 130;
         input[1] = uint256(sender);
         input[2] = uint256(contract_address);
 
@@ -192,7 +192,7 @@ library StateRentLib {
     ) internal view {
         uint256[3] memory input;
 
-        input[0] = 10;
+        input[0] = 131;
         input[1] = uint256(sender);
         input[2] = uint256(contract_address);
 
@@ -212,7 +212,7 @@ library StateRentLib {
     ) internal view {
         uint256[4] memory input;
 
-        input[0] = 11;
+        input[0] = 132;
         input[1] = uint256(sender);
         input[2] = uint256(contract_address);
         input[3] = uint256(new_maintainer);
@@ -233,7 +233,7 @@ library StateRentLib {
     ) internal view {
         uint256[4] memory input;
 
-        input[0] = 12;
+        input[0] = 133;
         input[1] = uint256(sender);
         input[2] = uint256(contract_address);
         input[3] = uint256(invalid_maintainer);
