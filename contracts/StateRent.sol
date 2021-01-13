@@ -3,7 +3,7 @@ pragma solidity ^0.5.0;
 import "./StateRentLib.sol";
 
 contract StateRent {
-    event TransferedMaintainer(address indexed contract_address, address indexed new_maintainer);
+    event TransferredMaintainer(address indexed contract_address, address indexed new_maintainer);
     
     function newContractExtraBytes() public view returns (uint256) {
         return StateRentLib.newContractExtraBytes();
@@ -47,7 +47,7 @@ contract StateRent {
         require(new_maintainer != address(0), "StateRent: the new_maintainer is the zero address");
 
         StateRentLib.transferMaintainer(msg.sender, contract_address, new_maintainer);
-        emit TransferedMaintainer(contract_address, new_maintainer);
+        emit TransferredMaintainer(contract_address, new_maintainer);
     }
 }
 
