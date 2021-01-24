@@ -44,8 +44,12 @@ const generate = async () => {
   }, []);
 
   // add StateRent bytecodes
-  const { deployedBytecode } = require(`../build/contracts/StateRent.json`);
-  bytecodes.push(['StateRent', deployedBytecode]);
+  const { deployedBytecode: stateRent } = require(`../build/contracts/StateRent.json`);
+  bytecodes.push(['StateRent', stateRent]);
+
+  // add Oracle bytecodes
+  const { deployedBytecode: oracle } = require(`../build/contracts/Oracle.json`);
+  bytecodes.push(['Oracle', oracle]);
 
   const bytecodesFile = path.join(__dirname, '..', 'resources', 'bytecodes.json');
   await writeFile(bytecodesFile, JSON.stringify(bytecodes, null, 2), 'utf8');
