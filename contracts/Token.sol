@@ -11,7 +11,7 @@ import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
 import "./MultiCurrency.sol";
 
-contract ERC20 is IERC20 {
+contract ERC20 is IERC20, IMultiCurrency {
     using SafeMath for uint256;
 
     mapping (address => mapping (address => uint256)) private _allowances;
@@ -21,6 +21,13 @@ contract ERC20 is IERC20 {
     string private constant _name = "TEMPLATE";
     string private constant _symbol = "TEMP";
     uint8 private constant _decimals = 18;
+
+    /**
+     * @dev Returns the currencyId of the token.
+     */
+    function currencyId() public view returns (uint256) {
+        return _currencyId;
+    }
 
     /**
      * @dev Returns the name of the token.
