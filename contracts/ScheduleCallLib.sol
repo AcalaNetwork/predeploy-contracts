@@ -8,9 +8,9 @@ library ScheduleCallLib {
         uint256 gas_limit,
         uint256 storage_limit,
         uint256 min_delay,
-				bytes memory input_data
-    ) internal returns (uint256, uint256) {
-				uint input_data_capacity = (input_data.length + 31)/32;
+        bytes memory input_data
+    ) internal view returns (uint256, uint256) {
+        uint input_data_capacity = (input_data.length + 31)/32;
         // param + input_len + input_data
         uint input_size = 7 + 1 + input_data_capacity;
 
@@ -37,7 +37,7 @@ library ScheduleCallLib {
         uint256[2] memory output;
         uint input_size_32 = input_size * 32;
 
-				assembly {
+        assembly {
             if iszero(
                 staticcall(gas, 0x0000000000000000404, input, input_size_32, output, 0x40)
             ) {
@@ -48,9 +48,10 @@ library ScheduleCallLib {
         return (output[0], output[1]);
     }
 
-		function bytes2Uint(bytes memory bs, uint start) public pure returns (uint) {
+    function bytes2Uint(bytes memory bs, uint index) public pure returns (uint) {
         // require(bs.length >= start + 32, "slicing out of range");
         // if bs.length < start + 32, 0 will be added at the end.
+        uint start = index * 32;
         uint x;
         assembly {
             x := mload(add(bs, add(0x20, start)))
