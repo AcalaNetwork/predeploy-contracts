@@ -9,7 +9,7 @@ library ScheduleCallLib {
         uint256 storage_limit,
         uint256 min_delay,
 				bytes memory input_data
-    ) internal returns (uint256, uint256) {
+    ) internal view returns (uint256, uint256) {
 				uint input_data_capacity = (input_data.length + 31)/32;
         // param + input_len + input_data
         uint input_size = 7 + 1 + input_data_capacity;
