@@ -3,6 +3,10 @@ pragma solidity ^0.5.0;
 import "./MultiCurrency.sol";
 
 contract Oracle {
+    /**
+     * @dev Get the price of the currency_id.
+     * Returns the (price, timestamp)
+     */
     function getPrice(address token) public view returns (uint256, uint256)
     {
         // token should be a system contract starting with 12 zero bytes

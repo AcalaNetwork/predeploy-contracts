@@ -5,6 +5,10 @@ import "./ScheduleCallLib.sol";
 contract ScheduleCall {
     event ScheduledCall(address indexed sender, address indexed contract_address, uint256 indexed block_number, uint256 index);
     
+    /**
+     * @dev Schedule call the contract.
+     * Returns the task_address(block_number, index).
+     */
     function scheduleCall(
         address contract_address,
         uint256 value,
