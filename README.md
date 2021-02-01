@@ -83,7 +83,7 @@ function decreaseAllowance(address spender, uint256 subtractedValue) public retu
 
 
 ## System contract:
-- StateRent `0x0000000000000000000000000000000000000806`
+- StateRent contract address: `0x0000000000000000000000000000000000000806`
 ```
 // Returns the const of NewContractExtraBytes.
 function newContractExtraBytes() public view returns (uint256);
@@ -104,13 +104,13 @@ function deploymentFee() public view returns (uint256);
 // Returns a boolean value indicating whether the operation succeeded.
 function transferMaintainer(address contract_address, address new_maintainer) public returns (bool);
 ```
-- Oracle    `0x0000000000000000000000000000000000000807`
+- Oracle contract address: `0x0000000000000000000000000000000000000807`
 ```
 // Get the price of the currency_id.
 // Returns the (price, timestamp)
 function getPrice(address token) public view returns (uint256, uint256);
 ```
-- ScheduleCall  `0x0000000000000000000000000000000000000808`
+- ScheduleCall contract address: `0x0000000000000000000000000000000000000808`
 ```
 // Schedule call the contract.
 // Returns the task_address(block_number, index).
