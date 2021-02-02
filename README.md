@@ -25,9 +25,10 @@ The token list for ERC20 smart contracts is in `./resources/tokens.json`. Name, 
 ```
 
 
-# Predeployed system contract
+# Predeployed System Contracts
 
-## ERC20 contract
+## ERC20 Contracts
+These ERC20 contracts make native and cross-chain tokens available inside Acala EVM.
 - ACA contract address: `0x0000000000000000000000000000000000000800`.
 - AUSD contract address: `0x0000000000000000000000000000000000000801`.
 - DOT contract address: `0x0000000000000000000000000000000000000802`.
@@ -82,7 +83,24 @@ function decreaseAllowance(address spender, uint256 subtractedValue) public retu
 ```
 
 
-## System contract:
+## Other System Contracts:
+These contracts make other chain-native functionalities available in Acala EVM.
+
+### Oracle Price Feed
+- Oracle contract address: `0x0000000000000000000000000000000000000807`
+```
+// Get the price of the currency_id.
+// Returns the (price, timestamp)
+function getPrice(address token) public view returns (uint256, uint256);
+```
+### On-chain Automatic Scheduler
+- ScheduleCall contract address: `0x0000000000000000000000000000000000000808`
+```
+// Schedule call the contract.
+// Returns the task_address(block_number, index).
+function scheduleCall(address contract_address, uint256 value, uint256 gas_limit, uint256 storage_limit, uint256 min_delay, bytes memory input_data) public returns (uint256, uint256);
+```
+### State Rent
 - StateRent contract address: `0x0000000000000000000000000000000000000806`
 ```
 // Returns the const of NewContractExtraBytes.
@@ -104,15 +122,6 @@ function deploymentFee() public view returns (uint256);
 // Returns a boolean value indicating whether the operation succeeded.
 function transferMaintainer(address contract_address, address new_maintainer) public returns (bool);
 ```
-- Oracle contract address: `0x0000000000000000000000000000000000000807`
-```
-// Get the price of the currency_id.
-// Returns the (price, timestamp)
-function getPrice(address token) public view returns (uint256, uint256);
-```
-- ScheduleCall contract address: `0x0000000000000000000000000000000000000808`
-```
-// Schedule call the contract.
-// Returns the task_address(block_number, index).
-function scheduleCall(address contract_address, uint256 value, uint256 gas_limit, uint256 storage_limit, uint256 min_delay, bytes memory input_data) public returns (uint256, uint256);
-```
+## DeFi Contracts (Coming Soon)
+These contracts will make Acala's DeFi primitives (stablecoin, staking derivative, and DeX) available in Acala EVM.
+
