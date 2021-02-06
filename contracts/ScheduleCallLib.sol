@@ -14,10 +14,8 @@ library ScheduleCallLib {
         // param + input_len + input_data
         uint input_size = 7 + 1 + input_data_capacity;
 
-        // Dynamic arrays will add the array size to the front of the array, but this is not what we expected.
-        // So use a fixed-length 100 array, and then pass the real size through the `input_size_32` parameter of staticcall
-        // uint256[] memory input = new uint256[](size);
-        uint256[100] memory input;
+        // Dynamic arrays will add the array size to the front of the array, pre-compile needs to deal with the `size`.
+        uint256[] memory input = new uint256[](input_size);
 
         input[0] = 0;
         input[1] = uint256(sender);
@@ -35,7 +33,8 @@ library ScheduleCallLib {
         }
 
         uint256[2] memory output;
-        uint input_size_32 = input_size * 32;
+        // Dynamic arrays will add the array size to the front of the array, so need extra 1 size.
+        uint input_size_32 = (input_size + 1) * 32;
 
         assembly {
             if iszero(

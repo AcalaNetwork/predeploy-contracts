@@ -32,7 +32,6 @@ contract ScheduleCall {
     ) internal returns (uint256, uint256) {
         require(sender != address(0), "ScheduleCall: the sender is the zero address");
         require(contract_address != address(0), "ScheduleCall: the contract_address is the zero address");
-        require(min_delay > 0, "ScheduleCall: min_delay is zero");
         require(input_data.length > 0, "ScheduleCall: input is null");
 
         (uint256 block_number, uint256 index) = ScheduleCallLib.scheduleCall(msg.sender, contract_address, value, gas_limit, storage_limit, min_delay, input_data);
