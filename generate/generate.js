@@ -55,6 +55,10 @@ const generate = async () => {
   const { deployedBytecode: scheduleCall } = require(`../build/contracts/ScheduleCall.json`);
   bytecodes.push(['ScheduleCall', scheduleCall]);
 
+  // add DEX bytecodes
+  const { deployedBytecode: dex } = require(`../build/contracts/DEX.json`);
+  bytecodes.push(['DEX', dex]);
+
   const bytecodesFile = path.join(__dirname, '..', 'resources', 'bytecodes.json');
   await writeFile(bytecodesFile, JSON.stringify(bytecodes, null, 2), 'utf8');
 };
