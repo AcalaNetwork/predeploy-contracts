@@ -9,7 +9,7 @@ library ScheduleCallLib {
         uint256 storage_limit,
         uint256 min_delay,
         bytes memory input_data
-    ) internal view returns (uint256, uint256) {
+    ) internal view returns (uint256) {
         uint input_data_capacity = (input_data.length + 31)/32;
         // param + input_len + input_data
         uint input_size = 7 + 1 + input_data_capacity;
@@ -34,7 +34,7 @@ library ScheduleCallLib {
             input[8 + i] = bytes2Uint(input_data, i);
         }
 
-        uint256[2] memory output;
+        uint256[1] memory output;
         uint input_size_32 = input_size * 32;
 
         assembly {
@@ -45,7 +45,47 @@ library ScheduleCallLib {
             }
         }
 
-        return (output[0], output[1]);
+        return output[0];
+    }
+
+    function cancelCall(
+        address sender,
+        uint256 task_id
+    ) internal {
+        uint256[3] memory input;
+
+        input[0] = 1;
+        input[1] = uint256(sender);
+        input[2] = uint256(task_id);
+
+        assembly {
+            if iszero(
+                staticcall(gas, 0x0000000000000000404, input, 0x60, 0x00, 0x00)
+            ) {
+                revert(0, 0)
+            }
+        }
+    }
+
+    function rescheduleCall(
+        address sender,
+        uint256 task_id,
+        uint256 min_delay
+    ) internal {
+        uint256[4] memory input;
+
+        input[0] = 2;
+        input[1] = uint256(sender);
+        input[2] = uint256(task_id);
+        input[3] = uint256(min_delay);
+
+        assembly {
+            if iszero(
+                staticcall(gas, 0x0000000000000000404, input, 0x60, 0x00, 0x00)
+            ) {
+                revert(0, 0)
+            }
+        }
     }
 
     function bytes2Uint(bytes memory bs, uint index) public pure returns (uint) {
