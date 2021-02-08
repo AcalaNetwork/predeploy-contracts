@@ -4,6 +4,10 @@ import "./SystemContract.sol";
 import "./MultiCurrency.sol";
 
 contract Oracle is SystemContract {
+    /**
+     * @dev Get the price of the currency_id.
+     * Returns the (price, timestamp)
+     */
     function getPrice(address token)
     public
     view

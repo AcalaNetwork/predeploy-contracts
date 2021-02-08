@@ -5,14 +5,23 @@ import "./StateRentLib.sol";
 contract StateRent {
     event TransferredMaintainer(address indexed contract_address, address indexed new_maintainer);
     
+    /**
+     * @dev Returns the const of NewContractExtraBytes.
+     */
     function newContractExtraBytes() public view returns (uint256) {
         return StateRentLib.newContractExtraBytes();
     }
 
+    /**
+     * @dev Returns the const of StorageDepositPerByte.
+     */
     function storageDepositPerByte() public view returns (uint256) {
         return StateRentLib.storageDepositPerByte();
     }
 
+    /**
+     * @dev Returns the maintainer of the contract.
+     */
     function maintainerOf(address contract_address)
         public
         view
@@ -21,14 +30,24 @@ contract StateRent {
         return StateRentLib.maintainerOf(contract_address);
     }
 
+    /**
+     * @dev Returns the const of DeveloperDeposit.
+     */
     function developerDeposit() public view returns (uint256) {
         return StateRentLib.developerDeposit();
     }
 
+    /**
+     * @dev Returns the const of DeploymentFee.
+     */
     function deploymentFee() public view returns (uint256) {
         return StateRentLib.deploymentFee();
     }
 
+    /**
+     * @dev Transfer the maintainer of the contract.
+     * Returns a boolean value indicating whether the operation succeeded.
+     */
     function transferMaintainer(
         address contract_address,
         address new_maintainer
