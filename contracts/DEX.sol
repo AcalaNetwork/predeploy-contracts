@@ -59,7 +59,7 @@ contract DEX is SystemContract {
         uint256[6] memory input;
 
         input[0] = 1;
-        input[1] = uint256(tx.origin);
+        input[1] = uint256(msg.sender);
         input[2] = currencyIdA;
         input[3] = currencyIdB;
         input[4] = supplyAmount;
