@@ -1,19 +1,20 @@
 pragma solidity ^0.5.0;
 
+import "./SystemContract.sol";
 import "./MultiCurrency.sol";
 
-contract Oracle {
+contract Oracle is SystemContract {
     /**
      * @dev Get the price of the currency_id.
      * Returns the (price, timestamp)
      */
-    function getPrice(address token) public view returns (uint256, uint256)
+    function getPrice(address token)
+    public
+    view
+    systemContract(token)
+    returns (uint256, uint256)
     {
-        // token should be a system contract starting with 12 zero bytes
-        bytes memory tokenBytes = abi.encodePacked(token);
-        for (uint i = 0; i < 12; i++)  {
-            require(tokenBytes[i] == 0, "Oracle: Not a system contract");
-        }
+        require(token != address(0), "Oracle: token is zero address");
 
         uint256 currencyId = IMultiCurrency(token).currencyId();
 
