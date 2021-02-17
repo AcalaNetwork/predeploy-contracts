@@ -97,16 +97,16 @@ function getPrice(address token) public view returns (uint256, uint256);
 - ScheduleCall contract address: `0x0000000000000000000000000000000000000808`
 ```
 // Schedule call the contract.
-// Returns the task_id.
-function scheduleCall(address contract_address, uint256 value, uint256 gas_limit, uint256 storage_limit, uint256 min_delay, bytes memory input_data) public returns (uint256);
+// Returns a boolean value indicating whether the operation succeeded.
+function scheduleCall(address contract_address, uint256 value, uint256 gas_limit, uint256 storage_limit, uint256 min_delay, bytes memory input_data) public returns (bool);
 
 // Cancel schedule call the contract.
 // Returns a boolean value indicating whether the operation succeeded.
-function cancelCall(uint256 task_id) public returns (bool);
+function cancelCall(bytes memory task_id) public returns (bool);
 
 // Reschedule call the contract.
 // Returns a boolean value indicating whether the operation succeeded.
-function rescheduleCall(uint256 task_id, uint256 min_delay) public returns (bool);
+function rescheduleCall(uint256 min_delay, bytes memory task_id) public returns (bool);
 ```
 ### State Rent
 - StateRent contract address: `0x0000000000000000000000000000000000000806`
