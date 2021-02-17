@@ -7,9 +7,6 @@ contract ScheduleCall {
     event CanceledCall(address indexed sender, bytes task_id);
     event RescheduledCall(address indexed sender, bytes task_id);
     
-    event Test(uint256 indexed _1, uint256 indexed _2, uint256 indexed _3);
-    event Test2(bytes task_id);
-    event Test3(bytes _1, bytes _2);
     /**
      * @dev Schedule call the contract.
      * Returns a boolean value indicating whether the operation succeeded.
@@ -62,14 +59,8 @@ contract ScheduleCall {
         require(contract_address != address(0), "ScheduleCall: the contract_address is the zero address");
         require(input_data.length > 0, "ScheduleCall: input is null");
 
-        //bytes memory task_id = ScheduleCallLib.scheduleCall(msg.sender, contract_address, value, gas_limit, storage_limit, min_delay, input_data);
-        uint256[3] memory output = ScheduleCallLib.scheduleCall(msg.sender, contract_address, value, gas_limit, storage_limit, min_delay, input_data);
-        emit Test(output[0], output[1], output[2]);
-        bytes memory task_id = abi.encodePacked(output[0], output[1]);
-        emit Test2(task_id);
-        emit Test3(abi.encodePacked(output[0]), abi.encodePacked(output[1]));
-
-        //emit ScheduledCall(msg.sender, contract_address, task_id);
+        bytes memory task_id = ScheduleCallLib.scheduleCall(msg.sender, contract_address, value, gas_limit, storage_limit, min_delay, input_data);
+        emit ScheduledCall(msg.sender, contract_address, task_id);
     }
 
     function _cancelCall(

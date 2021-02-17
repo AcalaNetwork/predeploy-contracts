@@ -9,7 +9,7 @@ library ScheduleCallLib {
         uint256 storage_limit,
         uint256 min_delay,
         bytes memory input_data
-    ) internal view returns (uint256[3] memory) {
+    ) internal view returns (bytes memory) {
         uint input_data_capacity = (input_data.length + 31)/32;
         // param + input_len + input_data
         uint input_size = 7 + 1 + input_data_capacity;
@@ -44,19 +44,14 @@ library ScheduleCallLib {
                 revert(0, 0)
             }
         }
-        return output;
 
-        //return uint2Bytes(output[0]);
-        //return abi.encodePacked(output[0]);
-        //bytes memory task_id = abi.encodePacked(output[0], output[1]);
-        //bytes memory task_id = new bytes(output[0]);
-        //for(uint i = 0; i < task_id.length; i++) {
-        //    uint j = 1 + i / 32;
-        //    uint k = i % 32;
-        //    task_id[i] = output[j][k];
-        //}
+        bytes memory task_id = new bytes(output[0]);
+        bytes memory result = abi.encodePacked(output[1], output[2]);
+        for (uint i = 0; i < task_id.length; i++) {
+            task_id[i] = result[i];
+        }
 
-        //return task_id;
+        return task_id;
     }
 
     function cancelCall(
