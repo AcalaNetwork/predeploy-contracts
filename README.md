@@ -130,6 +130,17 @@ function deploymentFee() public view returns (uint256);
 // Returns a boolean value indicating whether the operation succeeded.
 function transferMaintainer(address contract_address, address new_maintainer) public returns (bool);
 ```
+### DEX
+- DEX contract address: `0x0000000000000000000000000000000000000809`
+```
+// Get liquidity of the currency_id_a and currency_id_b.
+// Returns (liquidity_a, liquidity_b)
+function getLiquidity(address tokenA, address tokenB) public view returns (uint256, uint256)
+
+// Swap with exact supply.
+// Returns (target_amount)
+function swapWithExactSupply(address tokenA, address tokenB, uint256 supplyAmount, uint256 minTargetAmount) public view returns (uint256)
+```
 ## DeFi Contracts (Coming Soon)
 These contracts will make Acala's DeFi primitives (stablecoin, staking derivative, and DeX) available in Acala EVM.
 
