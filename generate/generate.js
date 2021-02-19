@@ -3,7 +3,6 @@ const path = require('path');
 const util = require('util');
 const childProcess = require('child_process');
 
-const tokens = require('../resources/tokens.json');
 
 const copyFile = util.promisify(fs.copyFile);
 const readFile = util.promisify(fs.readFile);
@@ -11,6 +10,11 @@ const writeFile = util.promisify(fs.writeFile);
 const exec = util.promisify(childProcess.exec);
 
 const generate = async () => {
+  const tokensFile = (process.argv[2] === undefined) ? path.join(__dirname, '..', 'resources', 'example_tokens.json'): process.argv[2];
+  const bytecodesFile = (process.argv[3] === undefined) ? path.join(__dirname, '..', 'resources', 'bytecodes.json'): process.argv[3];
+
+  const tokens = require(tokensFile);
+
   const contractsDirectoryComponents = [__dirname, '..', 'contracts', 'tmp'];
   const contractsDirectory = path.join(...contractsDirectoryComponents);
 
@@ -59,7 +63,6 @@ const generate = async () => {
   const { deployedBytecode: dex } = require(`../build/contracts/DEX.json`);
   bytecodes.push(['DEX', dex]);
 
-  const bytecodesFile = path.join(__dirname, '..', 'resources', 'bytecodes.json');
   await writeFile(bytecodesFile, JSON.stringify(bytecodes, null, 2), 'utf8');
 };
 
