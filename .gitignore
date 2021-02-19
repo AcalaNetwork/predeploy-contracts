@@ -49,3 +49,5 @@ data
 yarn-error.log
 
 **/tmp/**
+
+resources/bytecodes.json
