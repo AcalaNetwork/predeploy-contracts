@@ -42,26 +42,26 @@ const generate = async () => {
 
   await exec('yarn truffle-compile');
 
-  const bytecodes = tokens.reduce((output, { name }) => {
+  const bytecodes = tokens.reduce((output, { name, currencyId }) => {
     const { deployedBytecode } = require(`../build/contracts/${name}ERC20.json`);
-    return [...output, [name, deployedBytecode]];
+    return [...output, [name, "0x" + (2048 + Number(currencyId)).toString(16).padStart(40,0), deployedBytecode]];
   }, []);
 
   // add StateRent bytecodes
   const { deployedBytecode: stateRent } = require(`../build/contracts/StateRent.json`);
-  bytecodes.push(['StateRent', stateRent]);
+  bytecodes.push(['StateRent', '', stateRent]);
 
   // add Oracle bytecodes
   const { deployedBytecode: oracle } = require(`../build/contracts/Oracle.json`);
-  bytecodes.push(['Oracle', oracle]);
+  bytecodes.push(['Oracle', '', oracle]);
 
   // add ScheduleCall bytecodes
   const { deployedBytecode: scheduleCall } = require(`../build/contracts/ScheduleCall.json`);
-  bytecodes.push(['ScheduleCall', scheduleCall]);
+  bytecodes.push(['ScheduleCall', '', scheduleCall]);
 
   // add DEX bytecodes
   const { deployedBytecode: dex } = require(`../build/contracts/DEX.json`);
-  bytecodes.push(['DEX', dex]);
+  bytecodes.push(['DEX', '', dex]);
 
   await writeFile(bytecodesFile, JSON.stringify(bytecodes, null, 2), 'utf8');
 };
