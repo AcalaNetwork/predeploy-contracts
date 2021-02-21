@@ -34,9 +34,18 @@ These ERC20 contracts make native and cross-chain tokens available inside Acala 
 - ACA contract address: `0x0000000000000000000000000000000000000800`.
 - AUSD contract address: `0x0000000000000000000000000000000000000801`.
 - DOT contract address: `0x0000000000000000000000000000000000000802`.
-- XBTC contract address: `0x0000000000000000000000000000000000000803`.
-- LDOT contract address: `0x0000000000000000000000000000000000000804`.
+- LDOT contract address: `0x0000000000000000000000000000000000000803`.
+- XBTC contract address: `0x0000000000000000000000000000000000000804`.
 - RENBTC contract address: `0x0000000000000000000000000000000000000805`.
+- POLKABTC contract address: `0x0000000000000000000000000000000000000806`.
+- PLM contract address: `0x0000000000000000000000000000000000000807`.
+- PHA contract address: `0x0000000000000000000000000000000000000808`.
+
+- KAR contract address: `0x0000000000000000000000000000000000000880`.
+- KUSD contract address: `0x0000000000000000000000000000000000000881`.
+- KSM contract address: `0x0000000000000000000000000000000000000882`.
+- LKSM contract address: `0x0000000000000000000000000000000000000883`.
+- SDN contract address: `0x0000000000000000000000000000000000000887`.
 ```
 // Returns the currencyId of the token.
 function currencyId() public view returns (uint256);
@@ -88,30 +97,8 @@ function decreaseAllowance(address spender, uint256 subtractedValue) public retu
 ## Other System Contracts:
 These contracts make other chain-native functionalities available in Acala EVM.
 
-### Oracle Price Feed
-- Oracle contract address: `0x0000000000000000000000000000000000000807`
-```
-// Get the price of the currency_id.
-// Returns the (price, timestamp)
-function getPrice(address token) public view returns (uint256, uint256);
-```
-### On-chain Automatic Scheduler
-- ScheduleCall contract address: `0x0000000000000000000000000000000000000808`
-```
-// Schedule call the contract.
-// Returns a boolean value indicating whether the operation succeeded.
-function scheduleCall(address contract_address, uint256 value, uint256 gas_limit, uint256 storage_limit, uint256 min_delay, bytes memory input_data) public returns (bool);
-
-// Cancel schedule call the contract.
-// Returns a boolean value indicating whether the operation succeeded.
-function cancelCall(bytes memory task_id) public returns (bool);
-
-// Reschedule call the contract.
-// Returns a boolean value indicating whether the operation succeeded.
-function rescheduleCall(uint256 min_delay, bytes memory task_id) public returns (bool);
-```
 ### State Rent
-- StateRent contract address: `0x0000000000000000000000000000000000000806`
+- StateRent contract address: `0x0000000000000000000000000000000000000900`
 ```
 // Returns the const of NewContractExtraBytes.
 function newContractExtraBytes() public view returns (uint256);
@@ -132,8 +119,32 @@ function deploymentFee() public view returns (uint256);
 // Returns a boolean value indicating whether the operation succeeded.
 function transferMaintainer(address contract_address, address new_maintainer) public returns (bool);
 ```
+
+### Oracle Price Feed
+- Oracle contract address: `0x0000000000000000000000000000000000000901`
+```
+// Get the price of the currency_id.
+// Returns the (price, timestamp)
+function getPrice(address token) public view returns (uint256, uint256);
+```
+### On-chain Automatic Scheduler
+- ScheduleCall contract address: `0x0000000000000000000000000000000000000902`
+```
+// Schedule call the contract.
+// Returns a boolean value indicating whether the operation succeeded.
+function scheduleCall(address contract_address, uint256 value, uint256 gas_limit, uint256 storage_limit, uint256 min_delay, bytes memory input_data) public returns (bool);
+
+// Cancel schedule call the contract.
+// Returns a boolean value indicating whether the operation succeeded.
+function cancelCall(bytes memory task_id) public returns (bool);
+
+// Reschedule call the contract.
+// Returns a boolean value indicating whether the operation succeeded.
+function rescheduleCall(uint256 min_delay, bytes memory task_id) public returns (bool);
+```
+
 ### DEX
-- DEX contract address: `0x0000000000000000000000000000000000000809`
+- DEX contract address: `0x0000000000000000000000000000000000000903`
 ```
 // Get liquidity of the currency_id_a and currency_id_b.
 // Returns (liquidity_a, liquidity_b)
