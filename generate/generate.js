@@ -3,11 +3,27 @@ const path = require('path');
 const util = require('util');
 const childProcess = require('child_process');
 
-
 const copyFile = util.promisify(fs.copyFile);
 const readFile = util.promisify(fs.readFile);
 const writeFile = util.promisify(fs.writeFile);
 const exec = util.promisify(childProcess.exec);
+
+// Ethereum precompiles
+// 0 - 0x400
+// Acala precompiles
+// 0x400 - 0x800
+// Predeployed system contracts (except Mirrored ERC20)
+// 0x800 - 0x1000
+// Mirrored Tokens
+// 0x01000000
+// Mirrored NFT
+// 0x02000000
+const PREDEPLOY_ADDRESS_START = 0x800;
+const MIRRORED_TOKENS_ADDRESS_START = 0x01000000;
+
+function address(start, offset) {
+  return "0x" + (Number(start)+ Number(offset)).toString(16).padStart(40,0);
+}
 
 const generate = async () => {
   const tokensFile = (process.argv[2] === undefined) ? path.join(__dirname, '..', 'resources', 'example_tokens.json'): process.argv[2];
@@ -42,26 +58,26 @@ const generate = async () => {
 
   await exec('yarn truffle-compile');
 
-  const bytecodes = tokens.reduce((output, { name }) => {
+  const bytecodes = tokens.reduce((output, { name, currencyId }) => {
     const { deployedBytecode } = require(`../build/contracts/${name}ERC20.json`);
-    return [...output, [name, deployedBytecode]];
+    return [...output, [name, address(MIRRORED_TOKENS_ADDRESS_START, currencyId), deployedBytecode]];
   }, []);
 
   // add StateRent bytecodes
   const { deployedBytecode: stateRent } = require(`../build/contracts/StateRent.json`);
-  bytecodes.push(['StateRent', stateRent]);
+  bytecodes.push(['StateRent', address(PREDEPLOY_ADDRESS_START, 0), stateRent]);
 
   // add Oracle bytecodes
   const { deployedBytecode: oracle } = require(`../build/contracts/Oracle.json`);
-  bytecodes.push(['Oracle', oracle]);
+  bytecodes.push(['Oracle', address(PREDEPLOY_ADDRESS_START, 1), oracle]);
 
   // add ScheduleCall bytecodes
   const { deployedBytecode: scheduleCall } = require(`../build/contracts/ScheduleCall.json`);
-  bytecodes.push(['ScheduleCall', scheduleCall]);
+  bytecodes.push(['ScheduleCall', address(PREDEPLOY_ADDRESS_START, 2), scheduleCall]);
 
   // add DEX bytecodes
   const { deployedBytecode: dex } = require(`../build/contracts/DEX.json`);
-  bytecodes.push(['DEX', dex]);
+  bytecodes.push(['DEX', address(PREDEPLOY_ADDRESS_START, 3), dex]);
 
   await writeFile(bytecodesFile, JSON.stringify(bytecodes, null, 2), 'utf8');
 };
