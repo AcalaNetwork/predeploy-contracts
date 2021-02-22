@@ -31,21 +31,21 @@ The token list for ERC20 smart contracts is in `./resources/example_tokens.json`
 
 ## ERC20 Contracts
 These ERC20 contracts make native and cross-chain tokens available inside Acala EVM.
-- ACA contract address: `0x0000000000000000000000000000000000000800`.
-- AUSD contract address: `0x0000000000000000000000000000000000000801`.
-- DOT contract address: `0x0000000000000000000000000000000000000802`.
-- LDOT contract address: `0x0000000000000000000000000000000000000803`.
-- XBTC contract address: `0x0000000000000000000000000000000000000804`.
-- RENBTC contract address: `0x0000000000000000000000000000000000000805`.
-- POLKABTC contract address: `0x0000000000000000000000000000000000000806`.
-- PLM contract address: `0x0000000000000000000000000000000000000807`.
-- PHA contract address: `0x0000000000000000000000000000000000000808`.
+- ACA contract address: `0x0000000000000000000000000000000001000000`.
+- AUSD contract address: `0x0000000000000000000000000000000001000001`.
+- DOT contract address: `0x0000000000000000000000000000000001000002`.
+- LDOT contract address: `0x0000000000000000000000000000000001000003`.
+- XBTC contract address: `0x0000000000000000000000000000000001000004`.
+- RENBTC contract address: `0x0000000000000000000000000000000001000005`.
+- POLKABTC contract address: `0x0000000000000000000000000000000001000006`.
+- PLM contract address: `0x0000000000000000000000000000000001000007`.
+- PHA contract address: `0x0000000000000000000000000000000001000008`.
 
-- KAR contract address: `0x0000000000000000000000000000000000000880`.
-- KUSD contract address: `0x0000000000000000000000000000000000000881`.
-- KSM contract address: `0x0000000000000000000000000000000000000882`.
-- LKSM contract address: `0x0000000000000000000000000000000000000883`.
-- SDN contract address: `0x0000000000000000000000000000000000000887`.
+- KAR contract address: `0x0000000000000000000000000000000001000080`.
+- KUSD contract address: `0x0000000000000000000000000000000001000081`.
+- KSM contract address: `0x0000000000000000000000000000000001000082`.
+- LKSM contract address: `0x0000000000000000000000000000000001000083`.
+- SDN contract address: `0x0000000000000000000000000000000001000087`.
 ```
 // Returns the currencyId of the token.
 function currencyId() public view returns (uint256);
@@ -98,7 +98,7 @@ function decreaseAllowance(address spender, uint256 subtractedValue) public retu
 These contracts make other chain-native functionalities available in Acala EVM.
 
 ### State Rent
-- StateRent contract address: `0x0000000000000000000000000000000000000900`
+- StateRent contract address: `0x0000000000000000000000000000000000000800`
 ```
 // Returns the const of NewContractExtraBytes.
 function newContractExtraBytes() public view returns (uint256);
@@ -121,14 +121,14 @@ function transferMaintainer(address contract_address, address new_maintainer) pu
 ```
 
 ### Oracle Price Feed
-- Oracle contract address: `0x0000000000000000000000000000000000000901`
+- Oracle contract address: `0x0000000000000000000000000000000000000801`
 ```
 // Get the price of the currency_id.
 // Returns the (price, timestamp)
 function getPrice(address token) public view returns (uint256, uint256);
 ```
 ### On-chain Automatic Scheduler
-- ScheduleCall contract address: `0x0000000000000000000000000000000000000902`
+- ScheduleCall contract address: `0x0000000000000000000000000000000000000802`
 ```
 // Schedule call the contract.
 // Returns a boolean value indicating whether the operation succeeded.
@@ -144,7 +144,7 @@ function rescheduleCall(uint256 min_delay, bytes memory task_id) public returns 
 ```
 
 ### DEX
-- DEX contract address: `0x0000000000000000000000000000000000000903`
+- DEX contract address: `0x0000000000000000000000000000000000000803`
 ```
 // Get liquidity of the currency_id_a and currency_id_b.
 // Returns (liquidity_a, liquidity_b)
