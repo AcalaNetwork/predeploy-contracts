@@ -3,11 +3,11 @@ const path = require('path');
 const util = require('util');
 const childProcess = require('child_process');
 
-
 const copyFile = util.promisify(fs.copyFile);
 const readFile = util.promisify(fs.readFile);
 const writeFile = util.promisify(fs.writeFile);
 const exec = util.promisify(childProcess.exec);
+const ERC20_PREDEPLOY_ADDRESS_START = 2048;
 
 const generate = async () => {
   const tokensFile = (process.argv[2] === undefined) ? path.join(__dirname, '..', 'resources', 'example_tokens.json'): process.argv[2];
@@ -44,7 +44,7 @@ const generate = async () => {
 
   const bytecodes = tokens.reduce((output, { name, currencyId }) => {
     const { deployedBytecode } = require(`../build/contracts/${name}ERC20.json`);
-    return [...output, [name, "0x" + (2048 + Number(currencyId)).toString(16).padStart(40,0), deployedBytecode]];
+    return [...output, [name, "0x" + (ERC20_PREDEPLOY_ADDRESS_START + Number(currencyId)).toString(16).padStart(40,0), deployedBytecode]];
   }, []);
 
   // add StateRent bytecodes
