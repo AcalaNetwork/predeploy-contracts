@@ -50,7 +50,8 @@ const generate = async () => {
     const replaced = fileData
       .replace(/contract ERC20 is IERC20/g, `contract ${name}ERC20 is IERC20`)
       .replace(/import "\.\/MultiCurrency.sol";/g, `import "../MultiCurrency.sol";`)
-      .replace(/uint256 private constant _currencyId = 0xffff;/, `uint256 private constant _currencyId = ${currencyId};`)
+      // The currencyid is u8, it needs to be converted to uint256, and it needs to satisfy `v [29] == 0 && v [31] == 0`, so shift 8 bits to the left.
+      .replace(/uint256 private constant _currencyId = 0xffff;/, `uint256 private constant _currencyId = ${"0x" + (currencyId << 8).toString(16)};`)
       .replace(/string private constant _name = "TEMPLATE";/g, `string private constant _name = "${name}";`)
       .replace(/string private constant _symbol = "TEMP";/g, `string private constant _symbol = "${symbol}";`);
     await writeFile(contractPath, replaced, 'utf8');
