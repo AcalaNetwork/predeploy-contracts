@@ -6,10 +6,10 @@ const ScheduleCall = '0x0000000000000000000000000000000000000802';
 const DEX = '0x0000000000000000000000000000000000000803';
 
 module.exports = {
-  ACA
-  AUSD
-  StateRent
-  Oracle
-  ScheduleCall
-  DEX
+  ACA,
+  AUSD,
+  StateRent,
+  Oracle,
+  ScheduleCall,
+  DEX,
 }

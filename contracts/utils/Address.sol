@@ -1,29 +1,10 @@
 pragma solidity ^0.5.0;
 
-library ADDRESS {
+contract ADDRESS {
 	address public constant ACA = 0x0000000000000000000000000000000001000000;
 	address public constant AUSD = 0x0000000000000000000000000000000001000001;
 	address public constant StateRent = 0x0000000000000000000000000000000000000800;
 	address public constant Oracle = 0x0000000000000000000000000000000000000801;
 	address public constant ScheduleCall = 0x0000000000000000000000000000000000000802;
 	address public constant DEX = 0x0000000000000000000000000000000000000803;
-
-	function getACAAddress() public pure returns(address) {
-		return ACA;
-	}
-	function getAUSDAddress() public pure returns(address) {
-		return AUSD;
-	}
-	function getStateRentAddress() public pure returns(address) {
-		return StateRent;
-	}
-	function getOracleAddress() public pure returns(address) {
-		return Oracle;
-	}
-	function getScheduleCallAddress() public pure returns(address) {
-		return ScheduleCall;
-	}
-	function getDEXAddress() public pure returns(address) {
-		return DEX;
-	}
 }

@@ -1,13 +1,7 @@
 pragma solidity ^0.5.0;
 
-library ADDRESS {
+contract ADDRESS {
 	{{#each this}}
 	address public constant {{this.[0]}} = {{this.[1]}};
-	{{/each}}
-
-	{{#each this}}
-	function get{{this.[0]}}Address() public pure returns(address) {
-		return {{this.[0]}};
-	}
 	{{/each}}
 }
