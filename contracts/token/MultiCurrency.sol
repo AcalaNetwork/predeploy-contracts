@@ -1,12 +1,6 @@
 // SPDX-License-Identifier: Apache-2.0
 pragma solidity ^0.5.0;
 
-//TODO: replace the precompile address.
-
-interface IMultiCurrency {
-    function currencyId() external view returns (uint256);
-}
-
 library MultiCurrency {
     function totalSupply(uint256 currencyId) internal view returns (uint256) {
         uint256[2] memory input;

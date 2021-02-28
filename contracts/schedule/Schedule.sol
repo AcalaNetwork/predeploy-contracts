@@ -1,12 +1,9 @@
 pragma solidity ^0.5.0;
 
-import "./ScheduleCallLib.sol";
+import "./ISchedule.sol";
+import "./ScheduleLib.sol";
 
-contract ScheduleCall {
-    event ScheduledCall(address indexed sender, address indexed contract_address, bytes task_id);
-    event CanceledCall(address indexed sender, bytes task_id);
-    event RescheduledCall(address indexed sender, bytes task_id);
-    
+contract Schedule is ISchedule {
     /**
      * @dev Schedule call the contract.
      * Returns a boolean value indicating whether the operation succeeded.

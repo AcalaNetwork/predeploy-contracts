@@ -39,7 +39,7 @@ const generate = async () => {
     fs.mkdirSync(contractsDirectory);
   }
 
-  const templatePath = path.join(__dirname, '..', 'contracts', 'Token.sol');
+  const templatePath = path.join(__dirname, '..', 'contracts/token', 'Token.sol');
 
   for (const token of tokens) {
     const { name, symbol, currencyId } = token;
@@ -50,7 +50,8 @@ const generate = async () => {
     const fileData = await readFile(contractPath, 'utf8');
     const replaced = fileData
       .replace(/contract ERC20 is IERC20/g, `contract ${name}ERC20 is IERC20`)
-      .replace(/import "\.\/MultiCurrency.sol";/g, `import "../MultiCurrency.sol";`)
+      .replace(/import "\.\/MultiCurrency.sol";/g, `import "../token/MultiCurrency.sol";`)
+      .replace(/import "\.\/IMultiCurrency.sol";/g, `import "../token/IMultiCurrency.sol";`)
       // The currencyid is u8, it needs to be converted to uint256, and it needs to satisfy `v [29] == 0 && v [31] == 0`, so shift 8 bits to the left.
       .replace(/uint256 private constant _currencyId = 0xffff;/, `uint256 private constant _currencyId = ${"0x" + (currencyId << 8).toString(16)};`)
       .replace(/string private constant _name = "TEMPLATE";/g, `string private constant _name = "${name}";`)
@@ -87,13 +88,13 @@ const generate = async () => {
   let tmpl = fs.readFileSync(path.resolve(__dirname, '../resources', 'address.sol.hbs'), 'utf8');
   let template = Handlebars.compile(tmpl);
   console.log(template(bytecodes));
-  await writeFile(path.join(__dirname, '..', 'contracts', 'Address.sol'), template(bytecodes), 'utf8');
+  await writeFile(path.join(__dirname, '..', 'contracts/utils', 'Address.sol'), template(bytecodes), 'utf8');
 
   // generate address constant for js
   tmpl = fs.readFileSync(path.resolve(__dirname, '../resources', 'address.js.hbs'), 'utf8');
   template = Handlebars.compile(tmpl);
   console.log(template(bytecodes));
-  await writeFile(path.join(__dirname, '..', 'contracts', 'Address.js'), template(bytecodes), 'utf8');
+  await writeFile(path.join(__dirname, '..', 'contracts/utils', 'Address.js'), template(bytecodes), 'utf8');
 };
 
 const main = async () => {
