@@ -2,6 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const util = require('util');
 const childProcess = require('child_process');
+const Handlebars = require("handlebars");
 
 const copyFile = util.promisify(fs.copyFile);
 const readFile = util.promisify(fs.readFile);
@@ -81,6 +82,18 @@ const generate = async () => {
   bytecodes.push(['DEX', address(PREDEPLOY_ADDRESS_START, 3), dex]);
 
   await writeFile(bytecodesFile, JSON.stringify(bytecodes, null, 2), 'utf8');
+
+  // generate address constant for sol
+  let tmpl = fs.readFileSync(path.resolve(__dirname, '../resources', 'address.sol.hbs'), 'utf8');
+  let template = Handlebars.compile(tmpl);
+  console.log(template(bytecodes));
+  await writeFile(path.join(__dirname, '..', 'contracts', 'Address.sol'), template(bytecodes), 'utf8');
+
+  // generate address constant for js
+  tmpl = fs.readFileSync(path.resolve(__dirname, '../resources', 'address.js.hbs'), 'utf8');
+  template = Handlebars.compile(tmpl);
+  console.log(template(bytecodes));
+  await writeFile(path.join(__dirname, '..', 'contracts', 'Address.js'), template(bytecodes), 'utf8');
 };
 
 const main = async () => {
