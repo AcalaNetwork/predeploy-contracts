@@ -7,7 +7,7 @@ library ADDRESS {
 
 	{{#each this}}
 	function get{{this.[0]}}Address() public pure returns(address) {
-		return this.[0];
+		return {{this.[0]}};
 	}
 	{{/each}}
 }

@@ -9,21 +9,21 @@ library ADDRESS {
 	address public constant DEX = 0x0000000000000000000000000000000000000803;
 
 	function getACAAddress() public pure returns(address) {
-		return this.[0];
+		return ACA;
 	}
 	function getAUSDAddress() public pure returns(address) {
-		return this.[0];
+		return AUSD;
 	}
 	function getStateRentAddress() public pure returns(address) {
-		return this.[0];
+		return StateRent;
 	}
 	function getOracleAddress() public pure returns(address) {
-		return this.[0];
+		return Oracle;
 	}
 	function getScheduleCallAddress() public pure returns(address) {
-		return this.[0];
+		return ScheduleCall;
 	}
 	function getDEXAddress() public pure returns(address) {
-		return this.[0];
+		return DEX;
 	}
 }
