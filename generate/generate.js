@@ -74,9 +74,9 @@ const generate = async () => {
   const { deployedBytecode: oracle } = require(`../build/contracts/Oracle.json`);
   bytecodes.push(['Oracle', address(PREDEPLOY_ADDRESS_START, 1), oracle]);
 
-  // add ScheduleCall bytecodes
-  const { deployedBytecode: scheduleCall } = require(`../build/contracts/ScheduleCall.json`);
-  bytecodes.push(['ScheduleCall', address(PREDEPLOY_ADDRESS_START, 2), scheduleCall]);
+  // add Schedule bytecodes
+  const { deployedBytecode: schedule } = require(`../build/contracts/Schedule.json`);
+  bytecodes.push(['Schedule', address(PREDEPLOY_ADDRESS_START, 2), schedule]);
 
   // add DEX bytecodes
   const { deployedBytecode: dex } = require(`../build/contracts/DEX.json`);

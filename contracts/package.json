@@ -4,8 +4,6 @@
   "description": "",
   "main": "",
   "scripts": {
-    "build:release": "polkadot-ci-ghact-build",
-    "lint": "polkadot-dev-run-lint",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
