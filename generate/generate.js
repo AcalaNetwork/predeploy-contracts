@@ -87,14 +87,12 @@ const generate = async () => {
   // generate address constant for sol
   let tmpl = fs.readFileSync(path.resolve(__dirname, '../resources', 'address.sol.hbs'), 'utf8');
   let template = Handlebars.compile(tmpl);
-  console.log(template(bytecodes));
-  await writeFile(path.join(__dirname, '..', 'contracts/utils', 'Address.sol'), template(bytecodes), 'utf8');
+  await writeFile(path.join(__dirname, '../contracts/utils', 'Address.sol'), template(bytecodes), 'utf8');
 
   // generate address constant for js
   tmpl = fs.readFileSync(path.resolve(__dirname, '../resources', 'address.js.hbs'), 'utf8');
   template = Handlebars.compile(tmpl);
-  console.log(template(bytecodes));
-  await writeFile(path.join(__dirname, '..', 'contracts/utils', 'Address.js'), template(bytecodes), 'utf8');
+  await writeFile(path.join(__dirname, '../contracts/utils', 'Address.js'), template(bytecodes), 'utf8');
 };
 
 const main = async () => {

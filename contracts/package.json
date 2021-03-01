@@ -1,20 +1,20 @@
 {
-  "name": "@zjb0807test/contracts",
-  "version": "1.0.10",
+  "name": "@acala-network/contracts",
+  "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/zjb0807/contracts.git"
+    "url": "git+https://github.com/AcalaNetwork/predeploy-contracts.git"
   },
   "keywords": [],
   "author": "",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/zjb0807/contracts/issues"
+    "url": "https://github.com/AcalaNetwork/predeploy-contracts/issues"
   },
-  "homepage": "https://github.com/zjb0807/contracts#readme"
+  "homepage": "https://github.com/AcalaNetwork/predeploy-contracts#readme"
 }
