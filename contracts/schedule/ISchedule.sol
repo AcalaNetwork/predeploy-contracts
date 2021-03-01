@@ -21,7 +21,7 @@ interface ISchedule {
     // Cancel schedule call the contract.
     // Returns a boolean value indicating whether the operation succeeded.
     function cancelCall(
-	bytes calldata task_id // The task id of the scheduler. Get it from the `ScheduledCall` event.
+        bytes calldata task_id // The task id of the scheduler. Get it from the `ScheduledCall` event.
     )
     external
     returns (bool); // Returns a boolean value indicating whether the operation succeeded.
@@ -30,7 +30,7 @@ interface ISchedule {
     // Returns a boolean value indicating whether the operation succeeded.
     function rescheduleCall(
         uint256 min_delay, // Minimum number of blocks before the scheduled call will be called.
-	bytes calldata task_id // The task id of the scheduler. Get it from the `ScheduledCall` event.
+        bytes calldata task_id // The task id of the scheduler. Get it from the `ScheduledCall` event.
     )
     external
     returns (bool); // Returns a boolean value indicating whether the operation succeeded.
