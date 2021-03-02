@@ -2,6 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const util = require('util');
 const childProcess = require('child_process');
+const Handlebars = require("handlebars");
 
 const copyFile = util.promisify(fs.copyFile);
 const readFile = util.promisify(fs.readFile);
@@ -38,7 +39,7 @@ const generate = async () => {
     fs.mkdirSync(contractsDirectory);
   }
 
-  const templatePath = path.join(__dirname, '..', 'contracts', 'Token.sol');
+  const templatePath = path.join(__dirname, '..', 'contracts/token', 'Token.sol');
 
   for (const token of tokens) {
     const { name, symbol, currencyId } = token;
@@ -49,7 +50,8 @@ const generate = async () => {
     const fileData = await readFile(contractPath, 'utf8');
     const replaced = fileData
       .replace(/contract ERC20 is IERC20/g, `contract ${name}ERC20 is IERC20`)
-      .replace(/import "\.\/MultiCurrency.sol";/g, `import "../MultiCurrency.sol";`)
+      .replace(/import "\.\/MultiCurrency.sol";/g, `import "../token/MultiCurrency.sol";`)
+      .replace(/import "\.\/IMultiCurrency.sol";/g, `import "../token/IMultiCurrency.sol";`)
       // The currencyid is u8, it needs to be converted to uint256, and it needs to satisfy `v [29] == 0 && v [31] == 0`, so shift 8 bits to the left.
       .replace(/uint256 private constant _currencyId = 0xffff;/, `uint256 private constant _currencyId = ${"0x" + (currencyId << 8).toString(16)};`)
       .replace(/string private constant _name = "TEMPLATE";/g, `string private constant _name = "${name}";`)
@@ -72,15 +74,25 @@ const generate = async () => {
   const { deployedBytecode: oracle } = require(`../build/contracts/Oracle.json`);
   bytecodes.push(['Oracle', address(PREDEPLOY_ADDRESS_START, 1), oracle]);
 
-  // add ScheduleCall bytecodes
-  const { deployedBytecode: scheduleCall } = require(`../build/contracts/ScheduleCall.json`);
-  bytecodes.push(['ScheduleCall', address(PREDEPLOY_ADDRESS_START, 2), scheduleCall]);
+  // add Schedule bytecodes
+  const { deployedBytecode: schedule } = require(`../build/contracts/Schedule.json`);
+  bytecodes.push(['Schedule', address(PREDEPLOY_ADDRESS_START, 2), schedule]);
 
   // add DEX bytecodes
   const { deployedBytecode: dex } = require(`../build/contracts/DEX.json`);
   bytecodes.push(['DEX', address(PREDEPLOY_ADDRESS_START, 3), dex]);
 
   await writeFile(bytecodesFile, JSON.stringify(bytecodes, null, 2), 'utf8');
+
+  // generate address constant for sol
+  let tmpl = fs.readFileSync(path.resolve(__dirname, '../resources', 'address.sol.hbs'), 'utf8');
+  let template = Handlebars.compile(tmpl);
+  await writeFile(path.join(__dirname, '../contracts/utils', 'Address.sol'), template(bytecodes), 'utf8');
+
+  // generate address constant for js
+  tmpl = fs.readFileSync(path.resolve(__dirname, '../resources', 'address.js.hbs'), 'utf8');
+  template = Handlebars.compile(tmpl);
+  await writeFile(path.join(__dirname, '../contracts/utils', 'Address.js'), template(bytecodes), 'utf8');
 };
 
 const main = async () => {

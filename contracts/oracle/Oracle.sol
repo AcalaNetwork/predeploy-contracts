@@ -1,7 +1,7 @@
 pragma solidity ^0.5.0;
 
-import "./SystemContract.sol";
-import "./MultiCurrency.sol";
+import "../utils/SystemContract.sol";
+import "../token/IMultiCurrency.sol";
 
 contract Oracle is SystemContract {
     /**

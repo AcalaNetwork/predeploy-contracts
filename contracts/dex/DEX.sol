@@ -1,9 +1,10 @@
 pragma solidity ^0.5.0;
 
-import "./SystemContract.sol";
-import "./MultiCurrency.sol";
+import "./IDEX.sol";
+import "../utils/SystemContract.sol";
+import "../token/IMultiCurrency.sol";
 
-contract DEX is SystemContract {
+contract DEX is SystemContract, IDEX {
     /**
      * @dev Get liquidity of the currency_id_a and currency_id_b.
      * Returns (liquidity_a, liquidity_b)
