@@ -29,6 +29,7 @@ function address(start, offset) {
 const generate = async () => {
   const tokensFile = (process.argv[2] === undefined) ? path.join(__dirname, '..', 'resources', 'example_tokens.json'): process.argv[2];
   const bytecodesFile = (process.argv[3] === undefined) ? path.join(__dirname, '..', 'resources', 'bytecodes.json'): process.argv[3];
+  const addressDir = (process.argv[4] === undefined) ? path.join(__dirname, '..', 'resources'): process.argv[4];
 
   const tokens = require(tokensFile);
 
@@ -87,12 +88,12 @@ const generate = async () => {
   // generate address constant for sol
   let tmpl = fs.readFileSync(path.resolve(__dirname, '../resources', 'address.sol.hbs'), 'utf8');
   let template = Handlebars.compile(tmpl);
-  await writeFile(path.join(__dirname, '../contracts/utils', 'Address.sol'), template(bytecodes), 'utf8');
+  await writeFile(path.join(addressDir, 'Address.sol'), template(bytecodes), 'utf8');
 
   // generate address constant for js
   tmpl = fs.readFileSync(path.resolve(__dirname, '../resources', 'address.js.hbs'), 'utf8');
   template = Handlebars.compile(tmpl);
-  await writeFile(path.join(__dirname, '../contracts/utils', 'Address.js'), template(bytecodes), 'utf8');
+  await writeFile(path.join(addressDir, 'Address.js'), template(bytecodes), 'utf8');
 };
 
 const main = async () => {
