@@ -1,4 +1,4 @@
-pragma solidity ^0.5.0;
+pragma solidity ^0.6.0;
 
 interface IStateRent {
     event TransferredMaintainer(address indexed contract_address, address indexed new_maintainer);

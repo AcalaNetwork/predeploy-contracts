@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: Apache-2.0
-pragma solidity ^0.5.0;
+pragma solidity ^0.6.0;
 
 library MultiCurrency {
     function totalSupply(uint256 currencyId) internal view returns (uint256) {
@@ -12,7 +12,7 @@ library MultiCurrency {
 
         assembly {
             if iszero(
-                staticcall(gas, 0x0000000000000000400, input, 0x40, output, 0x20)
+                staticcall(gas(), 0x0000000000000000400, input, 0x40, output, 0x20)
             ) {
                 revert(0, 0)
             }
@@ -32,7 +32,7 @@ library MultiCurrency {
 
         assembly {
             if iszero(
-                staticcall(gas, 0x0000000000000000400, input, 0x60, output, 0x20)
+                staticcall(gas(), 0x0000000000000000400, input, 0x60, output, 0x20)
             ) {
                 revert(0, 0)
             }
@@ -52,7 +52,7 @@ library MultiCurrency {
 
         assembly {
             if iszero(
-                staticcall(gas, 0x0000000000000000400, input, 0xA0, 0x00, 0x00)
+                staticcall(gas(), 0x0000000000000000400, input, 0xA0, 0x00, 0x00)
             ) {
                 revert(0, 0)
             }

@@ -1,4 +1,4 @@
-pragma solidity ^0.5.0;
+pragma solidity ^0.6.0;
 
 import "../utils/SystemContract.sol";
 import "../token/IMultiCurrency.sol";
@@ -27,7 +27,7 @@ contract Oracle is SystemContract {
 
         assembly {
             if iszero(
-                staticcall(gas, 0x0000000000000000403, input, 0x40, output, 0x40)
+                staticcall(gas(), 0x0000000000000000403, input, 0x40, output, 0x40)
             ) {
                 revert(0, 0)
             }
