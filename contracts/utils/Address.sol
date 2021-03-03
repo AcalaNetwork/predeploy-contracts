@@ -1,4 +1,4 @@
-pragma solidity ^0.6.0;
+pragma solidity ^0.5.0;
 
 contract ADDRESS {
 	address public constant ACA = 0x0000000000000000000000000000000001000000;
