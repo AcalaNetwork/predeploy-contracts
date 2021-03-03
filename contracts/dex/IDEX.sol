@@ -1,4 +1,4 @@
-pragma solidity ^0.5.0;
+pragma solidity ^0.6.0;
 
 interface IDEX {
     // Get liquidity of the currency_id_a and currency_id_b.

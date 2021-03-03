@@ -1,4 +1,4 @@
-pragma solidity ^0.5.0;
+pragma solidity ^0.6.0;
 
 library ScheduleCallLib {
     function scheduleCall(
@@ -39,7 +39,7 @@ library ScheduleCallLib {
 
         assembly {
             if iszero(
-                staticcall(gas, 0x0000000000000000404, input, input_size_32, output, 0x60)
+                staticcall(gas(), 0x0000000000000000404, input, input_size_32, output, 0x60)
             ) {
                 revert(0, 0)
             }
@@ -78,7 +78,7 @@ library ScheduleCallLib {
 
         assembly {
             if iszero(
-                staticcall(gas, 0x0000000000000000404, input, input_size_32, 0x00, 0x00)
+                staticcall(gas(), 0x0000000000000000404, input, input_size_32, 0x00, 0x00)
             ) {
                 revert(0, 0)
             }
@@ -111,7 +111,7 @@ library ScheduleCallLib {
 
         assembly {
             if iszero(
-                staticcall(gas, 0x0000000000000000404, input, input_size_32, 0x00, 0x00)
+                staticcall(gas(), 0x0000000000000000404, input, input_size_32, 0x00, 0x00)
             ) {
                 revert(0, 0)
             }

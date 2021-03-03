@@ -1,4 +1,4 @@
-pragma solidity ^0.5.0;
+pragma solidity ^0.6.0;
 
 import "./ISchedule.sol";
 import "./ScheduleLib.sol";
@@ -15,7 +15,7 @@ contract Schedule is ISchedule {
         uint256 storage_limit,
         uint256 min_delay,
         bytes memory input_data
-    ) public returns (bool) {
+    ) public override returns (bool) {
         _scheduleCall(msg.sender, contract_address, value, gas_limit, storage_limit, min_delay, input_data);
         return true;
     }
@@ -26,7 +26,7 @@ contract Schedule is ISchedule {
      */
     function cancelCall(
         bytes memory task_id
-    ) public returns (bool) {
+    ) public override returns (bool) {
         _cancelCall(msg.sender, task_id);
         return true;
     }
@@ -38,7 +38,7 @@ contract Schedule is ISchedule {
     function rescheduleCall(
         uint256 min_delay,
         bytes memory task_id
-    ) public returns (bool) {
+    ) public override returns (bool) {
         _rescheduleCall(msg.sender, min_delay, task_id);
         return true;
     }
