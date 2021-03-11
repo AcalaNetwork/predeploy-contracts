@@ -43,28 +43,29 @@ const generate = async () => {
   const templatePath = path.join(__dirname, '..', 'contracts/token', 'Token.sol');
 
   for (const token of tokens) {
-    const { name, symbol, currencyId } = token;
+    const { name, symbol, decimals, currencyId } = token;
     const contractPath = path.join(...contractsDirectoryComponents, `${name}ERC20.sol`);
 
     await copyFile(templatePath, contractPath);
 
     const fileData = await readFile(contractPath, 'utf8');
     const replaced = fileData
-      .replace(/contract ERC20 is IERC20/g, `contract ${name}ERC20 is IERC20`)
+      .replace(/contract ERC20 is IERC20/g, `contract ${symbol}ERC20 is IERC20`)
       .replace(/import "\.\/MultiCurrency.sol";/g, `import "../token/MultiCurrency.sol";`)
       .replace(/import "\.\/IMultiCurrency.sol";/g, `import "../token/IMultiCurrency.sol";`)
       // The currencyid is u8, it needs to be converted to uint256, and it needs to satisfy `v [29] == 0 && v [31] == 0`, so shift 8 bits to the left.
       .replace(/uint256 private constant _currencyId = 0xffff;/, `uint256 private constant _currencyId = ${"0x" + (currencyId << 8).toString(16)};`)
       .replace(/string private constant _name = "TEMPLATE";/g, `string private constant _name = "${name}";`)
-      .replace(/string private constant _symbol = "TEMP";/g, `string private constant _symbol = "${symbol}";`);
+      .replace(/string private constant _symbol = "TEMP";/g, `string private constant _symbol = "${symbol}";`)
+      .replace(/uint8 private constant _decimals = 0;/g, `uint8 private constant _decimals = ${decimals};`);
     await writeFile(contractPath, replaced, 'utf8');
   }
 
   await exec('yarn truffle-compile');
 
-  const bytecodes = tokens.reduce((output, { name, currencyId }) => {
-    const { deployedBytecode } = require(`../build/contracts/${name}ERC20.json`);
-    return [...output, [name, address(MIRRORED_TOKENS_ADDRESS_START, currencyId), deployedBytecode]];
+  const bytecodes = tokens.reduce((output, { symbol, currencyId }) => {
+    const { deployedBytecode } = require(`../build/contracts/${symbol}ERC20.json`);
+    return [...output, [symbol, address(MIRRORED_TOKENS_ADDRESS_START, currencyId), deployedBytecode]];
   }, []);
 
   // add StateRent bytecodes

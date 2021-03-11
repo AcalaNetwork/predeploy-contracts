@@ -21,7 +21,7 @@ contract ERC20 is IERC20, IMultiCurrency {
 
     string private constant _name = "TEMPLATE";
     string private constant _symbol = "TEMP";
-    uint8 private constant _decimals = 18;
+    uint8 private constant _decimals = 0;
 
     /**
      * @dev Returns the currencyId of the token.
