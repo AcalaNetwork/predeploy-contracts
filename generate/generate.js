@@ -98,6 +98,9 @@ const generate = async () => {
 
   // recompile Address.sol
   await exec('yarn truffle-compile');
+
+  // generate Address.d.ts
+  await exec('tsc contracts/utils/Address.js --declaration --allowJs --emitDeclarationOnly');
 };
 
 const main = async () => {
