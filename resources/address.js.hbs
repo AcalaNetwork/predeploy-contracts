@@ -1,9 +1,3 @@
 {{#each this}}
-const {{this.[0]}} = '{{this.[1]}}';
+export const {{this.[0]}} = '{{this.[1]}}';
 {{/each}}
-
-module.exports = {
-  {{#each this}}
-  {{this.[0]}},
-  {{/each}}
-}

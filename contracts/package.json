@@ -4,6 +4,7 @@
   "description": "AcalaNetwork Smart Contract library for Solidity",
   "files": [
     "**/*.js",
+    "**/*.ts",
     "**/*.sol",
     "/build/contracts/*.json"
   ],
