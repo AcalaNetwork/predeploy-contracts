@@ -190,7 +190,7 @@ contract DEX is SystemContract, IDEX {
 
         input[0] = 4;
         input[1] = uint256(msg.sender);
-        input[2] = uint256(msg.sender);
+        input[2] = path.length;
         for (uint i = 0; i < path.length; i++) {
             input[3 + i] = IMultiCurrency(path[i]).currencyId();
         }
