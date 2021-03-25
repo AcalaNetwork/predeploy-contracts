@@ -6,10 +6,10 @@ import "../token/IMultiCurrency.sol";
 
 contract DEX is SystemContract, IDEX {
     /**
-     * @dev Get liquidity of the currency_id_a and currency_id_b.
+     * @dev Get liquidity pool of the currency_id_a and currency_id_b.
      * Returns (liquidity_a, liquidity_b)
      */
-    function getLiquidity(address tokenA, address tokenB)
+    function getLiquidityPool(address tokenA, address tokenB)
     public
     view
     override

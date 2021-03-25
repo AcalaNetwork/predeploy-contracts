@@ -3,9 +3,9 @@ pragma solidity ^0.6.0;
 interface IDEX {
     event Swaped(address indexed sender, address[] path, uint256 supply_amount, uint256 target_amount);
 
-    // Get liquidity of the currency_id_a and currency_id_b.
+    // Get liquidity pool of the currency_id_a and currency_id_b.
     // Returns (liquidity_a, liquidity_b)
-    function getLiquidity(address tokenA, address tokenB) external view returns (uint256, uint256);
+    function getLiquidityPool(address tokenA, address tokenB) external view returns (uint256, uint256);
 
     // Get swap target amount.
     // Returns (target_amount)
