@@ -61,14 +61,13 @@ contract DEX is SystemContract, IDEX {
         }
         require(supplyAmount != 0, "DEX: supplyAmount is zero");
 
-        uint input_size = 4 + path.length;
+        uint input_size = 3 + path.length;
         uint256[] memory input = new uint256[](input_size);
 
         input[0] = 1;
-        input[1] = uint256(msg.sender);
-        input[2] = path.length;
+        input[1] = path.length;
         for (uint i = 0; i < path.length; i++) {
-            input[3 + i] = IMultiCurrency(path[i]).currencyId();
+            input[2 + i] = IMultiCurrency(path[i]).currencyId();
         }
         input[input_size - 1] = supplyAmount;
 
@@ -103,14 +102,13 @@ contract DEX is SystemContract, IDEX {
         }
         require(targetAmount != 0, "DEX: targetAmount is zero");
 
-        uint input_size = 4 + path.length;
+        uint input_size = 3 + path.length;
         uint256[] memory input = new uint256[](input_size);
 
         input[0] = 2;
-        input[1] = uint256(msg.sender);
-        input[2] = path.length;
+        input[1] = path.length;
         for (uint i = 0; i < path.length; i++) {
-            input[3 + i] = IMultiCurrency(path[i]).currencyId();
+            input[2 + i] = IMultiCurrency(path[i]).currencyId();
         }
         input[input_size - 1] = targetAmount;
 
