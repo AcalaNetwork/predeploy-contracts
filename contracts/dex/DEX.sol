@@ -49,7 +49,7 @@ contract DEX is SystemContract, IDEX {
      * @dev Get swap target amount.
      * Returns (target_amount)
      */
-    function getSwapTargetAmount(address[] memory path, uint256 targetAmount)
+    function getSwapTargetAmount(address[] memory path, uint256 supplyAmount)
     public
     view
     override
@@ -59,7 +59,7 @@ contract DEX is SystemContract, IDEX {
         for (uint i = 0; i < path.length; i++) {
             require(path[i] != address(0), "DEX: token is zero address");
         }
-        require(targetAmount != 0, "DEX: targetAmount is zero");
+        require(supplyAmount != 0, "DEX: supplyAmount is zero");
 
         uint input_size = 4 + path.length;
         uint256[] memory input = new uint256[](input_size);
@@ -70,7 +70,7 @@ contract DEX is SystemContract, IDEX {
         for (uint i = 0; i < path.length; i++) {
             input[3 + i] = IMultiCurrency(path[i]).currencyId();
         }
-        input[input_size - 1] = targetAmount;
+        input[input_size - 1] = supplyAmount;
 
         // Dynamic arrays will add the array size to the front of the array, so need extra 1 size.
         uint input_size_32 = (input_size + 1) * 32;
@@ -91,7 +91,7 @@ contract DEX is SystemContract, IDEX {
      * @dev Get swap supply amount.
      * Returns (supply_amount)
      */
-    function getSwapSupplyAmount(address[] memory path, uint256 supplyAmount)
+    function getSwapSupplyAmount(address[] memory path, uint256 targetAmount)
     public
     view
     override
@@ -101,7 +101,7 @@ contract DEX is SystemContract, IDEX {
         for (uint i = 0; i < path.length; i++) {
             require(path[i] != address(0), "DEX: token is zero address");
         }
-        require(supplyAmount != 0, "DEX: supplyAmount is zero");
+        require(targetAmount != 0, "DEX: targetAmount is zero");
 
         uint input_size = 4 + path.length;
         uint256[] memory input = new uint256[](input_size);
@@ -112,7 +112,7 @@ contract DEX is SystemContract, IDEX {
         for (uint i = 0; i < path.length; i++) {
             input[3 + i] = IMultiCurrency(path[i]).currencyId();
         }
-        input[input_size - 1] = supplyAmount;
+        input[input_size - 1] = targetAmount;
 
         // Dynamic arrays will add the array size to the front of the array, so need extra 1 size.
         uint input_size_32 = (input_size + 1) * 32;
