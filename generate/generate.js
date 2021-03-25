@@ -44,7 +44,7 @@ const generate = async () => {
 
   for (const token of tokens) {
     const { name, symbol, decimals, currencyId } = token;
-    const contractPath = path.join(...contractsDirectoryComponents, `${name}ERC20.sol`);
+    const contractPath = path.join(...contractsDirectoryComponents, `${symbol}ERC20.sol`);
 
     await copyFile(templatePath, contractPath);
 
