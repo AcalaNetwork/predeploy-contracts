@@ -3,6 +3,7 @@ const path = require('path');
 const util = require('util');
 const childProcess = require('child_process');
 const Handlebars = require("handlebars");
+const ethers = require("ethers");
 
 const copyFile = util.promisify(fs.copyFile);
 const readFile = util.promisify(fs.readFile);
@@ -23,7 +24,9 @@ const PREDEPLOY_ADDRESS_START = 0x800;
 const MIRRORED_TOKENS_ADDRESS_START = 0x01000000;
 
 function address(start, offset) {
-  return "0x" + (Number(start)+ Number(offset)).toString(16).padStart(40,0);
+  const address = (Number(start)+ Number(offset)).toString(16).padStart(40,0);
+  // Returns address as a Checksum Address.
+  return ethers.utils.getAddress(address);
 }
 
 const generate = async () => {
