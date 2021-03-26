@@ -212,4 +212,86 @@ contract DEX is SystemContract, IDEX {
         emit Swaped(msg.sender, path, output[0], targetAmount);
         return true;
     }
+
+    /**
+     * @dev Add liquidity to the trading pair.
+     * Returns a boolean value indicating whether the operation succeeded.
+     */
+    function addLiquidity(address tokenA, address tokenB, uint256 maxAmountA, uint256 maxAmountB)
+    public
+    override
+    systemContract(tokenA)
+    systemContract(tokenB)
+    returns (bool) {
+        require(tokenA != address(0), "DEX: tokenA is zero address");
+        require(tokenB != address(0), "DEX: tokenB is zero address");
+        require(maxAmountA != 0, "DEX: maxAmountA is zero");
+        require(maxAmountB != 0, "DEX: maxAmountB is zero");
+
+        uint256 currencyIdA = IMultiCurrency(tokenA).currencyId();
+        uint256 currencyIdB = IMultiCurrency(tokenB).currencyId();
+
+        uint input_size = 6;
+        uint256[] memory input = new uint256[](input_size);
+
+        input[0] = 5;
+        input[1] = uint256(msg.sender);
+        input[2] = currencyIdA;
+        input[3] = currencyIdB;
+        input[4] = maxAmountA;
+        input[5] = maxAmountB;
+
+        // Dynamic arrays will add the array size to the front of the array, so need extra 1 size.
+        uint input_size_32 = (input_size + 1) * 32;
+
+        assembly {
+            if iszero(
+                staticcall(gas(), 0x0000000000000000405, input, input_size_32, 0x00, 0x00)
+            ) {
+                revert(0, 0)
+            }
+        }
+        emit AddedLiquidity(msg.sender, tokenA, tokenB, maxAmountA, maxAmountB);
+        return true;
+    }
+
+    /**
+     * @dev Remove liquidity from the trading pair.
+     * Returns a boolean value indicating whether the operation succeeded.
+     */
+    function removeLiquidity(address tokenA, address tokenB, uint256 removeShare)
+    public
+    override
+    systemContract(tokenA)
+    systemContract(tokenB)
+    returns (bool) {
+        require(tokenA != address(0), "DEX: tokenA is zero address");
+        require(tokenB != address(0), "DEX: tokenB is zero address");
+        require(removeShare != 0, "DEX: removeShare is zero");
+
+        uint256 currencyIdA = IMultiCurrency(tokenA).currencyId();
+        uint256 currencyIdB = IMultiCurrency(tokenB).currencyId();
+
+        uint input_size = 5;
+        uint256[] memory input = new uint256[](input_size);
+
+        input[0] = 6;
+        input[1] = uint256(msg.sender);
+        input[2] = currencyIdA;
+        input[3] = currencyIdB;
+        input[4] = removeShare;
+
+        // Dynamic arrays will add the array size to the front of the array, so need extra 1 size.
+        uint input_size_32 = (input_size + 1) * 32;
+
+        assembly {
+            if iszero(
+                staticcall(gas(), 0x0000000000000000405, input, input_size_32, 0x00, 0x00)
+            ) {
+                revert(0, 0)
+            }
+        }
+        emit RemovedLiquidity(msg.sender, tokenA, tokenB, removeShare);
+        return true;
+    }
 }
