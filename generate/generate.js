@@ -56,8 +56,8 @@ const generate = async () => {
       .replace(/contract ERC20 is IERC20/g, `contract ${symbol}ERC20 is IERC20`)
       .replace(/import "\.\/MultiCurrency.sol";/g, `import "../token/MultiCurrency.sol";`)
       .replace(/import "\.\/IMultiCurrency.sol";/g, `import "../token/IMultiCurrency.sol";`)
-      // The currencyid is u8, it needs to be converted to uint256, and it needs to satisfy `v [29] == 0 && v [31] == 0`, so shift 8 bits to the left.
-      .replace(/uint256 private constant _currencyId = 0xffff;/, `uint256 private constant _currencyId = ${"0x" + (currencyId << 8).toString(16)};`)
+      // The currencyid is u8, it needs to be converted to uint256, and it needs to satisfy `v [23] == 0 && v [27] == currencyId`, so shift 5 * 8 bits to the left.
+      .replace(/uint256 private constant _currencyId = 0xffff;/, `uint256 private constant _currencyId = ${"0x" + (currencyId << 5 * 8).toString(16)};`)
       .replace(/string private constant _name = "TEMPLATE";/g, `string private constant _name = "${name}";`)
       .replace(/string private constant _symbol = "TEMP";/g, `string private constant _symbol = "${symbol}";`)
       .replace(/uint8 private constant _decimals = 0;/g, `uint8 private constant _decimals = ${decimals};`);
