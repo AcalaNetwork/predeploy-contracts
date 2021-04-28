@@ -17,14 +17,12 @@ const exec = util.promisify(childProcess.exec);
 // Predeployed system contracts (except Mirrored ERC20)
 // 0x800 - 0x1000
 // Mirrored Tokens
-// 0x010000000000000000
-// Mirrored LP Tokens
-// 0x020000000000000000
+// 0x100000000
 // Mirrored NFT
-// 0x030000000000000000
+// 0x200000000
+// Mirrored LP Tokens
+// 0x10000000000000000
 const PREDEPLOY_ADDRESS_START = 0x800;
-const MIRRORED_TOKENS_ADDRESS_START = "0x010000000000000000";
-const MIRRORED_LP_TOKENS_ADDRESS_START = "0x020000000000000000";
 
 function address(start, offset) {
   const address = BigNumber.from(start).add(offset).toHexString().slice(2).padStart(40,0);
@@ -41,14 +39,9 @@ const generate = async () => {
 
   await exec('yarn truffle-compile');
 
-  const bytecodes = tokens.tokens.reduce((output, { symbol, currency_id }) => {
-    return [...output, [symbol, address(MIRRORED_TOKENS_ADDRESS_START, currency_id), ""]];
+  const bytecodes = tokens.reduce((output, { symbol, address }) => {
+    return [...output, [symbol, address, ""]];
   }, []);
-
-  const lpbytecodes = tokens.lp_tokens.reduce((output, { symbol, currency_id }) => {
-    return [...output, [symbol, address(MIRRORED_LP_TOKENS_ADDRESS_START, currency_id), ""]];
-  }, []);
-  bytecodes.push.apply(bytecodes, lpbytecodes);
   //console.log(bytecodes);
 
   const { deployedBytecode: token } = require(`../build/contracts/Token.json`);
