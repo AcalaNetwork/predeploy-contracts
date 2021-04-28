@@ -27,7 +27,7 @@ library MultiCurrency {
 
         input[0] = 1;
 
-        // Acala native token name should not more than 32 bytes.
+        // Acala mirrored token name should not more than 32 bytes.
         uint256[1] memory output;
 
         assembly {
@@ -46,7 +46,7 @@ library MultiCurrency {
 
         input[0] = 2;
 
-        // Acala native token symbol should not more than 32 bytes.
+        // Acala mirrored token symbol should not more than 32 bytes.
         uint256[1] memory output;
 
         assembly {

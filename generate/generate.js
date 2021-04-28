@@ -3,7 +3,7 @@ const path = require('path');
 const util = require('util');
 const childProcess = require('child_process');
 const Handlebars = require("handlebars");
-const ethers = require("ethers");
+const { ethers, BigNumber } = require("ethers");
 
 const copyFile = util.promisify(fs.copyFile);
 const readFile = util.promisify(fs.readFile);
@@ -17,14 +17,17 @@ const exec = util.promisify(childProcess.exec);
 // Predeployed system contracts (except Mirrored ERC20)
 // 0x800 - 0x1000
 // Mirrored Tokens
-// 0x01000000
+// 0x010000000000000000
+// Mirrored LP Tokens
+// 0x020000000000000000
 // Mirrored NFT
-// 0x02000000
+// 0x030000000000000000
 const PREDEPLOY_ADDRESS_START = 0x800;
-const MIRRORED_TOKENS_ADDRESS_START = 0x01000000;
+const MIRRORED_TOKENS_ADDRESS_START = "0x010000000000000000";
+const MIRRORED_LP_TOKENS_ADDRESS_START = "0x020000000000000000";
 
 function address(start, offset) {
-  const address = (Number(start)+ Number(offset)).toString(16).padStart(40,0);
+  const address = BigNumber.from(start).add(offset).toHexString().slice(2).padStart(40,0);
   // Returns address as a Checksum Address.
   return ethers.utils.getAddress(address);
 }
@@ -38,9 +41,15 @@ const generate = async () => {
 
   await exec('yarn truffle-compile');
 
-  const bytecodes = tokens.reduce((output, { symbol, currencyId }) => {
-    return [...output, [symbol, address(MIRRORED_TOKENS_ADDRESS_START, currencyId), ""]];
+  const bytecodes = tokens.tokens.reduce((output, { symbol, currency_id }) => {
+    return [...output, [symbol, address(MIRRORED_TOKENS_ADDRESS_START, currency_id), ""]];
   }, []);
+
+  const lpbytecodes = tokens.lp_tokens.reduce((output, { symbol, currency_id }) => {
+    return [...output, [symbol, address(MIRRORED_LP_TOKENS_ADDRESS_START, currency_id), ""]];
+  }, []);
+  bytecodes.push.apply(bytecodes, lpbytecodes);
+  //console.log(bytecodes);
 
   const { deployedBytecode: token } = require(`../build/contracts/Token.json`);
   bytecodes.push(['Token', address(PREDEPLOY_ADDRESS_START, 0), token]);

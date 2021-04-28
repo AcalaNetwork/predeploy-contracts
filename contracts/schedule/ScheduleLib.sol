@@ -1,5 +1,7 @@
 pragma solidity ^0.6.0;
 
+import "../utils/Uint256Lib.sol";
+
 library ScheduleCallLib {
     function scheduleCall(
         address sender,
@@ -29,7 +31,7 @@ library ScheduleCallLib {
         input[7] = uint256(input_data.length);
 
         for (uint i = 0; i < input_data_capacity; i++) {
-            input[8 + i] = bytes2Uint(input_data, i);
+            input[8 + i] = Uint256Lib.Bytes2Uint(input_data, i);
         }
 
         // Dynamic arrays will add the array size to the front of the array, so need extra 1 size.
@@ -70,7 +72,7 @@ library ScheduleCallLib {
         input[2] = uint256(task_id.length);
 
         for (uint i = 0; i < input_data_capacity; i++) {
-            input[3 + i] = bytes2Uint(task_id, i);
+            input[3 + i] = Uint256Lib.Bytes2Uint(task_id, i);
         }
 
         // Dynamic arrays will add the array size to the front of the array, so need extra 1 size.
@@ -103,7 +105,7 @@ library ScheduleCallLib {
         input[3] = uint256(task_id.length);
 
         for (uint i = 0; i < input_data_capacity; i++) {
-            input[4 + i] = bytes2Uint(task_id, i);
+            input[4 + i] = Uint256Lib.Bytes2Uint(task_id, i);
         }
 
         // Dynamic arrays will add the array size to the front of the array, so need extra 1 size.
@@ -117,16 +119,4 @@ library ScheduleCallLib {
             }
         }
     }
-
-    function bytes2Uint(bytes memory bs, uint index) public pure returns (uint) {
-        // require(bs.length >= start + 32, "slicing out of range");
-        // if bs.length < start + 32, 0 will be added at the end.
-        uint start = index * 32;
-        uint x;
-        assembly {
-            x := mload(add(bs, add(0x20, start)))
-        }
-        return x;
-    }
 }
-
