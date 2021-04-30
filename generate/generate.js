@@ -37,13 +37,14 @@ const generate = async () => {
 
   const tokens = require(tokensFile);
 
+  // compile to generate contracts json.
   await exec('yarn truffle-compile');
 
-  const bytecodes = tokens.reduce((output, { symbol, address }) => {
+  const tokenList = tokens.reduce((output, { symbol, address }) => {
     return [...output, [symbol, address, ""]];
   }, []);
-  //console.log(bytecodes);
 
+  let bytecodes = [];
   const { deployedBytecode: token } = require(`../build/contracts/Token.json`);
   bytecodes.push(['Token', address(PREDEPLOY_ADDRESS_START, 0), token]);
 
@@ -64,6 +65,9 @@ const generate = async () => {
   bytecodes.push(['DEX', address(PREDEPLOY_ADDRESS_START, 4), dex]);
 
   await writeFile(bytecodesFile, JSON.stringify(bytecodes, null, 2), 'utf8');
+
+  // merge tokenList into bytecodes
+  bytecodes = tokenList.concat(bytecodes);
 
   // generate address constant for sol
   let tmpl = fs.readFileSync(path.resolve(__dirname, '../resources', 'address.sol.hbs'), 'utf8');
