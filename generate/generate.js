@@ -17,9 +17,9 @@ const exec = util.promisify(childProcess.exec);
 // Predeployed system contracts (except Mirrored ERC20)
 // 0x800 - 0x1000
 // Mirrored Tokens
-// 0x100000000
+// 0x1000000
 // Mirrored NFT
-// 0x200000000
+// 0x2000000
 // Mirrored LP Tokens
 // 0x10000000000000000
 const PREDEPLOY_ADDRESS_START = 0x800;
