@@ -12,29 +12,23 @@ import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "./IMultiCurrency.sol";
 import "./MultiCurrency.sol";
 
-contract ERC20 is IERC20, IMultiCurrency {
+contract Token is IERC20, IMultiCurrency {
     using SafeMath for uint256;
 
     mapping (address => mapping (address => uint256)) private _allowances;
-
-    uint256 private constant _currencyId = 0xffff;
-
-    string private constant _name = "TEMPLATE";
-    string private constant _symbol = "TEMP";
-    uint8 private constant _decimals = 0;
 
     /**
      * @dev Returns the currencyId of the token.
      */
     function currencyId() public view override returns (uint256) {
-        return _currencyId;
+        return MultiCurrency.currencyId();
     }
 
     /**
      * @dev Returns the name of the token.
      */
     function name() public view returns (string memory) {
-        return _name;
+        return MultiCurrency.name();
     }
 
     /**
@@ -42,28 +36,28 @@ contract ERC20 is IERC20, IMultiCurrency {
      * name.
      */
     function symbol() public view returns (string memory) {
-        return _symbol;
+        return MultiCurrency.symbol();
     }
 
     /**
      * @dev Returns the number of decimals used to get its user representation.
      */
     function decimals() public view returns (uint8) {
-        return _decimals;
+        return MultiCurrency.decimals();
     }
 
     /**
      * @dev See {IERC20-totalSupply}.
      */
     function totalSupply() public view override returns (uint256) {
-        return MultiCurrency.totalSupply (_currencyId);
+        return MultiCurrency.totalSupply();
     }
 
     /**
      * @dev See {IERC20-balanceOf}.
      */
     function balanceOf(address account) public view override returns (uint256) {
-        return MultiCurrency.balanceOf (_currencyId, account);
+        return MultiCurrency.balanceOf(account);
     }
 
     /**
@@ -170,7 +164,7 @@ contract ERC20 is IERC20, IMultiCurrency {
         require(sender != address(0), "ERC20: transfer from the zero address");
         require(recipient != address(0), "ERC20: transfer to the zero address");
 
-        MultiCurrency.transfer(_currencyId, sender, recipient, amount);
+        MultiCurrency.transfer(sender, recipient, amount);
 
         emit Transfer(sender, recipient, amount);
     }
