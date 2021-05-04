@@ -46,6 +46,46 @@ contract DEX is SystemContract, IDEX {
     }
 
     /**
+     * @dev Get Liquidity token address.
+     * Returns (liquidity_token_address)
+     */
+    function getLiquidityTokenAddress(address tokenA, address tokenB)
+    public
+    view
+    override
+    systemContract(tokenA)
+    systemContract(tokenB)
+    returns (address) {
+        require(tokenA != address(0), "DEX: tokenA is zero address");
+        require(tokenB != address(0), "DEX: tokenB is zero address");
+
+        uint256 currencyIdA = IMultiCurrency(tokenA).currencyId();
+        uint256 currencyIdB = IMultiCurrency(tokenB).currencyId();
+
+        uint input_size = 3;
+        uint256[] memory input = new uint256[](input_size);
+
+        input[0] = 1;
+        input[1] = currencyIdA;
+        input[2] = currencyIdB;
+
+        // Dynamic arrays will add the array size to the front of the array, so need extra 1 size.
+        uint input_size_32 = (input_size + 1) * 32;
+
+        uint256[1] memory output;
+
+        assembly {
+            if iszero(
+                staticcall(gas(), 0x0000000000000000405, input, input_size_32, output, 0x20)
+            ) {
+                revert(0, 0)
+            }
+        }
+        return address(output[0]);
+    }
+
+
+    /**
      * @dev Get swap target amount.
      * Returns (target_amount)
      */
@@ -64,7 +104,7 @@ contract DEX is SystemContract, IDEX {
         uint input_size = 3 + path.length;
         uint256[] memory input = new uint256[](input_size);
 
-        input[0] = 1;
+        input[0] = 2;
         input[1] = path.length;
         for (uint i = 0; i < path.length; i++) {
             input[2 + i] = IMultiCurrency(path[i]).currencyId();
@@ -105,7 +145,7 @@ contract DEX is SystemContract, IDEX {
         uint input_size = 3 + path.length;
         uint256[] memory input = new uint256[](input_size);
 
-        input[0] = 2;
+        input[0] = 3;
         input[1] = path.length;
         for (uint i = 0; i < path.length; i++) {
             input[2 + i] = IMultiCurrency(path[i]).currencyId();
@@ -145,7 +185,7 @@ contract DEX is SystemContract, IDEX {
         uint input_size = 5 + path.length;
         uint256[] memory input = new uint256[](input_size);
 
-        input[0] = 3;
+        input[0] = 4;
         input[1] = uint256(msg.sender);
         input[2] = path.length;
         for (uint i = 0; i < path.length; i++) {
@@ -188,7 +228,7 @@ contract DEX is SystemContract, IDEX {
         uint input_size = 5 + path.length;
         uint256[] memory input = new uint256[](input_size);
 
-        input[0] = 4;
+        input[0] = 5;
         input[1] = uint256(msg.sender);
         input[2] = path.length;
         for (uint i = 0; i < path.length; i++) {
@@ -234,7 +274,7 @@ contract DEX is SystemContract, IDEX {
         uint input_size = 6;
         uint256[] memory input = new uint256[](input_size);
 
-        input[0] = 5;
+        input[0] = 6;
         input[1] = uint256(msg.sender);
         input[2] = currencyIdA;
         input[3] = currencyIdB;
@@ -275,7 +315,7 @@ contract DEX is SystemContract, IDEX {
         uint input_size = 5;
         uint256[] memory input = new uint256[](input_size);
 
-        input[0] = 6;
+        input[0] = 7;
         input[1] = uint256(msg.sender);
         input[2] = currencyIdA;
         input[3] = currencyIdB;

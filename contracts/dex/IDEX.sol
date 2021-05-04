@@ -9,6 +9,10 @@ interface IDEX {
     // Returns (liquidity_a, liquidity_b)
     function getLiquidityPool(address tokenA, address tokenB) external view returns (uint256, uint256);
 
+    // Get Liquidity token address.
+    // Returns (liquidity_token_address)
+    function getLiquidityTokenAddress(address tokenA, address tokenB) external view returns (address);
+
     // Get swap target amount.
     // Returns (target_amount)
     function getSwapTargetAmount(address[] calldata path, uint256 supplyAmount) external view returns (uint256);
