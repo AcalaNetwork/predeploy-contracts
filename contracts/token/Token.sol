@@ -9,20 +9,12 @@ pragma solidity ^0.6.0;
 import "@openzeppelin/contracts/math/SafeMath.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
-import "./IMultiCurrency.sol";
 import "./MultiCurrency.sol";
 
-contract Token is IERC20, IMultiCurrency {
+contract Token is IERC20 {
     using SafeMath for uint256;
 
     mapping (address => mapping (address => uint256)) private _allowances;
-
-    /**
-     * @dev Returns the currencyId of the token.
-     */
-    function currencyId() public view override returns (uint256) {
-        return MultiCurrency.currencyId();
-    }
 
     /**
      * @dev Returns the name of the token.

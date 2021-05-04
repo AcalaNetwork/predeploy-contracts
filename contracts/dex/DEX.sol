@@ -2,7 +2,6 @@ pragma solidity ^0.6.0;
 
 import "./IDEX.sol";
 import "../utils/SystemContract.sol";
-import "../token/IMultiCurrency.sol";
 
 contract DEX is SystemContract, IDEX {
     /**
@@ -13,22 +12,17 @@ contract DEX is SystemContract, IDEX {
     public
     view
     override
-    systemContract(tokenA)
-    systemContract(tokenB)
     returns (uint256, uint256)
     {
         require(tokenA != address(0), "DEX: tokenA is zero address");
         require(tokenB != address(0), "DEX: tokenB is zero address");
 
-        uint256 currencyIdA = IMultiCurrency(tokenA).currencyId();
-        uint256 currencyIdB = IMultiCurrency(tokenB).currencyId();
-
         uint input_size = 3;
         uint256[] memory input = new uint256[](input_size);
 
         input[0] = 0;
-        input[1] = currencyIdA;
-        input[2] = currencyIdB;
+        input[1] = uint256(tokenA);
+        input[2] = uint256(tokenB);
 
         // Dynamic arrays will add the array size to the front of the array, so need extra 1 size.
         uint input_size_32 = (input_size + 1) * 32;
@@ -53,21 +47,16 @@ contract DEX is SystemContract, IDEX {
     public
     view
     override
-    systemContract(tokenA)
-    systemContract(tokenB)
     returns (address) {
         require(tokenA != address(0), "DEX: tokenA is zero address");
         require(tokenB != address(0), "DEX: tokenB is zero address");
-
-        uint256 currencyIdA = IMultiCurrency(tokenA).currencyId();
-        uint256 currencyIdB = IMultiCurrency(tokenB).currencyId();
 
         uint input_size = 3;
         uint256[] memory input = new uint256[](input_size);
 
         input[0] = 1;
-        input[1] = currencyIdA;
-        input[2] = currencyIdB;
+        input[1] = uint256(tokenA);
+        input[2] = uint256(tokenB);
 
         // Dynamic arrays will add the array size to the front of the array, so need extra 1 size.
         uint input_size_32 = (input_size + 1) * 32;
@@ -93,12 +82,8 @@ contract DEX is SystemContract, IDEX {
     public
     view
     override
-    systemContracts(path)
     returns (uint256) {
         require(path.length >= 2 && path.length <= 3, "DEX: token path over the limit");
-        for (uint i = 0; i < path.length; i++) {
-            require(path[i] != address(0), "DEX: token is zero address");
-        }
         require(supplyAmount != 0, "DEX: supplyAmount is zero");
 
         uint input_size = 3 + path.length;
@@ -107,7 +92,8 @@ contract DEX is SystemContract, IDEX {
         input[0] = 2;
         input[1] = path.length;
         for (uint i = 0; i < path.length; i++) {
-            input[2 + i] = IMultiCurrency(path[i]).currencyId();
+            require(path[i] != address(0), "DEX: token is zero address");
+            input[2 + i] = uint256(path[i]);
         }
         input[input_size - 1] = supplyAmount;
 
@@ -134,12 +120,8 @@ contract DEX is SystemContract, IDEX {
     public
     view
     override
-    systemContracts(path)
     returns (uint256) {
         require(path.length >= 2 && path.length <= 3, "DEX: token path over the limit");
-        for (uint i = 0; i < path.length; i++) {
-            require(path[i] != address(0), "DEX: token is zero address");
-        }
         require(targetAmount != 0, "DEX: targetAmount is zero");
 
         uint input_size = 3 + path.length;
@@ -148,7 +130,8 @@ contract DEX is SystemContract, IDEX {
         input[0] = 3;
         input[1] = path.length;
         for (uint i = 0; i < path.length; i++) {
-            input[2 + i] = IMultiCurrency(path[i]).currencyId();
+            require(path[i] != address(0), "DEX: token is zero address");
+            input[2 + i] = uint256(path[i]);
         }
         input[input_size - 1] = targetAmount;
 
@@ -174,12 +157,8 @@ contract DEX is SystemContract, IDEX {
     function swapWithExactSupply(address[] memory path, uint256 supplyAmount, uint256 minTargetAmount)
     public
     override
-    systemContracts(path)
     returns (bool) {
         require(path.length >= 2 && path.length <= 3, "DEX: token path over the limit");
-        for (uint i = 0; i < path.length; i++) {
-            require(path[i] != address(0), "DEX: token is zero address");
-        }
         require(supplyAmount != 0, "DEX: supplyAmount is zero");
 
         uint input_size = 5 + path.length;
@@ -189,7 +168,8 @@ contract DEX is SystemContract, IDEX {
         input[1] = uint256(msg.sender);
         input[2] = path.length;
         for (uint i = 0; i < path.length; i++) {
-            input[3 + i] = IMultiCurrency(path[i]).currencyId();
+            require(path[i] != address(0), "DEX: token is zero address");
+            input[3 + i] = uint256(path[i]);
         }
         input[input_size - 2] = supplyAmount;
         input[input_size - 1] = minTargetAmount;
@@ -217,12 +197,8 @@ contract DEX is SystemContract, IDEX {
     function swapWithExactTarget(address[] memory path, uint256 targetAmount, uint256 maxSupplyAmount)
     public
     override
-    systemContracts(path)
     returns (bool) {
         require(path.length >= 2 && path.length <= 3, "DEX: token path over the limit");
-        for (uint i = 0; i < path.length; i++) {
-            require(path[i] != address(0), "DEX: token is zero address");
-        }
         require(targetAmount != 0, "DEX: targetAmount is zero");
 
         uint input_size = 5 + path.length;
@@ -232,7 +208,8 @@ contract DEX is SystemContract, IDEX {
         input[1] = uint256(msg.sender);
         input[2] = path.length;
         for (uint i = 0; i < path.length; i++) {
-            input[3 + i] = IMultiCurrency(path[i]).currencyId();
+            require(path[i] != address(0), "DEX: token is zero address");
+            input[3 + i] = uint256(path[i]);
         }
         input[input_size - 2] = targetAmount;
         input[input_size - 1] = maxSupplyAmount;
@@ -260,24 +237,19 @@ contract DEX is SystemContract, IDEX {
     function addLiquidity(address tokenA, address tokenB, uint256 maxAmountA, uint256 maxAmountB)
     public
     override
-    systemContract(tokenA)
-    systemContract(tokenB)
     returns (bool) {
         require(tokenA != address(0), "DEX: tokenA is zero address");
         require(tokenB != address(0), "DEX: tokenB is zero address");
         require(maxAmountA != 0, "DEX: maxAmountA is zero");
         require(maxAmountB != 0, "DEX: maxAmountB is zero");
 
-        uint256 currencyIdA = IMultiCurrency(tokenA).currencyId();
-        uint256 currencyIdB = IMultiCurrency(tokenB).currencyId();
-
         uint input_size = 6;
         uint256[] memory input = new uint256[](input_size);
 
         input[0] = 6;
         input[1] = uint256(msg.sender);
-        input[2] = currencyIdA;
-        input[3] = currencyIdB;
+        input[2] = uint256(tokenA);
+        input[3] = uint256(tokenB);
         input[4] = maxAmountA;
         input[5] = maxAmountB;
 
@@ -302,23 +274,18 @@ contract DEX is SystemContract, IDEX {
     function removeLiquidity(address tokenA, address tokenB, uint256 removeShare)
     public
     override
-    systemContract(tokenA)
-    systemContract(tokenB)
     returns (bool) {
         require(tokenA != address(0), "DEX: tokenA is zero address");
         require(tokenB != address(0), "DEX: tokenB is zero address");
         require(removeShare != 0, "DEX: removeShare is zero");
-
-        uint256 currencyIdA = IMultiCurrency(tokenA).currencyId();
-        uint256 currencyIdB = IMultiCurrency(tokenB).currencyId();
 
         uint input_size = 5;
         uint256[] memory input = new uint256[](input_size);
 
         input[0] = 7;
         input[1] = uint256(msg.sender);
-        input[2] = currencyIdA;
-        input[3] = currencyIdB;
+        input[2] = uint256(tokenA);
+        input[3] = uint256(tokenB);
         input[4] = removeShare;
 
         // Dynamic arrays will add the array size to the front of the array, so need extra 1 size.
