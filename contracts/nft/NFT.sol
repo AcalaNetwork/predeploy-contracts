@@ -2,16 +2,16 @@ pragma solidity ^0.6.0;
 
 library NFT {
     function balanceOf(address account) public view returns (uint256) {
-        uint256[2] memory input;
+        bytes memory input = abi.encodeWithSignature("balanceOf(address)", account);
 
-        input[0] = 0;
-        input[1] = uint256(account);
+        // Dynamic arrays will add the array size to the front of the array, so need extra 32 bytes.
+        uint input_size = input.length + 32;
 
         uint256[1] memory output;
 
         assembly {
             if iszero(
-                staticcall(gas(), 0x0000000000000000401, input, 0x40, output, 0x20)
+                staticcall(gas(), 0x0000000000000000401, input, input_size, output, 0x20)
             ) {
                 revert(0, 0)
             }
@@ -24,17 +24,16 @@ library NFT {
         view
         returns (address)
     {
-        uint256[3] memory input;
+        bytes memory input = abi.encodeWithSignature("ownerOf(uint256,uint256)", class_id, token_id);
 
-        input[0] = 1;
-        input[1] = class_id;
-        input[2] = token_id;
+        // Dynamic arrays will add the array size to the front of the array, so need extra 32 bytes.
+        uint input_size = input.length + 32;
 
         uint256[1] memory output;
 
         assembly {
             if iszero(
-                staticcall(gas(), 0x0000000000000000401, input, 0x60, output, 0x20)
+                staticcall(gas(), 0x0000000000000000401, input, input_size, output, 0x20)
             ) {
                 revert(0, 0)
             }
@@ -48,13 +47,10 @@ library NFT {
         uint256 class_id,
         uint256 token_id
     ) public view {
-        uint256[5] memory input;
+        bytes memory input = abi.encodeWithSignature("transfer(address,address,uint256,uint256)", from, to, class_id, token_id);
 
-        input[0] = 2;
-        input[1] = uint256(from);
-        input[2] = uint256(to);
-        input[3] = class_id;
-        input[4] = token_id;
+        // Dynamic arrays will add the array size to the front of the array, so need extra 32 bytes.
+        uint input_size = input.length + 32;
 
         assembly {
             if iszero(

@@ -1,22 +1,48 @@
 pragma solidity ^0.6.0;
 
-import "./StateRentLib.sol";
+import "./IStateRent.sol";
 
-contract StateRent {
-    event TransferredMaintainer(address indexed contract_address, address indexed new_maintainer);
-    
+contract StateRent is IStateRent {
     /**
      * @dev Returns the const of NewContractExtraBytes.
      */
-    function newContractExtraBytes() public view returns (uint256) {
-        return StateRentLib.newContractExtraBytes();
+    function newContractExtraBytes() public view override returns (uint256) {
+        bytes memory input = abi.encodeWithSignature("newContractExtraBytes()");
+
+        // Dynamic arrays will add the array size to the front of the array, so need extra 32 bytes.
+        uint input_size = input.length + 32;
+
+        uint256[1] memory output;
+
+        assembly {
+            if iszero(
+                staticcall(gas(), 0x0000000000000000402, input, input_size, output, 0x20)
+            ) {
+                revert(0, 0)
+            }
+        }
+        return output[0];
     }
 
     /**
      * @dev Returns the const of StorageDepositPerByte.
      */
-    function storageDepositPerByte() public view returns (uint256) {
-        return StateRentLib.storageDepositPerByte();
+    function storageDepositPerByte() public view override returns (uint256) {
+        bytes memory input = abi.encodeWithSignature("storageDepositPerByte()");
+
+        // Dynamic arrays will add the array size to the front of the array, so need extra 32 bytes.
+        uint input_size = input.length + 32;
+
+        uint256[1] memory output;
+
+        assembly {
+            if iszero(
+                staticcall(gas(), 0x0000000000000000402, input, input_size, output, 0x20)
+            ) {
+                revert(0, 0)
+            }
+        }
+        return output[0];
     }
 
     /**
@@ -25,23 +51,66 @@ contract StateRent {
     function maintainerOf(address contract_address)
         public
         view
+        override
         returns (address)
     {
-        return StateRentLib.maintainerOf(contract_address);
+        bytes memory input = abi.encodeWithSignature("maintainerOf(address)", contract_address);
+
+        // Dynamic arrays will add the array size to the front of the array, so need extra 32 bytes.
+        uint input_size = input.length + 32;
+
+        uint256[1] memory output;
+
+        assembly {
+            if iszero(
+                staticcall(gas(), 0x0000000000000000402, input, input_size, output, 0x20)
+            ) {
+                revert(0, 0)
+            }
+        }
+        return address(output[0]);
     }
 
     /**
      * @dev Returns the const of DeveloperDeposit.
      */
-    function developerDeposit() public view returns (uint256) {
-        return StateRentLib.developerDeposit();
+    function developerDeposit() public view override returns (uint256) {
+        bytes memory input = abi.encodeWithSignature("developerDeposit()");
+
+        // Dynamic arrays will add the array size to the front of the array, so need extra 32 bytes.
+        uint input_size = input.length + 32;
+
+        uint256[1] memory output;
+
+        assembly {
+            if iszero(
+                staticcall(gas(), 0x0000000000000000402, input, input_size, output, 0x20)
+            ) {
+                revert(0, 0)
+            }
+        }
+        return output[0];
     }
 
     /**
      * @dev Returns the const of DeploymentFee.
      */
-    function deploymentFee() public view returns (uint256) {
-        return StateRentLib.deploymentFee();
+    function deploymentFee() public view override returns (uint256) {
+        bytes memory input = abi.encodeWithSignature("deploymentFee()");
+
+        // Dynamic arrays will add the array size to the front of the array, so need extra 32 bytes.
+        uint input_size = input.length + 32;
+
+        uint256[1] memory output;
+
+        assembly {
+            if iszero(
+                staticcall(gas(), 0x0000000000000000402, input, input_size, output, 0x20)
+            ) {
+                revert(0, 0)
+            }
+        }
+        return output[0];
     }
 
     /**
@@ -51,22 +120,23 @@ contract StateRent {
     function transferMaintainer(
         address contract_address,
         address new_maintainer
-    ) public returns (bool) {
-        _transferMaintainer(msg.sender, contract_address, new_maintainer);
-        return true;
-    }
-
-    function _transferMaintainer(
-        address sender,
-        address contract_address,
-        address new_maintainer
-    ) internal {
-        require(sender != address(0), "StateRent: the sender is the zero address");
+    ) public override returns (bool) {
         require(contract_address != address(0), "StateRent: the contract_address is the zero address");
         require(new_maintainer != address(0), "StateRent: the new_maintainer is the zero address");
 
-        StateRentLib.transferMaintainer(msg.sender, contract_address, new_maintainer);
+        bytes memory input = abi.encodeWithSignature("transferMaintainer(address,address,address)", msg.sender, contract_address, new_maintainer);
+
+        // Dynamic arrays will add the array size to the front of the array, so need extra 32 bytes.
+        uint input_size = input.length + 32;
+
+        assembly {
+            if iszero(
+                staticcall(gas(), 0x0000000000000000402, input, input_size, 0x00, 0x00)
+            ) {
+                revert(0, 0)
+            }
+        }
         emit TransferredMaintainer(contract_address, new_maintainer);
+        return true;
     }
 }
-
