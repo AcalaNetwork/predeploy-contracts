@@ -45,23 +45,23 @@ const generate = async () => {
   }, []);
 
   let bytecodes = [];
-  const { deployedBytecode: token } = require(`../build/contracts/Token.json`);
+  const { bytecode: token } = require(`../build/contracts/Token.json`);
   bytecodes.push(['Token', address(PREDEPLOY_ADDRESS_START, 0), token]);
 
   // add StateRent bytecodes
-  const { deployedBytecode: stateRent } = require(`../build/contracts/StateRent.json`);
+  const { bytecode: stateRent } = require(`../build/contracts/StateRent.json`);
   bytecodes.push(['StateRent', address(PREDEPLOY_ADDRESS_START, 1), stateRent]);
 
   // add Oracle bytecodes
-  const { deployedBytecode: oracle } = require(`../build/contracts/Oracle.json`);
+  const { bytecode: oracle } = require(`../build/contracts/Oracle.json`);
   bytecodes.push(['Oracle', address(PREDEPLOY_ADDRESS_START, 2), oracle]);
 
   // add Schedule bytecodes
-  const { deployedBytecode: schedule } = require(`../build/contracts/Schedule.json`);
+  const { bytecode: schedule } = require(`../build/contracts/Schedule.json`);
   bytecodes.push(['Schedule', address(PREDEPLOY_ADDRESS_START, 3), schedule]);
 
   // add DEX bytecodes
-  const { deployedBytecode: dex } = require(`../build/contracts/DEX.json`);
+  const { bytecode: dex } = require(`../build/contracts/DEX.json`);
   bytecodes.push(['DEX', address(PREDEPLOY_ADDRESS_START, 4), dex]);
 
   await writeFile(bytecodesFile, JSON.stringify(bytecodes, null, 2), 'utf8');
