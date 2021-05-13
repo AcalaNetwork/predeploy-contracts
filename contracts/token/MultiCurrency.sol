@@ -5,16 +5,17 @@ import "../utils/Uint256Lib.sol";
 
 library MultiCurrency {
     function name() internal view returns (string memory) {
-        uint256[1] memory input;
+        bytes memory input = abi.encodeWithSignature("name()");
 
-        input[0] = 1;
+        // Dynamic arrays will add the array size to the front of the array, so need extra 32 bytes.
+        uint input_size = input.length + 32;
 
         // Acala mirrored token symbol should not more than 32 bytes. More than 32 bytes will be truncated.
         uint256[1] memory output;
 
         assembly {
             if iszero(
-                staticcall(gas(), 0x0000000000000000400, input, 0x20, output, 0x20)
+                staticcall(gas(), 0x0000000000000000400, input, input_size, output, 0x20)
             ) {
                 revert(0, 0)
             }
@@ -24,16 +25,17 @@ library MultiCurrency {
     }
 
     function symbol() internal view returns (string memory) {
-        uint256[1] memory input;
+        bytes memory input = abi.encodeWithSignature("symbol()");
 
-        input[0] = 2;
+        // Dynamic arrays will add the array size to the front of the array, so need extra 32 bytes.
+        uint input_size = input.length + 32;
 
         // Acala mirrored token symbol should not more than 32 bytes. More than 32 bytes will be truncated.
         uint256[1] memory output;
 
         assembly {
             if iszero(
-                staticcall(gas(), 0x0000000000000000400, input, 0x20, output, 0x20)
+                staticcall(gas(), 0x0000000000000000400, input, input_size, output, 0x20)
             ) {
                 revert(0, 0)
             }
@@ -43,15 +45,16 @@ library MultiCurrency {
     }
 
     function decimals() internal view returns (uint8) {
-        uint256[1] memory input;
+        bytes memory input = abi.encodeWithSignature("decimals()");
 
-        input[0] = 3;
+        // Dynamic arrays will add the array size to the front of the array, so need extra 32 bytes.
+        uint input_size = input.length + 32;
 
         uint256[1] memory output;
 
         assembly {
             if iszero(
-                staticcall(gas(), 0x0000000000000000400, input, 0x20, output, 0x20)
+                staticcall(gas(), 0x0000000000000000400, input, input_size, output, 0x20)
             ) {
                 revert(0, 0)
             }
@@ -61,15 +64,16 @@ library MultiCurrency {
     }
 
     function totalSupply() internal view returns (uint256) {
-        uint256[1] memory input;
+        bytes memory input = abi.encodeWithSignature("totalSupply()");
 
-        input[0] = 4;
+        // Dynamic arrays will add the array size to the front of the array, so need extra 32 bytes.
+        uint input_size = input.length + 32;
 
         uint256[1] memory output;
 
         assembly {
             if iszero(
-                staticcall(gas(), 0x0000000000000000400, input, 0x20, output, 0x20)
+                staticcall(gas(), 0x0000000000000000400, input, input_size, output, 0x20)
             ) {
                 revert(0, 0)
             }
@@ -79,16 +83,16 @@ library MultiCurrency {
     }
 
     function balanceOf(address account) internal view returns (uint256) {
-        uint256[2] memory input;
+        bytes memory input = abi.encodeWithSignature("balanceOf(address)", account);
 
-        input[0] = 5;
-        input[1] = uint256(account);
+        // Dynamic arrays will add the array size to the front of the array, so need extra 32 bytes.
+        uint input_size = input.length + 32;
 
         uint256[1] memory output;
 
         assembly {
             if iszero(
-                staticcall(gas(), 0x0000000000000000400, input, 0x40, output, 0x20)
+                staticcall(gas(), 0x0000000000000000400, input, input_size, output, 0x20)
             ) {
                 revert(0, 0)
             }
@@ -98,16 +102,14 @@ library MultiCurrency {
     }
 
     function transfer(address sender, address recipient, uint256 amount) internal view {
-        uint256[4] memory input;
+        bytes memory input = abi.encodeWithSignature("transfer(address,address,uint256)", sender, recipient, amount);
 
-        input[0] = 6;
-        input[1] = uint256(sender);
-        input[2] = uint256(recipient);
-        input[3] = amount;
+        // Dynamic arrays will add the array size to the front of the array, so need extra 32 bytes.
+        uint input_size = input.length + 32;
 
         assembly {
             if iszero(
-                staticcall(gas(), 0x0000000000000000400, input, 0x80, 0x00, 0x00)
+                staticcall(gas(), 0x0000000000000000400, input, input_size, 0x00, 0x00)
             ) {
                 revert(0, 0)
             }
