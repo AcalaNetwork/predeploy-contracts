@@ -31,9 +31,9 @@ interface IDEX {
 
     // Add liquidity to the trading pair.
     // Returns a boolean value indicating whether the operation succeeded.
-    function addLiquidity(address tokenA, address tokenB, uint256 maxAmountA, uint256 maxAmountB) external returns (bool);
+    function addLiquidity(address tokenA, address tokenB, uint256 maxAmountA, uint256 maxAmountB, uint256 minShareIncrement) external returns (bool);
 
     // Remove liquidity from the trading pair.
     // Returns a boolean value indicating whether the operation succeeded.
-    function removeLiquidity(address tokenA, address tokenB, uint256 removeShare) external returns (bool);
+    function removeLiquidity(address tokenA, address tokenB, uint256 removeShare, uint256 minWithdrawnA, uint256 minWithdrawnB) external returns (bool);
 }
