@@ -195,7 +195,7 @@ contract DEX is IDEX {
      * @dev Add liquidity to the trading pair.
      * Returns a boolean value indicating whether the operation succeeded.
      */
-    function addLiquidity(address tokenA, address tokenB, uint256 maxAmountA, uint256 maxAmountB)
+    function addLiquidity(address tokenA, address tokenB, uint256 maxAmountA, uint256 maxAmountB, uint256 minShareIncrement)
     public
     override
     returns (bool) {
@@ -204,7 +204,7 @@ contract DEX is IDEX {
         require(maxAmountA != 0, "DEX: maxAmountA is zero");
         require(maxAmountB != 0, "DEX: maxAmountB is zero");
 
-        bytes memory input = abi.encodeWithSignature("addLiquidity(address,address,address,uint256,uint256)", msg.sender, tokenA, tokenB, maxAmountA, maxAmountB);
+        bytes memory input = abi.encodeWithSignature("addLiquidity(address,address,address,uint256,uint256,uint256)", msg.sender, tokenA, tokenB, maxAmountA, maxAmountB, minShareIncrement);
 
         // Dynamic arrays will add the array size to the front of the array, so need extra 32 bytes.
         uint input_size = input.length + 32;
@@ -224,7 +224,7 @@ contract DEX is IDEX {
      * @dev Remove liquidity from the trading pair.
      * Returns a boolean value indicating whether the operation succeeded.
      */
-    function removeLiquidity(address tokenA, address tokenB, uint256 removeShare)
+    function removeLiquidity(address tokenA, address tokenB, uint256 removeShare, uint256 minWithdrawnA, uint256 minWithdrawnB)
     public
     override
     returns (bool) {
@@ -232,7 +232,7 @@ contract DEX is IDEX {
         require(tokenB != address(0), "DEX: tokenB is zero address");
         require(removeShare != 0, "DEX: removeShare is zero");
 
-        bytes memory input = abi.encodeWithSignature("removeLiquidity(address,address,address,uint256)", msg.sender, tokenA, tokenB, removeShare);
+        bytes memory input = abi.encodeWithSignature("removeLiquidity(address,address,address,uint256,uint256,uint256)", msg.sender, tokenA, tokenB, removeShare, minWithdrawnA, minWithdrawnB);
 
         // Dynamic arrays will add the array size to the front of the array, so need extra 32 bytes.
         uint input_size = input.length + 32;
