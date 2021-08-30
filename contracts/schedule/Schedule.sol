@@ -5,7 +5,7 @@ import "./ISchedule.sol";
 contract Schedule is ISchedule {
     /**
      * @dev Schedule call the contract.
-     * Returns a boolean value indicating whether the operation succeeded.
+     * Returns a bytes value equal to the task_id of the task created.
      */
     function scheduleCall(
         address contract_address,
@@ -14,7 +14,7 @@ contract Schedule is ISchedule {
         uint256 storage_limit,
         uint256 min_delay,
         bytes memory input_data
-    ) public override returns (bool) {
+    ) public override returns (bytes memory) {
         require(contract_address != address(0), "ScheduleCall: the contract_address is the zero address");
         require(input_data.length > 0, "ScheduleCall: input is null");
 
@@ -40,7 +40,7 @@ contract Schedule is ISchedule {
         }
 
         emit ScheduledCall(msg.sender, contract_address, task_id);
-        return true;
+        return task_id;
     }
 
     /**
