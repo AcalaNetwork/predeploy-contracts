@@ -16,7 +16,7 @@ interface ISchedule {
         bytes calldata input_data // The input data to the call.
     )
     external
-    returns (bool); // Returns a boolean value indicating whether the operation succeeded.
+    returns (bytes memory); // Returns a bytes value equal to the task_id of the task created.
 
     // Cancel schedule call the contract.
     // Returns a boolean value indicating whether the operation succeeded.

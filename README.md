@@ -131,8 +131,8 @@ function getPrice(address token) public view returns (uint256, uint256);
 - ScheduleCall contract address: `0x0000000000000000000000000000000000000803`
 ```
 // Schedule call the contract.
-// Returns a boolean value indicating whether the operation succeeded.
-function scheduleCall(address contract_address, uint256 value, uint256 gas_limit, uint256 storage_limit, uint256 min_delay, bytes memory input_data) public returns (bool);
+// Returns a bytes value equal to the task_id of the task created.
+function scheduleCall(address contract_address, uint256 value, uint256 gas_limit, uint256 storage_limit, uint256 min_delay, bytes memory input_data) public returns (bytes memory);
 
 // Cancel schedule call the contract.
 // Returns a boolean value indicating whether the operation succeeded.
