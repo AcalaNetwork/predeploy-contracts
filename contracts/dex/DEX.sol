@@ -1,4 +1,6 @@
-pragma solidity ^0.6.0;
+// SPDX-License-Identifier: GPL-3.0-or-later
+
+pragma solidity ^0.8.0;
 
 import "./IDEX.sol";
 
@@ -59,7 +61,11 @@ contract DEX is IDEX {
                 revert(0, 0)
             }
         }
-        return address(output[0]);
+
+        bytes memory result = abi.encodePacked(output);
+        (address addr) = abi.decode(result, (address));
+
+        return addr;
     }
 
 
