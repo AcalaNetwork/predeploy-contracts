@@ -23,21 +23,18 @@ contract Schedule is ISchedule {
         // Dynamic arrays will add the array size to the front of the array, so need extra 32 bytes.
         uint input_size = input.length + 32;
 
-        uint256[3] memory output;
+        uint256[4] memory output;
 
         assembly {
             if iszero(
-                staticcall(gas(), 0x0000000000000000404, input, input_size, output, 0x60)
+                staticcall(gas(), 0x0000000000000000404, input, input_size, output, 0x80)
             ) {
                 revert(0, 0)
             }
         }
 
-        bytes memory task_id = new bytes(output[0]);
-        bytes memory result = abi.encodePacked(output[1], output[2]);
-        for (uint i = 0; i < task_id.length; i++) {
-            task_id[i] = result[i];
-        }
+        bytes memory result = abi.encodePacked(output);
+        (bytes memory task_id) = abi.decode(result, (bytes));
 
         emit ScheduledCall(msg.sender, contract_address, task_id);
         return task_id;

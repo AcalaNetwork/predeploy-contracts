@@ -11,17 +11,20 @@ library MultiCurrency {
         uint input_size = input.length + 32;
 
         // Acala mirrored token symbol should not more than 32 bytes. More than 32 bytes will be truncated.
-        uint256[1] memory output;
+        uint256[3] memory output;
 
         assembly {
             if iszero(
-                staticcall(gas(), 0x0000000000000000400, input, input_size, output, 0x20)
+                staticcall(gas(), 0x0000000000000000400, input, input_size, output, 0x60)
             ) {
                 revert(0, 0)
             }
         }
 
-        return Uint256Lib.Uint2String(output[0]);
+        bytes memory result = abi.encodePacked(output);
+        (string memory name) = abi.decode(result, (string));
+
+        return name;
     }
 
     function symbol() internal view returns (string memory) {
@@ -31,17 +34,20 @@ library MultiCurrency {
         uint input_size = input.length + 32;
 
         // Acala mirrored token symbol should not more than 32 bytes. More than 32 bytes will be truncated.
-        uint256[1] memory output;
+        uint256[3] memory output;
 
         assembly {
             if iszero(
-                staticcall(gas(), 0x0000000000000000400, input, input_size, output, 0x20)
+                staticcall(gas(), 0x0000000000000000400, input, input_size, output, 0x60)
             ) {
                 revert(0, 0)
             }
         }
 
-        return Uint256Lib.Uint2String(output[0]);
+        bytes memory result = abi.encodePacked(output);
+        (string memory symbol) = abi.decode(result, (string));
+
+        return symbol;
     }
 
     function decimals() internal view returns (uint8) {
