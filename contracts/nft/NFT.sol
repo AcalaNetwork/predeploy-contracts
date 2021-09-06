@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
+
 pragma solidity ^0.6.0;
 
 library NFT {
@@ -38,7 +40,11 @@ library NFT {
                 revert(0, 0)
             }
         }
-        return address(output[0]);
+
+        bytes memory result = abi.encodePacked(output);
+        (address owner) = abi.decode(result, (address));
+
+        return owner;
     }
 
     function transfer(

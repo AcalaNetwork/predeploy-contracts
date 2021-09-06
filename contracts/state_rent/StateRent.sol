@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
+
 pragma solidity ^0.6.0;
 
 import "./IStateRent.sol";
@@ -68,7 +70,11 @@ contract StateRent is IStateRent {
                 revert(0, 0)
             }
         }
-        return address(output[0]);
+
+        bytes memory result = abi.encodePacked(output);
+        (address maintainer) = abi.decode(result, (address));
+
+        return maintainer;
     }
 
     /**

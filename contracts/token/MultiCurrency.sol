@@ -1,7 +1,6 @@
-// SPDX-License-Identifier: Apache-2.0
-pragma solidity ^0.6.0;
+// SPDX-License-Identifier: GPL-3.0-or-later
 
-import "../utils/Uint256Lib.sol";
+pragma solidity ^0.6.0;
 
 library MultiCurrency {
     function name() internal view returns (string memory) {
@@ -22,9 +21,9 @@ library MultiCurrency {
         }
 
         bytes memory result = abi.encodePacked(output);
-        (string memory name) = abi.decode(result, (string));
+        (string memory name_res) = abi.decode(result, (string));
 
-        return name;
+        return name_res;
     }
 
     function symbol() internal view returns (string memory) {
@@ -45,9 +44,9 @@ library MultiCurrency {
         }
 
         bytes memory result = abi.encodePacked(output);
-        (string memory symbol) = abi.decode(result, (string));
+        (string memory symbol_res) = abi.decode(result, (string));
 
-        return symbol;
+        return symbol_res;
     }
 
     function decimals() internal view returns (uint8) {
