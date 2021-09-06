@@ -338,10 +338,10 @@
     "@ethersproject/properties" "^5.0.7"
     "@ethersproject/strings" "^5.0.8"
 
-"@openzeppelin/contracts@3.0.0":
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/@openzeppelin/contracts/-/contracts-3.0.0.tgz#89bc0d32fc9eb257cf6499f2497a1b4a6715f186"
-  integrity sha512-u7oATjUK6jffDOoIjVQ7vJ2fnFKlfDS1CJzrMpp+YtGQ2fhdSk0kXjZTxk8Pj1SPVZRNES3yo0r144v8BsuRhQ==
+"@openzeppelin/contracts@3.4.2-solc-0.7":
+  version "3.4.2-solc-0.7"
+  resolved "https://registry.yarnpkg.com/@openzeppelin/contracts/-/contracts-3.4.2-solc-0.7.tgz#38f4dbab672631034076ccdf2f3201fab1726635"
+  integrity sha512-W6QmqgkADuFcTLzHL8vVoNBtkwjvQRpYIAom7KiUNoLKghyx3FgH0GBjt8NRvigV1ZmMOBllvE1By1C+bi8WpA==
 
 aes-js@3.0.0:
   version "3.0.0"

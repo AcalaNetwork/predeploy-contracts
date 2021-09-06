@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-pragma solidity ^0.6.0;
+pragma solidity ^0.7.0;
 
 interface ISchedule {
     event ScheduledCall(address indexed sender, address indexed contract_address, bytes task_id);
