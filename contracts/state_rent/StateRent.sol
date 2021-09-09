@@ -5,46 +5,34 @@ pragma solidity ^0.8.0;
 import "./IStateRent.sol";
 
 contract StateRent is IStateRent {
+    address constant private precompile = address(0x0000000000000000000000000000000000000402);
+
     /**
      * @dev Returns the const of NewContractExtraBytes.
      */
     function newContractExtraBytes() public view override returns (uint256) {
-        bytes memory input = abi.encodeWithSignature("newContractExtraBytes()");
-
-        // Dynamic arrays will add the array size to the front of the array, so need extra 32 bytes.
-        uint input_size = input.length + 32;
-
-        uint256[1] memory output;
-
+        (bool success, bytes memory returnData) = precompile.staticcall(abi.encodeWithSignature("newContractExtraBytes()"));
         assembly {
-            if iszero(
-                staticcall(gas(), 0x0000000000000000402, input, input_size, output, 0x20)
-            ) {
-                revert(0, 0)
+            if eq(success, 0) {
+                revert(add(returnData, 0x20), returndatasize())
             }
         }
-        return output[0];
+
+        return abi.decode(returnData, (uint256));
     }
 
     /**
      * @dev Returns the const of StorageDepositPerByte.
      */
     function storageDepositPerByte() public view override returns (uint256) {
-        bytes memory input = abi.encodeWithSignature("storageDepositPerByte()");
-
-        // Dynamic arrays will add the array size to the front of the array, so need extra 32 bytes.
-        uint input_size = input.length + 32;
-
-        uint256[1] memory output;
-
+        (bool success, bytes memory returnData) = precompile.staticcall(abi.encodeWithSignature("storageDepositPerByte()"));
         assembly {
-            if iszero(
-                staticcall(gas(), 0x0000000000000000402, input, input_size, output, 0x20)
-            ) {
-                revert(0, 0)
+            if eq(success, 0) {
+                revert(add(returnData, 0x20), returndatasize())
             }
         }
-        return output[0];
+
+        return abi.decode(returnData, (uint256));
     }
 
     /**
@@ -56,67 +44,42 @@ contract StateRent is IStateRent {
         override
         returns (address)
     {
-        bytes memory input = abi.encodeWithSignature("maintainerOf(address)", contract_address);
-
-        // Dynamic arrays will add the array size to the front of the array, so need extra 32 bytes.
-        uint input_size = input.length + 32;
-
-        uint256[1] memory output;
-
+        (bool success, bytes memory returnData) = precompile.staticcall(abi.encodeWithSignature("maintainerOf(address)", contract_address));
         assembly {
-            if iszero(
-                staticcall(gas(), 0x0000000000000000402, input, input_size, output, 0x20)
-            ) {
-                revert(0, 0)
+            if eq(success, 0) {
+                revert(add(returnData, 0x20), returndatasize())
             }
         }
 
-        bytes memory result = abi.encodePacked(output);
-        (address maintainer) = abi.decode(result, (address));
-
-        return maintainer;
+        return abi.decode(returnData, (address));
     }
 
     /**
      * @dev Returns the const of DeveloperDeposit.
      */
     function developerDeposit() public view override returns (uint256) {
-        bytes memory input = abi.encodeWithSignature("developerDeposit()");
-
-        // Dynamic arrays will add the array size to the front of the array, so need extra 32 bytes.
-        uint input_size = input.length + 32;
-
-        uint256[1] memory output;
-
+        (bool success, bytes memory returnData) = precompile.staticcall(abi.encodeWithSignature("developerDeposit()"));
         assembly {
-            if iszero(
-                staticcall(gas(), 0x0000000000000000402, input, input_size, output, 0x20)
-            ) {
-                revert(0, 0)
+            if eq(success, 0) {
+                revert(add(returnData, 0x20), returndatasize())
             }
         }
-        return output[0];
+
+        return abi.decode(returnData, (uint256));
     }
 
     /**
      * @dev Returns the const of DeploymentFee.
      */
     function deploymentFee() public view override returns (uint256) {
-        bytes memory input = abi.encodeWithSignature("deploymentFee()");
-
-        // Dynamic arrays will add the array size to the front of the array, so need extra 32 bytes.
-        uint input_size = input.length + 32;
-
-        uint256[1] memory output;
-
+        (bool success, bytes memory returnData) = precompile.staticcall(abi.encodeWithSignature("deploymentFee()"));
         assembly {
-            if iszero(
-                staticcall(gas(), 0x0000000000000000402, input, input_size, output, 0x20)
-            ) {
-                revert(0, 0)
+            if eq(success, 0) {
+                revert(add(returnData, 0x20), returndatasize())
             }
         }
-        return output[0];
+
+        return abi.decode(returnData, (uint256));
     }
 
     /**
@@ -130,18 +93,13 @@ contract StateRent is IStateRent {
         require(contract_address != address(0), "StateRent: the contract_address is the zero address");
         require(new_maintainer != address(0), "StateRent: the new_maintainer is the zero address");
 
-        bytes memory input = abi.encodeWithSignature("transferMaintainer(address,address,address)", msg.sender, contract_address, new_maintainer);
-
-        // Dynamic arrays will add the array size to the front of the array, so need extra 32 bytes.
-        uint input_size = input.length + 32;
-
+        (bool success, bytes memory returnData) = precompile.call(abi.encodeWithSignature("transferMaintainer(address,address,address)", msg.sender, contract_address, new_maintainer));
         assembly {
-            if iszero(
-                staticcall(gas(), 0x0000000000000000402, input, input_size, 0x00, 0x00)
-            ) {
-                revert(0, 0)
+            if eq(success, 0) {
+                revert(add(returnData, 0x20), returndatasize())
             }
         }
+
         emit TransferredMaintainer(contract_address, new_maintainer);
         return true;
     }

@@ -3,22 +3,17 @@
 pragma solidity ^0.8.0;
 
 library NFT {
+    address constant private precompile = address(0x0000000000000000000000000000000000000401);
+
     function balanceOf(address account) public view returns (uint256) {
-        bytes memory input = abi.encodeWithSignature("balanceOf(address)", account);
-
-        // Dynamic arrays will add the array size to the front of the array, so need extra 32 bytes.
-        uint input_size = input.length + 32;
-
-        uint256[1] memory output;
-
+        (bool success, bytes memory returnData) = precompile.staticcall(abi.encodeWithSignature("balanceOf(address)", account));
         assembly {
-            if iszero(
-                staticcall(gas(), 0x0000000000000000401, input, input_size, output, 0x20)
-            ) {
-                revert(0, 0)
+            if eq(success, 0) {
+                revert(add(returnData, 0x20), returndatasize())
             }
         }
-        return output[0];
+
+        return abi.decode(returnData, (uint256));
     }
 
     function ownerOf(uint256 class_id, uint256 token_id)
@@ -26,25 +21,14 @@ library NFT {
         view
         returns (address)
     {
-        bytes memory input = abi.encodeWithSignature("ownerOf(uint256,uint256)", class_id, token_id);
-
-        // Dynamic arrays will add the array size to the front of the array, so need extra 32 bytes.
-        uint input_size = input.length + 32;
-
-        uint256[1] memory output;
-
+        (bool success, bytes memory returnData) = precompile.staticcall(abi.encodeWithSignature("ownerOf(uint256,uint256)", class_id, token_id));
         assembly {
-            if iszero(
-                staticcall(gas(), 0x0000000000000000401, input, input_size, output, 0x20)
-            ) {
-                revert(0, 0)
+            if eq(success, 0) {
+                revert(add(returnData, 0x20), returndatasize())
             }
         }
 
-        bytes memory result = abi.encodePacked(output);
-        (address owner) = abi.decode(result, (address));
-
-        return owner;
+        return abi.decode(returnData, (address));
     }
 
     function transfer(
@@ -52,17 +36,11 @@ library NFT {
         address to,
         uint256 class_id,
         uint256 token_id
-    ) public view {
-        bytes memory input = abi.encodeWithSignature("transfer(address,address,uint256,uint256)", from, to, class_id, token_id);
-
-        // Dynamic arrays will add the array size to the front of the array, so need extra 32 bytes.
-        uint input_size = input.length + 32;
-
+    ) public {
+        (bool success, bytes memory returnData) = precompile.call(abi.encodeWithSignature("transfer(address,address,uint256,uint256)", from, to, class_id, token_id));
         assembly {
-            if iszero(
-                staticcall(gas(), 0x0000000000000000401, input, 0xA0, 0x00, 0x00)
-            ) {
-                revert(0, 0)
+            if eq(success, 0) {
+                revert(add(returnData, 0x20), returndatasize())
             }
         }
     }
