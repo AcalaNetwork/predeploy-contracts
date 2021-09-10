@@ -13,7 +13,10 @@ import "./MultiCurrency.sol";
 contract Token is IERC20 {
     using SafeMath for uint256;
 
-    mapping (address => mapping (address => uint256)) private _allowances;
+    /**
+     * @dev Owner => CurrencyId => Spender => Amount
+     */
+    mapping ( address => mapping (address => mapping (address => uint256))) private _allowances;
 
     /**
      * @dev Returns the name of the token.
@@ -68,7 +71,7 @@ contract Token is IERC20 {
      * @dev See {IERC20-allowance}.
      */
     function allowance(address owner, address spender) public view override returns (uint256) {
-        return _allowances[owner][spender];
+        return _allowances[owner][address(this)][spender];
     }
 
     /**
@@ -97,7 +100,7 @@ contract Token is IERC20 {
      */
     function transferFrom(address sender, address recipient, uint256 amount) public override returns (bool) {
         _transfer(sender, recipient, amount);
-        _approve(sender, msg.sender, _allowances[sender][msg.sender].sub(amount, "ERC20: transfer amount exceeds allowance"));
+        _approve(sender, msg.sender, _allowances[sender][address(this)][msg.sender].sub(amount, "ERC20: transfer amount exceeds allowance"));
         return true;
     }
 
@@ -114,7 +117,7 @@ contract Token is IERC20 {
      * - `spender` cannot be the zero address.
      */
     function increaseAllowance(address spender, uint256 addedValue) public returns (bool) {
-        _approve(msg.sender, spender, _allowances[msg.sender][spender].add(addedValue));
+        _approve(msg.sender, spender, _allowances[msg.sender][address(this)][spender].add(addedValue));
         return true;
     }
 
@@ -133,7 +136,7 @@ contract Token is IERC20 {
      * `subtractedValue`.
      */
     function decreaseAllowance(address spender, uint256 subtractedValue) public returns (bool) {
-        _approve(msg.sender, spender, _allowances[msg.sender][spender].sub(subtractedValue, "ERC20: decreased allowance below zero"));
+        _approve(msg.sender, spender, _allowances[msg.sender][address(this)][spender].sub(subtractedValue, "ERC20: decreased allowance below zero"));
         return true;
     }
 
@@ -177,7 +180,7 @@ contract Token is IERC20 {
         require(owner != address(0), "ERC20: approve from the zero address");
         require(spender != address(0), "ERC20: approve to the zero address");
 
-        _allowances[owner][spender] = amount;
+        _allowances[owner][address(this)][spender] = amount;
         emit Approval(owner, spender, amount);
     }
 }
