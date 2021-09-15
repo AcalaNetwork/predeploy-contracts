@@ -64,10 +64,10 @@ const generate = async () => {
   const { bytecode: dex } = require(`../build/contracts/DEX.json`);
   bytecodes.push(['DEX', address(PREDEPLOY_ADDRESS_START, 4), dex]);
 
-  await writeFile(bytecodesFile, JSON.stringify(bytecodes, null, 2), 'utf8');
-
   // merge tokenList into bytecodes
   bytecodes = tokenList.concat(bytecodes);
+
+  await writeFile(bytecodesFile, JSON.stringify(bytecodes, null, 2), 'utf8');
 
   // generate address constant for sol
   let tmpl = fs.readFileSync(path.resolve(__dirname, '../resources', 'address.sol.hbs'), 'utf8');
