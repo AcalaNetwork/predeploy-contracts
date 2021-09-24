@@ -38,7 +38,7 @@ const generate = async () => {
   const tokens = require(tokensFile);
 
   // compile to generate contracts json.
-  await exec('yarn truffle-compile');
+  await exec('yarn waffle');
 
   const tokenList = tokens.reduce((output, { symbol, address }) => {
     return [...output, [symbol, address, ""]];
@@ -80,7 +80,7 @@ const generate = async () => {
   await writeFile(path.join(addressDir, 'Address.js'), template(bytecodes), 'utf8');
 
   // recompile Address.sol
-  await exec('yarn truffle-compile');
+  await exec('yarn waffle');
 
   // generate Address.d.ts
   await exec('tsc contracts/utils/Address.js --declaration --allowJs --emitDeclarationOnly');

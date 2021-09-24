@@ -7,14 +7,27 @@
   "license": "Apache-2.0",
   "scripts": {
     "generate-bytecode": "node generate/generate.js",
-    "truffle-compile": "truffle compile"
+    "test": "export NODE_ENV=test && mocha -r ts-node/register/transpile-only --timeout 50000 --no-warnings test/**/*.test.{js,ts}",
+    "build": "waffle"
   },
   "dependencies": {
     "@openzeppelin/contracts": "4.3.1",
-    "ethers": "^5.0.32",
+    "ethers": "^5.4.7",
     "handlebars": "^4.7.7"
   },
   "devDependencies": {
-    "truffle": "^5.1.50"
+    "@acala-network/api": "^2.3.1",
+    "@acala-network/bodhi": "^1.0.2-14",
+    "@acala-network/contracts": "^1.2.1",
+    "@nomiclabs/hardhat-waffle": "^2.0.1",
+    "@types/chai": "^4.2.22",
+    "@types/mocha": "^9.0.0",
+    "@types/node": "^16.9.6",
+    "chai": "^4.3.4",
+    "ethereum-waffle": "^3.4.0",
+    "mocha": "^9.1.1",
+    "solc": "^0.8.7-fixed",
+    "ts-node": "^10.2.1",
+    "typescript": "^4.4.3"
   }
 }
