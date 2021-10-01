@@ -188,21 +188,16 @@ describe("Schedule", () => {
     let current_block_number = Number(await provider.api.query.system.number());
     await schedule.scheduleCall(ADDRESS.DOT, 0, 300000, 10000, 5, ethers.utils.hexlify(call.data as string));
 
-    let block_hash = await provider.api.query.system.blockHash(current_block_number);
+    let block_hash = await provider.api.rpc.chain.getBlockHash(current_block_number + 1);
     const data = await provider.api.derive.tx.events(block_hash);
-    let event = data.events.filter(item => item.event.data.some(data => data.address == ADDRESS.Schedule && data.topics[0] == iface.getEventTopic(iface.getEvent("ScheduledCall"))));
 
-    if (event.length > 0) {
-      let log = {
-        topics: [event[0].event.data[0].topics[0].toString(), event[0].event.data[0].topics[1].toString(), event[0].event.data[0].topics[2].toString()], data: event[0].event.data[0].data.toString()
-      };
-      let decode_log = await iface.parseLog(log);
-      await expect(schedule.rescheduleCall(7, ethers.utils.hexlify(decode_log.args.task_id)))
-        .to.emit(schedule, "RescheduledCall")
-        .withArgs(await wallet.getAddress(), ethers.utils.hexlify(decode_log.args.task_id));
-    } else {
-      expect(false).to.be.ok;
-    };
+    let event = data.events.filter(item => provider.api.events.evm.Log.is(item.event));
+    expect(event.length).to.above(0);
+
+    let decode_log = await iface.parseLog(event[0].event.data.toJSON()[0]);
+    await expect(schedule.rescheduleCall(7, ethers.utils.hexlify(decode_log.args.task_id)))
+      .to.emit(schedule, "RescheduledCall")
+      .withArgs(await wallet.getAddress(), ethers.utils.hexlify(decode_log.args.task_id));
 
     while (current_block_number < first_target_block_number) {
       await empty_block(current_block_number);
