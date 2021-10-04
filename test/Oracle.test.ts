@@ -7,7 +7,7 @@ import { WsProvider } from "@polkadot/api";
 import { createTestPairs } from "@polkadot/keyring/testingPairs";
 import ADDRESS from "@acala-network/contracts/utils/Address";
 
-use(solidity)
+use(solidity);
 use(evmChai);
 
 const provider = new TestProvider({

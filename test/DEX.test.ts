@@ -6,7 +6,7 @@ import { TestProvider, Signer } from "@acala-network/bodhi";
 import { WsProvider } from "@polkadot/api";
 import ADDRESS from "@acala-network/contracts/utils/Address";
 
-use(solidity)
+use(solidity);
 use(evmChai);
 
 const provider = new TestProvider({

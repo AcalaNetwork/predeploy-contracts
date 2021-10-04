@@ -7,7 +7,7 @@ import { WsProvider } from "@polkadot/api";
 import IERC20 from "../build/IERC20.json";
 import ADDRESS from "@acala-network/contracts/utils/Address";
 
-use(solidity)
+use(solidity);
 use(evmChai);
 
 const provider = new TestProvider({
@@ -29,7 +29,7 @@ describe("StateRent", () => {
     [wallet, walletTo] = await provider.getWallets();
     state_rent = new ethers.Contract(ADDRESS.StateRent, STATE_RENT_ABI, wallet);
     token = await deployMockContract(wallet, IERC20.abi);
-    instance = await deployMockContract(wallet, IERC20.abi)
+    instance = await deployMockContract(wallet, IERC20.abi);
   });
 
   after(async () => {
