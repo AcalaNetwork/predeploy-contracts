@@ -14,14 +14,6 @@ const exec = util.promisify(childProcess.exec);
 // 0 - 0x400
 // Acala precompiles
 // 0x400 - 0x800
-// Predeployed system contracts (except Mirrored ERC20)
-// 0x800 - 0x1000
-// Mirrored Tokens
-// 0x1000000
-// Mirrored NFT
-// 0x2000000
-// Mirrored LP Tokens
-// 0x10000000000000000
 const PREDEPLOY_ADDRESS_START = 0x800;
 
 function address(start, offset) {
@@ -41,7 +33,7 @@ const generate = async () => {
   await exec('yarn truffle-compile');
 
   const tokenList = tokens.reduce((output, { symbol, address }) => {
-    return [...output, [symbol, address, ""]];
+    return [...output, [symbol, ethers.utils.getAddress(address), ""]];
   }, []);
 
   let bytecodes = [];
