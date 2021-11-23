@@ -5,6 +5,8 @@ pragma solidity ^0.7.0;
 import "./ISchedule.sol";
 
 contract Schedule is ISchedule {
+    address constant private precompile = address(0x0000000000000000000000000000000000000404);
+
     /**
      * @dev Schedule call the contract.
      * Returns a bytes value equal to the task_id of the task created.
@@ -20,23 +22,14 @@ contract Schedule is ISchedule {
         require(contract_address != address(0), "ScheduleCall: the contract_address is the zero address");
         require(input_data.length > 0, "ScheduleCall: input is null");
 
-        bytes memory input = abi.encodeWithSignature("scheduleCall(address,address,uint256,uint256,uint256,bytes)", msg.sender, contract_address, value, gas_limit, storage_limit, min_delay, input_data);
-
-        // Dynamic arrays will add the array size to the front of the array, so need extra 32 bytes.
-        uint input_size = input.length + 32;
-
-        uint256[4] memory output;
-
+        (bool success, bytes memory returnData) = precompile.call(abi.encodeWithSignature("scheduleCall(address,address,uint256,uint256,uint256,bytes)", msg.sender, contract_address, value, gas_limit, storage_limit, min_delay, input_data));
         assembly {
-            if iszero(
-                staticcall(gas(), 0x0000000000000000404, input, input_size, output, 0x80)
-            ) {
-                revert(0, 0)
+            if eq(success, 0) {
+                revert(add(returnData, 0x20), returndatasize())
             }
         }
 
-        bytes memory result = abi.encodePacked(output);
-        (bytes memory task_id) = abi.decode(result, (bytes));
+        (bytes memory task_id) = abi.decode(returnData, (bytes));
 
         emit ScheduledCall(msg.sender, contract_address, task_id);
         return task_id;
@@ -49,16 +42,10 @@ contract Schedule is ISchedule {
     function cancelCall(
         bytes memory task_id
     ) public override returns (bool) {
-        bytes memory input = abi.encodeWithSignature("cancelCall(address,bytes)", msg.sender, task_id);
-
-        // Dynamic arrays will add the array size to the front of the array, so need extra 32 bytes.
-        uint input_size = input.length + 32;
-
+        (bool success, bytes memory returnData) = precompile.call(abi.encodeWithSignature("cancelCall(address,bytes)", msg.sender, task_id));
         assembly {
-            if iszero(
-                staticcall(gas(), 0x0000000000000000404, input, input_size, 0x00, 0x00)
-            ) {
-                revert(0, 0)
+            if eq(success, 0) {
+                revert(add(returnData, 0x20), returndatasize())
             }
         }
 
@@ -74,16 +61,10 @@ contract Schedule is ISchedule {
         uint256 min_delay,
         bytes memory task_id
     ) public override returns (bool) {
-        bytes memory input = abi.encodeWithSignature("rescheduleCall(address,uint256,bytes)", msg.sender, min_delay, task_id);
-
-        // Dynamic arrays will add the array size to the front of the array, so need extra 32 bytes.
-        uint input_size = input.length + 32;
-
+        (bool success, bytes memory returnData) = precompile.call(abi.encodeWithSignature("rescheduleCall(address,uint256,bytes)", msg.sender, min_delay, task_id));
         assembly {
-            if iszero(
-                staticcall(gas(), 0x0000000000000000404, input, input_size, 0x00, 0x00)
-            ) {
-                revert(0, 0)
+            if eq(success, 0) {
+                revert(add(returnData, 0x20), returndatasize())
             }
         }
 

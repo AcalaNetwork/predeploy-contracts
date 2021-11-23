@@ -5,6 +5,8 @@ pragma solidity ^0.7.0;
 import "./IDEX.sol";
 
 contract DEX is IDEX {
+    address constant private precompile = address(0x0000000000000000000000000000000000000405);
+
     /**
      * @dev Get liquidity pool of the currency_id_a and currency_id_b.
      * Returns (liquidity_a, liquidity_b)
@@ -18,21 +20,14 @@ contract DEX is IDEX {
         require(tokenA != address(0), "DEX: tokenA is zero address");
         require(tokenB != address(0), "DEX: tokenB is zero address");
 
-        bytes memory input = abi.encodeWithSignature("getLiquidityPool(address,address)", tokenA, tokenB);
-
-        // Dynamic arrays will add the array size to the front of the array, so need extra 32 bytes.
-        uint input_size = input.length + 32;
-
-        uint256[2] memory output;
-
+        (bool success, bytes memory returnData) = precompile.staticcall(abi.encodeWithSignature("getLiquidityPool(address,address)", tokenA, tokenB));
         assembly {
-            if iszero(
-                staticcall(gas(), 0x0000000000000000405, input, input_size, output, 0x40)
-            ) {
-                revert(0, 0)
+            if eq(success, 0) {
+                revert(add(returnData, 0x20), returndatasize())
             }
         }
-        return (output[0], output[1]);
+
+        return abi.decode(returnData, (uint256, uint256));
     }
 
     /**
@@ -47,25 +42,14 @@ contract DEX is IDEX {
         require(tokenA != address(0), "DEX: tokenA is zero address");
         require(tokenB != address(0), "DEX: tokenB is zero address");
 
-        bytes memory input = abi.encodeWithSignature("getLiquidityTokenAddress(address,address)", tokenA, tokenB);
-
-        // Dynamic arrays will add the array size to the front of the array, so need extra 32 bytes.
-        uint input_size = input.length + 32;
-
-        uint256[1] memory output;
-
+        (bool success, bytes memory returnData) = precompile.staticcall(abi.encodeWithSignature("getLiquidityTokenAddress(address,address)", tokenA, tokenB));
         assembly {
-            if iszero(
-                staticcall(gas(), 0x0000000000000000405, input, input_size, output, 0x20)
-            ) {
-                revert(0, 0)
+            if eq(success, 0) {
+                revert(add(returnData, 0x20), returndatasize())
             }
         }
 
-        bytes memory result = abi.encodePacked(output);
-        (address addr) = abi.decode(result, (address));
-
-        return addr;
+        return abi.decode(returnData, (address));
     }
 
 
@@ -78,27 +62,19 @@ contract DEX is IDEX {
     view
     override
     returns (uint256) {
-        require(path.length >= 2 && path.length <= 3, "DEX: token path over the limit");
         for (uint i = 0; i < path.length; i++) {
             require(path[i] != address(0), "DEX: token is zero address");
         }
         require(supplyAmount != 0, "DEX: supplyAmount is zero");
 
-        bytes memory input = abi.encodeWithSignature("getSwapTargetAmount(address[],uint256)", path, supplyAmount);
-
-        // Dynamic arrays will add the array size to the front of the array, so need extra 32 bytes.
-        uint input_size = input.length + 32;
-
-        uint256[1] memory output;
-
+        (bool success, bytes memory returnData) = precompile.staticcall(abi.encodeWithSignature("getSwapTargetAmount(address[],uint256)", path, supplyAmount));
         assembly {
-            if iszero(
-                staticcall(gas(), 0x0000000000000000405, input, input_size, output, 0x20)
-            ) {
-                revert(0, 0)
+            if eq(success, 0) {
+                revert(add(returnData, 0x20), returndatasize())
             }
         }
-        return output[0];
+
+        return abi.decode(returnData, (uint256));
     }
 
     /**
@@ -110,27 +86,19 @@ contract DEX is IDEX {
     view
     override
     returns (uint256) {
-        require(path.length >= 2 && path.length <= 3, "DEX: token path over the limit");
         for (uint i = 0; i < path.length; i++) {
             require(path[i] != address(0), "DEX: token is zero address");
         }
         require(targetAmount != 0, "DEX: targetAmount is zero");
 
-        bytes memory input = abi.encodeWithSignature("getSwapSupplyAmount(address[],uint256)", path, targetAmount);
-
-        // Dynamic arrays will add the array size to the front of the array, so need extra 32 bytes.
-        uint input_size = input.length + 32;
-
-        uint256[1] memory output;
-
+        (bool success, bytes memory returnData) = precompile.staticcall(abi.encodeWithSignature("getSwapSupplyAmount(address[],uint256)", path, targetAmount));
         assembly {
-            if iszero(
-                staticcall(gas(), 0x0000000000000000405, input, input_size, output, 0x20)
-            ) {
-                revert(0, 0)
+            if eq(success, 0) {
+                revert(add(returnData, 0x20), returndatasize())
             }
         }
-        return output[0];
+
+        return abi.decode(returnData, (uint256));
     }
 
     /**
@@ -141,27 +109,19 @@ contract DEX is IDEX {
     public
     override
     returns (bool) {
-        require(path.length >= 2 && path.length <= 3, "DEX: token path over the limit");
         for (uint i = 0; i < path.length; i++) {
             require(path[i] != address(0), "DEX: token is zero address");
         }
         require(supplyAmount != 0, "DEX: supplyAmount is zero");
 
-        bytes memory input = abi.encodeWithSignature("swapWithExactSupply(address,address[],uint256,uint256)", msg.sender, path, supplyAmount, minTargetAmount);
-
-        // Dynamic arrays will add the array size to the front of the array, so need extra 32 bytes.
-        uint input_size = input.length + 32;
-
-        uint256[1] memory output;
-
+        (bool success, bytes memory returnData) = precompile.call(abi.encodeWithSignature("swapWithExactSupply(address,address[],uint256,uint256)", msg.sender, path, supplyAmount, minTargetAmount));
         assembly {
-            if iszero(
-                staticcall(gas(), 0x0000000000000000405, input, input_size, output, 0x20)
-            ) {
-                revert(0, 0)
+            if eq(success, 0) {
+                revert(add(returnData, 0x20), returndatasize())
             }
         }
-        emit Swaped(msg.sender, path, supplyAmount, output[0]);
+
+        emit Swaped(msg.sender, path, supplyAmount, abi.decode(returnData, (uint256)));
         return true;
     }
 
@@ -173,27 +133,19 @@ contract DEX is IDEX {
     public
     override
     returns (bool) {
-        require(path.length >= 2 && path.length <= 3, "DEX: token path over the limit");
         for (uint i = 0; i < path.length; i++) {
             require(path[i] != address(0), "DEX: token is zero address");
         }
         require(targetAmount != 0, "DEX: targetAmount is zero");
 
-        bytes memory input = abi.encodeWithSignature("swapWithExactTarget(address,address[],uint256,uint256)", msg.sender, path, targetAmount, maxSupplyAmount);
-
-        // Dynamic arrays will add the array size to the front of the array, so need extra 32 bytes.
-        uint input_size = input.length + 32;
-
-        uint256[1] memory output;
-
+        (bool success, bytes memory returnData) = precompile.call(abi.encodeWithSignature("swapWithExactTarget(address,address[],uint256,uint256)", msg.sender, path, targetAmount, maxSupplyAmount));
         assembly {
-            if iszero(
-                staticcall(gas(), 0x0000000000000000405, input, input_size, output, 0x20)
-            ) {
-                revert(0, 0)
+            if eq(success, 0) {
+                revert(add(returnData, 0x20), returndatasize())
             }
         }
-        emit Swaped(msg.sender, path, output[0], targetAmount);
+
+        emit Swaped(msg.sender, path, abi.decode(returnData, (uint256)), targetAmount);
         return true;
     }
 
@@ -210,18 +162,13 @@ contract DEX is IDEX {
         require(maxAmountA != 0, "DEX: maxAmountA is zero");
         require(maxAmountB != 0, "DEX: maxAmountB is zero");
 
-        bytes memory input = abi.encodeWithSignature("addLiquidity(address,address,address,uint256,uint256,uint256)", msg.sender, tokenA, tokenB, maxAmountA, maxAmountB, minShareIncrement);
-
-        // Dynamic arrays will add the array size to the front of the array, so need extra 32 bytes.
-        uint input_size = input.length + 32;
-
+        (bool success, bytes memory returnData) = precompile.call(abi.encodeWithSignature("addLiquidity(address,address,address,uint256,uint256,uint256)", msg.sender, tokenA, tokenB, maxAmountA, maxAmountB, minShareIncrement));
         assembly {
-            if iszero(
-                staticcall(gas(), 0x0000000000000000405, input, input_size, 0x00, 0x00)
-            ) {
-                revert(0, 0)
+            if eq(success, 0) {
+                revert(add(returnData, 0x20), returndatasize())
             }
         }
+
         emit AddedLiquidity(msg.sender, tokenA, tokenB, maxAmountA, maxAmountB);
         return true;
     }
@@ -238,18 +185,13 @@ contract DEX is IDEX {
         require(tokenB != address(0), "DEX: tokenB is zero address");
         require(removeShare != 0, "DEX: removeShare is zero");
 
-        bytes memory input = abi.encodeWithSignature("removeLiquidity(address,address,address,uint256,uint256,uint256)", msg.sender, tokenA, tokenB, removeShare, minWithdrawnA, minWithdrawnB);
-
-        // Dynamic arrays will add the array size to the front of the array, so need extra 32 bytes.
-        uint input_size = input.length + 32;
-
+        (bool success, bytes memory returnData) = precompile.call(abi.encodeWithSignature("removeLiquidity(address,address,address,uint256,uint256,uint256)", msg.sender, tokenA, tokenB, removeShare, minWithdrawnA, minWithdrawnB));
         assembly {
-            if iszero(
-                staticcall(gas(), 0x0000000000000000405, input, input_size, 0x00, 0x00)
-            ) {
-                revert(0, 0)
+            if eq(success, 0) {
+                revert(add(returnData, 0x20), returndatasize())
             }
         }
+
         emit RemovedLiquidity(msg.sender, tokenA, tokenB, removeShare);
         return true;
     }

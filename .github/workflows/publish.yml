@@ -1,0 +1,36 @@
+name: Publish Solidity Package
+
+on:
+  push:
+    branches:
+      - master
+      - solc-0.6
+      - solc-0.7
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '14.x'
+          registry-url: 'https://registry.npmjs.org'
+      - name: Publish Solidity Package
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          set -x
+          # install dependencies
+          yarn
+          # compile
+          yarn run generate-bytecode
+          cd contracts
+          version=$(yarn versions --json | jq -er '.data."@acala-network/contracts"')
+          if [ $(yarn info '@acala-network/contracts' versions --json | jq -er ".data|any(. == \"$version\")") == false ]
+          then
+              # prepare
+              yarn run prepare
+              # publish
+              yarn publish --verbose --new-version=$version --access=public
+          fi
