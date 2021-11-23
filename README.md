@@ -19,33 +19,17 @@ The token list for ERC20 smart contracts is in `./resources/tokens.json`. symbol
 ```
 {
   "symbol": "ACA",
-  "address": "0x0000000000000000000000000000000001000000"
+  "address": "0x0000000000000000000100000000000000000000"
 }
 ```
+All of the tokens and predeployed system contracts have generated code in `./contracts/utils/Address.sol` and `./contracts/utils/Address.js`, we can use it directly.
 
 
 # Predeployed System Contracts
 
 ## ERC20 Contracts
 These ERC20 contracts make native and cross-chain tokens available inside Acala EVM.
-- ACA contract address: `0x0000000000000000000000000000000001000000`.
-- AUSD contract address: `0x0000000000000000000000000000000001000001`.
-- DOT contract address: `0x0000000000000000000000000000000001000002`.
-- LDOT contract address: `0x0000000000000000000000000000000001000003`.
-- RENBTC contract address: `0x0000000000000000000000000000000001000004`.
-
-- KAR contract address: `0x0000000000000000000000000000000001000080`.
-- KUSD contract address: `0x0000000000000000000000000000000001000081`.
-- KSM contract address: `0x0000000000000000000000000000000001000082`.
-- LKSM contract address: `0x0000000000000000000000000000000001000083`.
-
-- LP_ACA_AUSD contract address: `0x0000000000000000000000010000000000000001`.
-- LP_DOT_AUSD contract address: `0x0000000000000000000000010000000200000001`.
-- LP_LDOT_AUSD contract address: `0x0000000000000000000000010000000300000001`.
-- LP_RENBTC_AUSD contract address: `0x0000000000000000000000010000000400000001`.
-- LP_KAR_AUSD contract address: `0x0000000000000000000000010000008000000081`.
-- LP_KSM_AUSD contract address: `0x0000000000000000000000010000008200000081`.
-- LP_LKSM_AUSD contract address: `0x0000000000000000000000010000008300000081`.
+- Mirrored Token contract address: `ADDRESS.ACA`, `ADDRESS.AUSD`...(`./contracts/utils/Address.sol`)
 ```
 // Returns the currencyId of the token.
 function currencyId() public view returns (uint256);
@@ -98,7 +82,7 @@ function decreaseAllowance(address spender, uint256 subtractedValue) public retu
 These contracts make other chain-native functionalities available in Acala EVM.
 
 ### State Rent
-- StateRent contract address: `0x0000000000000000000000000000000000000801`
+- StateRent contract address: `ADDRESS.StateRent`
 ```
 // Returns the const of NewContractExtraBytes.
 function newContractExtraBytes() public view returns (uint256);
@@ -121,14 +105,14 @@ function transferMaintainer(address contract_address, address new_maintainer) pu
 ```
 
 ### Oracle Price Feed
-- Oracle contract address: `0x0000000000000000000000000000000000000802`
+- Oracle contract address: `ADDRESS.Oracle`
 ```
 // Get the price of the currency_id.
 // Returns the (price, timestamp)
 function getPrice(address token) public view returns (uint256, uint256);
 ```
 ### On-chain Automatic Scheduler
-- ScheduleCall contract address: `0x0000000000000000000000000000000000000803`
+- ScheduleCall contract address: `ADDRESS.Schedule`
 ```
 // Schedule call the contract.
 // Returns a bytes value equal to the task_id of the task created.
@@ -144,7 +128,7 @@ function rescheduleCall(uint256 min_delay, bytes memory task_id) public returns 
 ```
 
 ### DEX
-- DEX contract address: `0x0000000000000000000000000000000000000804`
+- DEX contract address: `ADDRESS.DEX`
 ```
 // Get liquidity of the currency_id_a and currency_id_b.
 // Returns (liquidity_a, liquidity_b)
