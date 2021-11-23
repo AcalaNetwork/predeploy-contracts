@@ -27,9 +27,9 @@ jobs:
           yarn run generate-bytecode
           cd contracts
           version=$(yarn versions --json | jq -er '.data."@acala-network/contracts"')
-          if [ $(yarn info '@acala-network/contracts' versions --json | jq -er ".data|any(. == \"$version\")") ]
+          if [ $(yarn info '@acala-network/contracts' versions --json | jq -er ".data|any(. == \"$version\")") == false ]
           then
-              # publish prepare
+              # prepare
               yarn run prepare
               # publish
               yarn publish --verbose --new-version=$version --access=public
