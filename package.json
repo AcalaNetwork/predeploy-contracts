@@ -10,7 +10,7 @@
     "truffle-compile": "truffle compile"
   },
   "dependencies": {
-    "@openzeppelin/contracts": "4.3.3",
+    "@openzeppelin/contracts": "4.4.1",
     "ethers": "^5.0.32",
     "handlebars": "^4.7.7"
   },
