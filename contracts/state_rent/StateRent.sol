@@ -103,4 +103,24 @@ contract StateRent is IStateRent {
         emit TransferredMaintainer(contract_address, new_maintainer);
         return true;
     }
+
+    /**
+     * @dev Deploy the contract.
+     * Returns a boolean value indicating whether the operation succeeded.
+     */
+    function deployContract(
+        address contract_address
+    ) public override returns (bool) {
+        require(contract_address != address(0), "StateRent: the contract_address is the zero address");
+
+        (bool success, bytes memory returnData) = precompile.call(abi.encodeWithSignature("deployContract(address,address)", msg.sender, contract_address));
+        assembly {
+            if eq(success, 0) {
+                revert(add(returnData, 0x20), returndatasize())
+            }
+        }
+
+        emit ContractDeployed(contract_address);
+        return true;
+    }
 }

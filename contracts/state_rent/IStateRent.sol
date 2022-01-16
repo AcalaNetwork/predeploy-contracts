@@ -5,6 +5,8 @@ pragma solidity ^0.8.0;
 interface IStateRent {
     event TransferredMaintainer(address indexed contract_address, address indexed new_maintainer);
 
+    event ContractDeployed(address indexed contract_address);
+
     // Returns the const of NewContractExtraBytes.
     function newContractExtraBytes() external view returns (uint256);
 
@@ -23,4 +25,8 @@ interface IStateRent {
     // Transfer the maintainer of the contract.
     // Returns a boolean value indicating whether the operation succeeded.
     function transferMaintainer(address contract_address, address new_maintainer) external returns (bool);
+
+    // Deploy contract
+    // Returns a boolean value indicating whether the operation succeeded.
+    function deployContract(address contract_address) external returns (bool);
 }
