@@ -123,4 +123,52 @@ contract StateRent is IStateRent {
         emit ContractDeployed(contract_address);
         return true;
     }
+
+    /**
+     * @dev Returns whether the account is enabled for contract development
+     */
+    function developerStatus(
+        address account
+    ) public view override returns (bool) {
+        (bool success, bytes memory returnData) = precompile.staticcall(abi.encodeWithSignature("developerStatus(address)", account));
+        assembly {
+            if eq(success, 0) {
+                revert(add(returnData, 0x20), returndatasize())
+            }
+        }
+
+        return abi.decode(returnData, (bool));
+    }
+
+    /**
+     * @dev Enables account for development mode, taking a deposit
+     * Returns a boolean value indicating whether the operation succeeded.
+     */
+    function developerEnable() public override returns (bool) {
+        (bool success, bytes memory returnData) = precompile.call(abi.encodeWithSignature("developerEnable(address)", msg.sender));
+        assembly {
+            if eq(success, 0) {
+                revert(add(returnData, 0x20), returndatasize())
+            }
+        }
+
+        emit AccountEnabled();
+        return true;
+    }
+
+    /**
+     * @dev Disables account for development mode, returns deposit
+     * Returns a boolean value indicating whether the operation succeeded.
+     */
+    function developerDisable() public override returns (bool) {
+        (bool success, bytes memory returnData) = precompile.call(abi.encodeWithSignature("developerDisable(address)", msg.sender));
+        assembly {
+            if eq(success, 0) {
+                revert(add(returnData, 0x20), returndatasize())
+            }
+        }
+
+        emit AccountDisabled();
+        return true;
+    }
 }

@@ -7,6 +7,10 @@ interface IStateRent {
 
     event ContractDeployed(address indexed contract_address);
 
+    event AccountEnabled();
+
+    event AccountDisabled();
+
     // Returns the const of NewContractExtraBytes.
     function newContractExtraBytes() external view returns (uint256);
 
@@ -29,4 +33,17 @@ interface IStateRent {
     // Deploy contract
     // Returns a boolean value indicating whether the operation succeeded.
     function deployContract(address contract_address) external returns (bool);
+
+    // Returns if the account is enabled for developer mode
+    function developerStatus(address account) external view returns (bool);
+
+    // Enables account for development mode, taking a deposit
+    // Returns a boolean value indicating whether the operation succeeded.
+    function developerEnable() external returns (bool);
+
+    // Disables account for development mode, returns deposit
+    // Returns a boolean value indicating whether the operation succeeded.
+    function developerDisable() external returns(bool);
+
+
 }
