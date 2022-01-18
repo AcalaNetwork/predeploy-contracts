@@ -113,7 +113,7 @@ contract StateRent is IStateRent {
     ) public override returns (bool) {
         require(contract_address != address(0), "StateRent: the contract_address is the zero address");
 
-        (bool success, bytes memory returnData) = precompile.call(abi.encodeWithSignature("deployContract(address,address)", msg.sender, contract_address));
+        (bool success, bytes memory returnData) = precompile.call(abi.encodeWithSignature("publishContract(address,address)", msg.sender, contract_address));
         assembly {
             if eq(success, 0) {
                 revert(add(returnData, 0x20), returndatasize())
