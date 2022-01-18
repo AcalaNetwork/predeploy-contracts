@@ -7,9 +7,9 @@ interface IStateRent {
 
     event ContractDeployed(address indexed contract_address);
 
-    event AccountEnabled(address indexed account_address);
+    event DeveloperEnabled(address indexed account_address);
 
-    event AccountDisabled(address indexed account_address);
+    event DeveloperDisabled(address indexed account_address);
 
     // Returns the const of NewContractExtraBytes.
     function newContractExtraBytes() external view returns (uint256);
@@ -44,6 +44,4 @@ interface IStateRent {
     // Disables account for development mode, returns deposit
     // Returns a boolean value indicating whether the operation succeeded.
     function developerDisable() external returns(bool);
-
-
 }

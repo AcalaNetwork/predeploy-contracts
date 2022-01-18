@@ -152,7 +152,7 @@ contract StateRent is IStateRent {
             }
         }
 
-        emit AccountEnabled(msg.sender);
+        emit DeveloperEnabled(msg.sender);
         return true;
     }
 
@@ -168,7 +168,7 @@ contract StateRent is IStateRent {
             }
         }
 
-        emit AccountDisabled(msg.sender);
+        emit DeveloperDisabled(msg.sender);
         return true;
     }
 }
