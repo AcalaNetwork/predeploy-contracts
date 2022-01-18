@@ -7,9 +7,9 @@ interface IStateRent {
 
     event ContractDeployed(address indexed contract_address);
 
-    event AccountEnabled();
+    event AccountEnabled(address indexed account_address);
 
-    event AccountDisabled();
+    event AccountDisabled(address indexed account_address);
 
     // Returns the const of NewContractExtraBytes.
     function newContractExtraBytes() external view returns (uint256);
