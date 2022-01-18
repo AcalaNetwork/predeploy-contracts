@@ -105,10 +105,10 @@ contract StateRent is IStateRent {
     }
 
     /**
-     * @dev Deploy the contract.
+     * @dev Publishes contract from development mode to production.
      * Returns a boolean value indicating whether the operation succeeded.
      */
-    function deployContract(
+    function publishContract(
         address contract_address
     ) public override returns (bool) {
         require(contract_address != address(0), "StateRent: the contract_address is the zero address");

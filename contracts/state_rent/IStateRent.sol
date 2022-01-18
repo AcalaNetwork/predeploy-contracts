@@ -32,7 +32,7 @@ interface IStateRent {
 
     // Deploy contract
     // Returns a boolean value indicating whether the operation succeeded.
-    function deployContract(address contract_address) external returns (bool);
+    function publishContract(address contract_address) external returns (bool);
 
     // Returns if the account is enabled for developer mode
     function developerStatus(address account) external view returns (bool);
@@ -43,5 +43,5 @@ interface IStateRent {
 
     // Disables account for development mode, returns deposit
     // Returns a boolean value indicating whether the operation succeeded.
-    function developerDisable() external returns(bool);
+    function developerDisable() external returns (bool);
 }
