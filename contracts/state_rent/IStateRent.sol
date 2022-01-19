@@ -5,7 +5,7 @@ pragma solidity ^0.8.0;
 interface IStateRent {
     event TransferredMaintainer(address indexed contract_address, address indexed new_maintainer);
 
-    event ContractDeployed(address indexed contract_address);
+    event ContractPublished(address indexed contract_address);
 
     event DeveloperEnabled(address indexed account_address);
 
@@ -23,14 +23,14 @@ interface IStateRent {
     // Returns the const of DeveloperDeposit.
     function developerDeposit() external view returns (uint256);
 
-    // Returns the const of DeploymentFee.
-    function deploymentFee() external view returns (uint256);
+    // Returns the const of PublicationFee.
+    function publicationFee() external view returns (uint256);
 
     // Transfer the maintainer of the contract.
     // Returns a boolean value indicating whether the operation succeeded.
     function transferMaintainer(address contract_address, address new_maintainer) external returns (bool);
 
-    // Deploy contract
+    // Publish contract
     // Returns a boolean value indicating whether the operation succeeded.
     function publishContract(address contract_address) external returns (bool);
 

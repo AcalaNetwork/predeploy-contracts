@@ -69,10 +69,10 @@ contract StateRent is IStateRent {
     }
 
     /**
-     * @dev Returns the const of DeploymentFee.
+     * @dev Returns the const of PublicationFee.
      */
-    function deploymentFee() public view override returns (uint256) {
-        (bool success, bytes memory returnData) = precompile.staticcall(abi.encodeWithSignature("deploymentFee()"));
+    function publicationFee() public view override returns (uint256) {
+        (bool success, bytes memory returnData) = precompile.staticcall(abi.encodeWithSignature("publicationFee()"));
         assembly {
             if eq(success, 0) {
                 revert(add(returnData, 0x20), returndatasize())
@@ -120,7 +120,7 @@ contract StateRent is IStateRent {
             }
         }
 
-        emit ContractDeployed(contract_address);
+        emit ContractPublished(contract_address);
         return true;
     }
 
