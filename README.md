@@ -96,8 +96,8 @@ function maintainerOf(address contract_address) public view returns (address);
 // Returns the const of DeveloperDeposit.
 function developerDeposit() public view returns (uint256);
 
-// Returns the const of DeploymentFee.
-function deploymentFee() public view returns (uint256);
+// Returns the const of PublicationFee.
+function publicationFee() public view returns (uint256);
 
 // Transfer the maintainer of the contract.
 // Returns a boolean value indicating whether the operation succeeded.
