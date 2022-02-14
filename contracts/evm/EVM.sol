@@ -2,9 +2,9 @@
 
 pragma solidity ^0.7.0;
 
-import "./IStateRent.sol";
+import "./IEVM.sol";
 
-contract StateRent is IStateRent {
+contract EVM is IEVM {
     address constant private precompile = address(0x0000000000000000000000000000000000000402);
 
     /**
@@ -90,8 +90,8 @@ contract StateRent is IStateRent {
         address contract_address,
         address new_maintainer
     ) public override returns (bool) {
-        require(contract_address != address(0), "StateRent: the contract_address is the zero address");
-        require(new_maintainer != address(0), "StateRent: the new_maintainer is the zero address");
+        require(contract_address != address(0), "EVM: the contract_address is the zero address");
+        require(new_maintainer != address(0), "EVM: the new_maintainer is the zero address");
 
         (bool success, bytes memory returnData) = precompile.call(abi.encodeWithSignature("transferMaintainer(address,address,address)", msg.sender, contract_address, new_maintainer));
         assembly {
@@ -111,7 +111,7 @@ contract StateRent is IStateRent {
     function publishContract(
         address contract_address
     ) public override returns (bool) {
-        require(contract_address != address(0), "StateRent: the contract_address is the zero address");
+        require(contract_address != address(0), "EVM: the contract_address is the zero address");
 
         (bool success, bytes memory returnData) = precompile.call(abi.encodeWithSignature("publishContract(address,address)", msg.sender, contract_address));
         assembly {
