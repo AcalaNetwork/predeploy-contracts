@@ -40,9 +40,9 @@ const generate = async () => {
   const { bytecode: token } = require(`../build/contracts/Token.json`);
   bytecodes.push(['Token', address(PREDEPLOY_ADDRESS_START, 0), token]);
 
-  // add StateRent bytecodes
-  const { bytecode: stateRent } = require(`../build/contracts/StateRent.json`);
-  bytecodes.push(['StateRent', address(PREDEPLOY_ADDRESS_START, 1), stateRent]);
+  // add EVM bytecodes
+  const { bytecode: evm } = require(`../build/contracts/EVM.json`);
+  bytecodes.push(['EVM', address(PREDEPLOY_ADDRESS_START, 1), evm]);
 
   // add Oracle bytecodes
   const { bytecode: oracle } = require(`../build/contracts/Oracle.json`);
