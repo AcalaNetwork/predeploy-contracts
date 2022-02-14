@@ -81,8 +81,8 @@ function decreaseAllowance(address spender, uint256 subtractedValue) public retu
 ## Other System Contracts:
 These contracts make other chain-native functionalities available in Acala EVM.
 
-### State Rent
-- StateRent contract address: `ADDRESS.StateRent`
+### EVM
+- EVM contract address: `ADDRESS.EVM`
 ```
 // Returns the const of NewContractExtraBytes.
 function newContractExtraBytes() public view returns (uint256);

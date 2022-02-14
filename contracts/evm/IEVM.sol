@@ -2,7 +2,7 @@
 
 pragma solidity ^0.8.0;
 
-interface IStateRent {
+interface IEVM {
     event TransferredMaintainer(address indexed contract_address, address indexed new_maintainer);
 
     event ContractPublished(address indexed contract_address);
