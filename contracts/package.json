@@ -1,6 +1,6 @@
 {
   "name": "@acala-network/contracts",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "AcalaNetwork Smart Contract library for Solidity",
   "files": [
     "**/*.js",
