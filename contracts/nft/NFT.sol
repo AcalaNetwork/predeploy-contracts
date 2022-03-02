@@ -32,12 +32,11 @@ library NFT {
     }
 
     function transfer(
-        address from,
         address to,
         uint256 class_id,
         uint256 token_id
     ) public {
-        (bool success, bytes memory returnData) = precompile.call(abi.encodeWithSignature("transfer(address,address,uint256,uint256)", from, to, class_id, token_id));
+        (bool success, bytes memory returnData) = precompile.call(abi.encodeWithSignature("transfer(address,address,uint256,uint256)", msg.sender, to, class_id, token_id));
         assembly {
             if eq(success, 0) {
                 revert(add(returnData, 0x20), returndatasize())
