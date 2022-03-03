@@ -10,18 +10,6 @@ const readFile = util.promisify(fs.readFile);
 const writeFile = util.promisify(fs.writeFile);
 const exec = util.promisify(childProcess.exec);
 
-// Ethereum precompiles
-// 0 - 0x400
-// Acala precompiles
-// 0x400 - 0x800
-const PREDEPLOY_ADDRESS_START = 0x800;
-
-function address(start, offset) {
-  const address = BigNumber.from(start).add(offset).toHexString().slice(2).padStart(40,0);
-  // Returns address as a Checksum Address.
-  return ethers.utils.getAddress(address);
-}
-
 const generate = async () => {
   const tokensFile = path.join(__dirname, '../resources', 'tokens.json');
   const bytecodesFile = path.join(__dirname, '../resources', 'bytecodes.json');
@@ -38,23 +26,27 @@ const generate = async () => {
 
   let bytecodes = [];
   const { bytecode: token } = require(`../build/contracts/Token.json`);
-  bytecodes.push(['Token', address(PREDEPLOY_ADDRESS_START, 0), token]);
+  bytecodes.push(['Token', ethers.utils.getAddress('0x0000000000000000000000000000000000000800'), token]);
+
+  // add NFT bytecodes
+  const { bytecode: nft } = require(`../build/contracts/NFT.json`);
+  bytecodes.push(['NFT', ethers.utils.getAddress('0x0000000000000000000000000000000000000801'), nft]);
 
   // add EVM bytecodes
   const { bytecode: evm } = require(`../build/contracts/EVM.json`);
-  bytecodes.push(['EVM', address(PREDEPLOY_ADDRESS_START, 1), evm]);
+  bytecodes.push(['EVM', ethers.utils.getAddress('0x0000000000000000000000000000000000000802'), evm]);
 
   // add Oracle bytecodes
   const { bytecode: oracle } = require(`../build/contracts/Oracle.json`);
-  bytecodes.push(['Oracle', address(PREDEPLOY_ADDRESS_START, 2), oracle]);
+  bytecodes.push(['Oracle', ethers.utils.getAddress('0x0000000000000000000000000000000000000803'), oracle]);
 
   // add Schedule bytecodes
   const { bytecode: schedule } = require(`../build/contracts/Schedule.json`);
-  bytecodes.push(['Schedule', address(PREDEPLOY_ADDRESS_START, 3), schedule]);
+  bytecodes.push(['Schedule', ethers.utils.getAddress('0x0000000000000000000000000000000000000804'), schedule]);
 
   // add DEX bytecodes
   const { bytecode: dex } = require(`../build/contracts/DEX.json`);
-  bytecodes.push(['DEX', address(PREDEPLOY_ADDRESS_START, 4), dex]);
+  bytecodes.push(['DEX', ethers.utils.getAddress('0x0000000000000000000000000000000000000805'), dex]);
 
   // merge tokenList into bytecodes
   bytecodes = tokenList.concat(bytecodes);
