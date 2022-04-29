@@ -8,6 +8,8 @@
   "scripts": {
     "clena": "hardhat clean",
     "build": "hardhat compile",
+    "test": "hardhat run --network hardhat scripts/deploy.ts",
+    "test-mandala": "hardhat run --network mandala scripts/deploy.ts",
     "typechain": "hardhat typechain",
     "generate-bytecode": "hardhat run generate/generate.js"
   },

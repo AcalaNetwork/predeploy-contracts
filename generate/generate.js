@@ -3,7 +3,7 @@ const path = require('path');
 const util = require('util');
 const childProcess = require('child_process');
 const Handlebars = require("handlebars");
-const { ethers, BigNumber } = require("ethers");
+const { ethers, BigNumber } = require("hardhat");
 const hre = require("hardhat")
 
 const writeFile = util.promisify(fs.writeFile);
