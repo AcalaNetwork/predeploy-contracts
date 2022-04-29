@@ -6,7 +6,7 @@
   "author": "Shaopeng Wang <spxwang@gmail.com>",
   "license": "Apache-2.0",
   "scripts": {
-    "clena": "hardhat clean",
+    "clean": "hardhat clean",
     "build": "hardhat compile",
     "test": "hardhat run --network hardhat scripts/deploy.ts",
     "test-mandala": "hardhat run --network mandala scripts/deploy.ts",
