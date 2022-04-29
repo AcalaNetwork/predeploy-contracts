@@ -3,10 +3,9 @@ const path = require('path');
 const util = require('util');
 const childProcess = require('child_process');
 const Handlebars = require("handlebars");
-const { ethers, BigNumber } = require("ethers");
+const { ethers, BigNumber } = require("hardhat");
+const hre = require("hardhat")
 
-const copyFile = util.promisify(fs.copyFile);
-const readFile = util.promisify(fs.readFile);
 const writeFile = util.promisify(fs.writeFile);
 const exec = util.promisify(childProcess.exec);
 
@@ -18,28 +17,29 @@ const generate = async () => {
   const tokens = require(tokensFile);
 
   // compile to generate contracts json.
-  await exec('yarn truffle-compile');
+  await exec('yarn build');
 
-  const { bytecode: token } = require(`../build/contracts/Token.json`);
+  const { bytecode: token } = await hre.artifacts.readArtifact("Token");
   const tokenList = tokens.reduce((output, { symbol, address }) => {
     return [...output, [symbol, ethers.utils.getAddress(address), token]];
   }, []);
 
   let bytecodes = [];
+
   // add EVM bytecodes
-  const { bytecode: evm } = require(`../build/contracts/EVM.json`);
+  const { bytecode: evm } = await hre.artifacts.readArtifact("EVM");
   bytecodes.push(['EVM', ethers.utils.getAddress('0x0000000000000000000000000000000000000800'), evm]);
 
   // add Oracle bytecodes
-  const { bytecode: oracle } = require(`../build/contracts/Oracle.json`);
+  const { bytecode: oracle } = await hre.artifacts.readArtifact("Oracle");
   bytecodes.push(['Oracle', ethers.utils.getAddress('0x0000000000000000000000000000000000000801'), oracle]);
 
   // add Schedule bytecodes
-  const { bytecode: schedule } = require(`../build/contracts/Schedule.json`);
+  const { bytecode: schedule } = await hre.artifacts.readArtifact("Schedule");
   bytecodes.push(['Schedule', ethers.utils.getAddress('0x0000000000000000000000000000000000000802'), schedule]);
 
   // add DEX bytecodes
-  const { bytecode: dex } = require(`../build/contracts/DEX.json`);
+  const { bytecode: dex } = await hre.artifacts.readArtifact("DEX");
   bytecodes.push(['DEX', ethers.utils.getAddress('0x0000000000000000000000000000000000000803'), dex]);
 
   // Maybe each nft will deploy a contract, like the mirrored token.
@@ -63,7 +63,7 @@ const generate = async () => {
   await writeFile(path.join(addressDir, 'Address.js'), template(bytecodes), 'utf8');
 
   // recompile Address.sol
-  await exec('yarn truffle-compile');
+  await exec('yarn build');
 
   // generate Address.d.ts
   await exec('tsc contracts/utils/Address.js --declaration --allowJs --emitDeclarationOnly');
