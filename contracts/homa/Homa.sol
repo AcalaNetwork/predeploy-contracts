@@ -5,7 +5,7 @@ pragma solidity ^0.8.0;
 import "./IHoma.sol";
 
 contract Homa is IHoma {
-    address constant private precompile = address(0x0000000000000000000000000000000000000406);
+    address constant private precompile = address(0x0000000000000000000000000000000000000407);
 
     /**
      * @dev Mint liquid staking currency using staking currency
@@ -47,7 +47,6 @@ contract Homa is IHoma {
 
         emit RequestedRedeem(msg.sender, redeemAmount, fastMatch);
         return true;
-
     }
 
     /**
