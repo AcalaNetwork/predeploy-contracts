@@ -25,7 +25,7 @@ contract EVMAccounts is IEVMAccounts {
      * @dev Returns the EvmAddress associated with a given AccountId or the underlying EvmAddress of the AccountId.
      */
     function getEvmAddress(string memory account_id) public view override returns (address) {
-        (bool success, bytes memory returnData) = precompile.staticcall(abi.encodeWithSignature("getEvmAddress(bytes)", account_id));
+        (bool success, bytes memory returnData) = precompile.staticcall(abi.encodeWithSignature("getEvmAddress(string)", account_id));
         assembly {
             if eq(success, 0) {
                 revert(add(returnData, 0x20), returndatasize())
