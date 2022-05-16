@@ -5,7 +5,7 @@ pragma solidity ^0.8.0;
 import "./IEVMAccounts.sol";
 
 contract EVMAccounts is IEVMAccounts {
-    address constant private precompile = address(0x0000000000000000000000000000000000000407);
+    address constant private precompile = address(0x0000000000000000000000000000000000000408);
 
     /**
      * @dev Returns the AccountId used to generate the given EvmAddress.
