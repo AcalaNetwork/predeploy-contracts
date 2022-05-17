@@ -10,8 +10,8 @@ contract EVMAccounts is IEVMAccounts {
     /**
      * @dev Returns the AccountId used to generate the given EvmAddress.
      */
-    function getAccountId(address account) public view override returns (bytes32) {
-        (bool success, bytes memory returnData) = precompile.staticcall(abi.encodeWithSignature("getAccountId(address)", account));
+    function getAccountId(address evmAddress) public view override returns (bytes32) {
+        (bool success, bytes memory returnData) = precompile.staticcall(abi.encodeWithSignature("getAccountId(address)", evmAddress));
         assembly {
             if eq(success, 0) {
                 revert(add(returnData, 0x20), returndatasize())
@@ -24,8 +24,8 @@ contract EVMAccounts is IEVMAccounts {
     /**
      * @dev Returns the EvmAddress associated with a given AccountId or the underlying EvmAddress of the AccountId.
      */
-    function getEvmAddress(bytes32 account) public view override returns (address) {
-        (bool success, bytes memory returnData) = precompile.staticcall(abi.encodeWithSignature("getEvmAddress(bytes32)", account));
+    function getEvmAddress(bytes32 accountId) public view override returns (address) {
+        (bool success, bytes memory returnData) = precompile.staticcall(abi.encodeWithSignature("getEvmAddress(bytes32)", accountId));
         assembly {
             if eq(success, 0) {
                 revert(add(returnData, 0x20), returndatasize())

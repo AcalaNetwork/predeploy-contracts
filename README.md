@@ -206,10 +206,10 @@ function removeLiquidity(address tokenA, address tokenB, uint256 removeShare) ex
 - EVMAccounts contact address: `ADDRESS.EVMAccounts`
 ```
     // Returns the AccountId used to generate the given EvmAddress.
-    function getAccountId(address account) external view returns (bytes32);
+    function getAccountId(address evmAddress) external view returns (bytes32);
 
     // Returns the EvmAddress associated with a given AccountId or the underlying EvmAddress of the AccountId.
-    function getEvmAddress(bytes32 account) external view returns (address);
+    function getEvmAddress(bytes32 accountId) external view returns (address);
 ```
 
 ## DeFi Contracts (Coming Soon)
