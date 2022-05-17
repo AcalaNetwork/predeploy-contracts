@@ -47,6 +47,9 @@ const generate = async () => {
   // const { bytecode: nft } = require(`../build/contracts/NFT.json`);
   // bytecodes.push(['NFT', ethers.utils.getAddress('0x0000000000000000000000000000000000000804'), nft]);
 
+  const { bytecode: homa } = await hre.artifacts.readArtifact("Homa");
+  bytecodes.push(['Homa', ethers.utils.getAddress('0x0000000000000000000000000000000000000805'), homa]);
+
   // merge tokenList into bytecodes
   bytecodes = tokenList.concat(bytecodes);
 
