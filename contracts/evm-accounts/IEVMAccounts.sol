@@ -4,8 +4,8 @@ pragma solidity ^0.8.0;
 
 interface IEVMAccounts {
     // Returns the AccountId used to generate the given EvmAddress.
-    function getAccountId(address account) external view returns (string memory);
+    function getAccountId(address account) external view returns (bytes32);
 
     // Returns the EvmAddress associated with a given AccountId or the underlying EvmAddress of the AccountId.
-    function getEvmAddress(string memory account_id) external view returns (address);
+    function getEvmAddress(bytes32 account) external view returns (address);
 }

@@ -46,6 +46,10 @@ const generate = async () => {
   // const { bytecode: stableAsset } = await hre.artifacts.readArtifact("StableAsset");
   // bytecodes.push(['StableAsset', ethers.utils.getAddress('0x0000000000000000000000000000000000000804'), stableAsset]);
 
+  // add Homa bytecodes
+  const { bytecode: homa } = await hre.artifacts.readArtifact("Homa");
+  bytecodes.push(['Homa', ethers.utils.getAddress('0x0000000000000000000000000000000000000805'), homa]);
+  
   // add EVMAccounts bytecodes
   const { bytecode: evmAccounts } = await hre.artifacts.readArtifact("EVMAccounts");
   bytecodes.push(['EVMAccounts', ethers.utils.getAddress('0x0000000000000000000000000000000000000806'), evmAccounts]);
@@ -53,7 +57,7 @@ const generate = async () => {
   // Maybe each nft will deploy a contract, like the mirrored token.
   // add NFT bytecodes
   // const { bytecode: nft } = require(`../build/contracts/NFT.json`);
-  // bytecodes.push(['NFT', ethers.utils.getAddress('0x000000000000000000000000000000000000080X'), nft]);
+  // bytecodes.push(['NFT', ethers.utils.getAddress('0x00000000000000000000000000000000000008XX'), nft]);
 
   // merge tokenList into bytecodes
   bytecodes = tokenList.concat(bytecodes);
