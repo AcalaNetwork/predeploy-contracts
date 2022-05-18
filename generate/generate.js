@@ -42,13 +42,22 @@ const generate = async () => {
   const { bytecode: dex } = await hre.artifacts.readArtifact("DEX");
   bytecodes.push(['DEX', ethers.utils.getAddress('0x0000000000000000000000000000000000000803'), dex]);
 
+  // add StableAsset bytecodes
+  // const { bytecode: stableAsset } = await hre.artifacts.readArtifact("StableAsset");
+  // bytecodes.push(['StableAsset', ethers.utils.getAddress('0x0000000000000000000000000000000000000804'), stableAsset]);
+
+  // add Homa bytecodes
+  const { bytecode: homa } = await hre.artifacts.readArtifact("Homa");
+  bytecodes.push(['Homa', ethers.utils.getAddress('0x0000000000000000000000000000000000000805'), homa]);
+  
+  // add EVMAccounts bytecodes
+  const { bytecode: evmAccounts } = await hre.artifacts.readArtifact("EVMAccounts");
+  bytecodes.push(['EVMAccounts', ethers.utils.getAddress('0x0000000000000000000000000000000000000806'), evmAccounts]);
+
   // Maybe each nft will deploy a contract, like the mirrored token.
   // add NFT bytecodes
   // const { bytecode: nft } = require(`../build/contracts/NFT.json`);
-  // bytecodes.push(['NFT', ethers.utils.getAddress('0x0000000000000000000000000000000000000804'), nft]);
-
-  const { bytecode: homa } = await hre.artifacts.readArtifact("Homa");
-  bytecodes.push(['Homa', ethers.utils.getAddress('0x0000000000000000000000000000000000000805'), homa]);
+  // bytecodes.push(['NFT', ethers.utils.getAddress('0x00000000000000000000000000000000000008XX'), nft]);
 
   // merge tokenList into bytecodes
   bytecodes = tokenList.concat(bytecodes);

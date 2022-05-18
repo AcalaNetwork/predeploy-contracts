@@ -202,5 +202,15 @@ function removeLiquidity(address tokenA, address tokenB, uint256 removeShare) ex
     function getFastMatchFee() external view returns (uint256);
 ```
 
+### EVM Accounts
+- EVMAccounts contact address: `ADDRESS.EVMAccounts`
+```
+    // Returns the AccountId used to generate the given EvmAddress.
+    function getAccountId(address evmAddress) external view returns (bytes32);
+
+    // Returns the EvmAddress associated with a given AccountId or the underlying EvmAddress of the AccountId.
+    function getEvmAddress(bytes32 accountId) external view returns (address);
+```
+
 ## DeFi Contracts (Coming Soon)
 These contracts will make Acala's DeFi primitives (stablecoin, staking derivative, and DeX) available in Acala EVM.
