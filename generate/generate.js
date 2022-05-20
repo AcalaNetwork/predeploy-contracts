@@ -49,10 +49,14 @@ const generate = async () => {
   // add Homa bytecodes
   const { bytecode: homa } = await hre.artifacts.readArtifact("Homa");
   bytecodes.push(['Homa', ethers.utils.getAddress('0x0000000000000000000000000000000000000805'), homa]);
-  
+
   // add EVMAccounts bytecodes
   const { bytecode: evmAccounts } = await hre.artifacts.readArtifact("EVMAccounts");
   bytecodes.push(['EVMAccounts', ethers.utils.getAddress('0x0000000000000000000000000000000000000806'), evmAccounts]);
+
+  // add Honzon bytecodes
+  const { bytecode: honzon } = await hre.artifacts.readArtifact("Honzon");
+  bytecodes.push(['Honzon', ethers.utils.getAddress('0x0000000000000000000000000000000000000807'), honzon]);
 
   // Maybe each nft will deploy a contract, like the mirrored token.
   // add NFT bytecodes
