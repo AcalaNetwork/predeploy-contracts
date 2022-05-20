@@ -6,13 +6,23 @@ interface IHonzon {
     event AdjustedLoan(address indexed sender, address indexed currencyId, int256 collateralAdjustment, int256 debitAdjustment);
     event ClosedLoanByDex(address indexed sender, address indexed currencyId);
 
+    // Adjust CDP position
+    // Returns a boolean value indicating whether the operation succeeded.
     function adjustLoan(address currencyId, int256 collateralAdjustment, int256 debitAdjustment) external returns (bool);
 
+    // Close CDP position with DEX
+    // Returns a boolean value indicating whether the operation succeeded.
     function closeLoanByDex(address currencyId, uint256 maxCollateralAmount) external returns (bool);
 
+    // Get an open CDP position
+    // returns (collateral_amount, debit_amount)
     function getPosition(address who, address currencyId) external view returns (uint256, uint256);
 
+    // Get liquidation ratio for a currencyId
+    // returns (liquidation_ratio) is a FixedU128 representing a decimal value
     function getLiquidationRatio(address currencyId) external view returns (uint256);
 
+    // Get current collateral ratio for a particular CDP position
+    // returns (current_collateral_ratio) is a FixedU128 representing a decimal value
     function getCurrentCollateralRatio(address who, address currencyId) external view returns (uint256);
 }

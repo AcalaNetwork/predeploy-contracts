@@ -7,6 +7,10 @@ import "./IHonzon.sol";
 contract Honzon is IHonzon {
     address constant private precompile = address(0x0000000000000000000000000000000000000409);
 
+    /**
+     * @dev Adjust CDP position
+     * Returns a boolean value indicating whether the operation succeeded.
+     */
     function adjustLoan(address currencyId, int256 collateralAdjustment, int256 debitAdjustment)
     public
     override
@@ -24,6 +28,10 @@ contract Honzon is IHonzon {
         return true;
     }
 
+    /**
+     * @dev Close CDP position using DEX
+     * Returns a boolean value indicating whether the operation succeeded.
+     */
     function closeLoanByDex(address currencyId, uint256 maxCollateralAmount)
     public
     override
@@ -39,6 +47,10 @@ contract Honzon is IHonzon {
         return true;
     }
 
+    /**
+     * @dev Get open CDP position
+     * Returns (collateral_amount, debit_amount)
+     */
     function getPosition(address who, address currencyId)
     public
     view
@@ -54,6 +66,10 @@ contract Honzon is IHonzon {
         return abi.decode(returnData, (uint256, uint256));
     }
 
+    /**
+     * @dev Get liquidation ratio for a currency
+     * Returns (liquidation_ratio), value is FixedU128 with a range of [0.000000000000000000, 340282366920938463463.374607431768211455]
+     */
     function getLiquidationRatio(address currencyId)
     public
     view
@@ -69,6 +85,10 @@ contract Honzon is IHonzon {
         return abi.decode(returnData, (uint256));
     }
 
+    /**
+     * @dev Get collateral ratio for an open CDP position
+     * Returns (collateral_ratio), value is FixedU128 with a range of [0.000000000000000000, 340282366920938463463.374607431768211455]
+     */
     function getCurrentCollateralRatio(address who, address currencyId)
     public
     view
