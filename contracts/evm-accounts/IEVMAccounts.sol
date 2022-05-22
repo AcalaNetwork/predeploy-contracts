@@ -8,4 +8,7 @@ interface IEVMAccounts {
 
     // Returns the EvmAddress associated with a given AccountId or the underlying EvmAddress of the AccountId.
     function getEvmAddress(bytes32 accountId) external view returns (address);
+
+    // Returns the EvmAddress associated with a given AccountId and generates an account mapping if no association exists.
+    function getOrCreateEvmAddress(bytes32 accountId) external returns (address);
 }
