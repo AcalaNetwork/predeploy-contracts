@@ -17,7 +17,7 @@ contract Honzon is IHonzon {
     returns (bool) {
         require(collateralAdjustment != 0 && debitAdjustment != 0, "Honzon: adjustment amounts are zero");
 
-        (bool success, bytes memory returnData) = precompile.staticcall(abi.encodeWithSignature("adjustLoan(address,address,int256,int256)", msg.sender, currencyId, collateralAdjustment, debitAdjustment));
+        (bool success, bytes memory returnData) = precompile.call(abi.encodeWithSignature("adjustLoan(address,address,int256,int256)", msg.sender, currencyId, collateralAdjustment, debitAdjustment));
         assembly {
             if eq(success, 0) {
                 revert(add(returnData, 0x20), returndatasize())
@@ -36,7 +36,7 @@ contract Honzon is IHonzon {
     public
     override
     returns (bool) {
-        (bool success, bytes memory returnData) = precompile.staticcall(abi.encodeWithSignature("closeLoanByDex(address,address,uint256)", msg.sender, currencyId, maxCollateralAmount));
+        (bool success, bytes memory returnData) = precompile.call(abi.encodeWithSignature("closeLoanByDex(address,address,uint256)", msg.sender, currencyId, maxCollateralAmount));
         assembly {
             if eq(success, 0) {
                 revert(add(returnData, 0x20), returndatasize())
