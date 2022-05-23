@@ -213,7 +213,7 @@ function removeLiquidity(address tokenA, address tokenB, uint256 removeShare) ex
     // Returns the EvmAddress associated with a given AccountId or the underlying EvmAddress of the AccountId.
     function getEvmAddress(bytes32 accountId) external view returns (address);
 
-    // Returns the EvmAddress associated with a given AccountId and generates an account mapping if no association exists.
+    // Claim account mapping between AccountId and a generated EvmAddress based off of the AccountId.
     function claimDefaultEvmAddress(bytes32 accountId) external returns (bool);
 ```
 

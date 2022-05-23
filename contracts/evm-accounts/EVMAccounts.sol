@@ -36,7 +36,7 @@ contract EVMAccounts is IEVMAccounts {
     }
 
     /**
-     * @dev Returns the EvmAddress associated with a given AccountId and generates an account mapping if no association exists.
+     * @dev Claim account mapping between AccountId and a generated EvmAddress based off of the AccountId.
      */
     function claimDefaultEvmAddress(bytes32 accountId) public override returns (bool) {
         (bool success, bytes memory returnData) = precompile.call(abi.encodeWithSignature("claimDefaultEvmAddress(bytes32)", accountId));
