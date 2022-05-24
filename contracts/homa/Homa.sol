@@ -17,7 +17,7 @@ contract Homa is IHoma {
     returns (bool) {
         require(mintAmount != 0, "Homa: mintAmount is zero");
 
-        (bool success, bytes memory returnData) = precompile.staticcall(abi.encodeWithSignature("mint(address,uint256)", msg.sender, mintAmount));
+        (bool success, bytes memory returnData) = precompile.call(abi.encodeWithSignature("mint(address,uint256)", msg.sender, mintAmount));
         assembly {
             if eq(success, 0) {
                 revert(add(returnData, 0x20), returndatasize())
@@ -38,7 +38,7 @@ contract Homa is IHoma {
     returns (bool) {
         require(redeemAmount != 0, "Homa: redeemAmount is zero");
 
-        (bool success, bytes memory returnData) = precompile.staticcall(abi.encodeWithSignature("requestRedeem(address,uint256,bool)", msg.sender, redeemAmount, fastMatch));
+        (bool success, bytes memory returnData) = precompile.call(abi.encodeWithSignature("requestRedeem(address,uint256,bool)", msg.sender, redeemAmount, fastMatch));
         assembly {
             if eq(success, 0) {
                 revert(add(returnData, 0x20), returndatasize())

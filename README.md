@@ -177,39 +177,44 @@ function removeLiquidity(address tokenA, address tokenB, uint256 removeShare) ex
 ### Homa Liquid Staking Protocol
 - Homa contact address: `ADDRESS.Homa`
 ```
-    // Mint liquid currency with staking currency.
-    // Returns a boolean value indicating whether the operation succeeded.
-    function mint(uint256 mintAmount) external returns (bool);
+// Mint liquid currency with staking currency.
+// Returns a boolean value indicating whether the operation succeeded.
+function mint(uint256 mintAmount) external returns (bool);
 
-    // Request to redeem liquid curency for staking currency
-    // Returns a boolean value indicating whether the operation succeeded.
-    function requestRedeem(uint256 redeemAmount, bool fastMatch) external returns (bool);
+// Request to redeem liquid curency for staking currency
+// Returns a boolean value indicating whether the operation succeeded.
+function requestRedeem(uint256 redeemAmount, bool fastMatch) external returns (bool);
 
-    // Get exchange rate
-    // returns (exchange_rate) is a FixedU128 representing a decimal
-    function getExchangeRate() external view returns (uint256);
+// Get exchange rate
+// returns (exchange_rate) is a FixedU128 representing a decimal
+function getExchangeRate() external view returns (uint256);
 
-    // Get estimated reward rate
-    // returns (reward_rate) is a FixedU128 representing a decimal value
-    function getEstimatedRewardRate() external view returns (uint256);
+// Get estimated reward rate
+// returns (reward_rate) is a FixedU128 representing a decimal value
+function getEstimatedRewardRate() external view returns (uint256);
 
-    // Get commission rate
-    // returns (commission_rate) is a FixedU128 representing a decimal
-    function getCommissionRate() external view returns (uint256);
+// Get commission rate
+// returns (commission_rate) is a FixedU128 representing a decimal
+function getCommissionRate() external view returns (uint256);
 
-    // Get fast match fee rate
-    // returns (fast_match_fee) is a FixedU128 representing a decimal
-    function getFastMatchFee() external view returns (uint256);
+// Get fast match fee rate
+// returns (fast_match_fee) is a FixedU128 representing a decimal
+function getFastMatchFee() external view returns (uint256);
 ```
 
 ### EVM Accounts
 - EVMAccounts contact address: `ADDRESS.EVMAccounts`
 ```
-    // Returns the AccountId used to generate the given EvmAddress.
-    function getAccountId(address evmAddress) external view returns (bytes32);
+event ClaimAccount(address indexed sender, bytes32 indexed accountId, address indexed evmAddress);
 
-    // Returns the EvmAddress associated with a given AccountId or the underlying EvmAddress of the AccountId.
-    function getEvmAddress(bytes32 accountId) external view returns (address);
+// Returns the AccountId used to generate the given EvmAddress.
+function getAccountId(address evmAddress) external view returns (bytes32);
+
+// Returns the EvmAddress associated with a given AccountId or the underlying EvmAddress of the AccountId.
+function getEvmAddress(bytes32 accountId) external view returns (address);
+
+// Claim account mapping between AccountId and a generated EvmAddress based off of the AccountId.
+function claimDefaultEvmAddress(bytes32 accountId) external returns (bool);
 ```
 
 ## DeFi Contracts (Coming Soon)
