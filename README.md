@@ -146,15 +146,19 @@ function rescheduleCall(uint256 min_delay, bytes memory task_id) public returns 
 - DEX contract address: `ADDRESS.DEX`
 ```
 // Get liquidity of the currency_id_a and currency_id_b.
-// Returns (liquidity_a, liquidity_b)
+// Returns (liquidity_a, liquidity_b).
 function getLiquidity(address tokenA, address tokenB) public view returns (uint256, uint256)
 
+// Get Liquidity token address.
+// Returns (liquidity_token_address). Return address(0x0) if the liquidity token address is not mapped.
+function getLiquidityTokenAddress(address tokenA, address tokenB) external view returns (address);
+
 // Get swap target amount.
-// Returns (target_amount)
+// Returns (target_amount). Returns 0 if getting the target amount fails.
 function getSwapTargetAmount(address[] calldata path, uint256 supplyAmount) external view returns (uint256);
 
 // Get swap supply amount.
-// Returns (supply_amount)
+// Returns (supply_amount). Returns 0 if getting the supply amount fails.
 function getSwapSupplyAmount(address[] calldata path, uint256 targetAmount) external view returns (uint256);
 
 // Swap with exact supply.
@@ -207,13 +211,16 @@ function getFastMatchFee() external view returns (uint256);
 ```
 event ClaimAccount(address indexed sender, bytes32 indexed accountId, address indexed evmAddress);
 
-// Returns the AccountId used to generate the given EvmAddress.
+// Get the AccountId used to generate the given EvmAddress.
+// Returns (accountId).
 function getAccountId(address evmAddress) external view returns (bytes32);
 
 // Returns the EvmAddress associated with a given AccountId or the underlying EvmAddress of the AccountId.
+// Returns (evmAddress). Return address(0x0) if the AccountId is not mapped.
 function getEvmAddress(bytes32 accountId) external view returns (address);
 
 // Claim account mapping between AccountId and a generated EvmAddress based off of the AccountId.
+// Returns a boolean value indicating whether the operation succeeded.
 function claimDefaultEvmAddress(bytes32 accountId) external returns (bool);
 ```
 
