@@ -9,7 +9,7 @@ contract DEX is IDEX {
 
     /**
      * @dev Get liquidity pool of the currency_id_a and currency_id_b.
-     * Returns (liquidity_a, liquidity_b)
+     * Returns (liquidity_a, liquidity_b).
      */
     function getLiquidityPool(address tokenA, address tokenB)
     public
@@ -32,7 +32,7 @@ contract DEX is IDEX {
 
     /**
      * @dev Get Liquidity token address.
-     * Returns (liquidity_token_address)
+     * Returns (liquidity_token_address). Return address(0x0) if the liquidity token address is not mapped.
      */
     function getLiquidityTokenAddress(address tokenA, address tokenB)
     public
@@ -55,7 +55,7 @@ contract DEX is IDEX {
 
     /**
      * @dev Get swap target amount.
-     * Returns (target_amount)
+     * Returns (target_amount). Returns 0 if getting the target amount fails.
      */
     function getSwapTargetAmount(address[] memory path, uint256 supplyAmount)
     public
@@ -79,7 +79,7 @@ contract DEX is IDEX {
 
     /**
      * @dev Get swap supply amount.
-     * Returns (supply_amount)
+     * Returns (supply_amount). Returns 0 if getting the supply amount fails.
      */
     function getSwapSupplyAmount(address[] memory path, uint256 targetAmount)
     public

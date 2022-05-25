@@ -8,7 +8,8 @@ contract EVMAccounts is IEVMAccounts {
     address constant private precompile = address(0x0000000000000000000000000000000000000408);
 
     /**
-     * @dev Returns the AccountId used to generate the given EvmAddress.
+     * @dev Get the AccountId used to generate the given EvmAddress.
+     * Returns (accountId).
      */
     function getAccountId(address evmAddress) public view override returns (bytes32) {
         (bool success, bytes memory returnData) = precompile.staticcall(abi.encodeWithSignature("getAccountId(address)", evmAddress));
@@ -22,7 +23,8 @@ contract EVMAccounts is IEVMAccounts {
     }
 
     /**
-     * @dev Returns the EvmAddress associated with a given AccountId or the underlying EvmAddress of the AccountId.
+     * @dev Get the EvmAddress associated with a given AccountId or the underlying EvmAddress of the AccountId.
+     * Returns (evmAddress). Return address(0x0) if the AccountId is not mapped.
      */
     function getEvmAddress(bytes32 accountId) public view override returns (address) {
         (bool success, bytes memory returnData) = precompile.staticcall(abi.encodeWithSignature("getEvmAddress(bytes32)", accountId));
@@ -37,6 +39,7 @@ contract EVMAccounts is IEVMAccounts {
 
     /**
      * @dev Claim account mapping between AccountId and a generated EvmAddress based off of the AccountId.
+     * Returns a boolean value indicating whether the operation succeeded.
      */
     function claimDefaultEvmAddress(bytes32 accountId) public override returns (bool) {
         (bool success, bytes memory returnData) = precompile.call(abi.encodeWithSignature("claimDefaultEvmAddress(bytes32)", accountId));

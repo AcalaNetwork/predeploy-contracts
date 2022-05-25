@@ -8,19 +8,19 @@ interface IDEX {
     event RemovedLiquidity(address indexed sender, address indexed tokenA, address indexed tokenB, uint256 remove_share);
 
     // Get liquidity pool of the currency_id_a and currency_id_b.
-    // Returns (liquidity_a, liquidity_b)
+    // Returns (liquidity_a, liquidity_b).
     function getLiquidityPool(address tokenA, address tokenB) external view returns (uint256, uint256);
 
     // Get Liquidity token address.
-    // Returns (liquidity_token_address)
+    // Returns (liquidity_token_address). Return address(0x0) if the liquidity token address is not mapped.
     function getLiquidityTokenAddress(address tokenA, address tokenB) external view returns (address);
 
     // Get swap target amount.
-    // Returns (target_amount)
+    // Returns (target_amount). Returns 0 if getting the target amount fails.
     function getSwapTargetAmount(address[] calldata path, uint256 supplyAmount) external view returns (uint256);
 
     // Get swap supply amount.
-    // Returns (supply_amount)
+    // Returns (supply_amount). Returns 0 if getting the supply amount fails.
     function getSwapSupplyAmount(address[] calldata path, uint256 targetAmount) external view returns (uint256);
 
     // Swap with exact supply.
