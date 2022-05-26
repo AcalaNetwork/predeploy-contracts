@@ -11,13 +11,13 @@ contract Honzon is IHonzon {
      * @dev Adjust CDP position
      * Returns a boolean value indicating whether the operation succeeded.
      */
-    function adjustLoan(address currencyId, int256 collateralAdjustment, int256 debitAdjustment)
+    function adjustLoan(address currencyId, int128 collateralAdjustment, int128 debitAdjustment)
     public
     override
     returns (bool) {
         require(collateralAdjustment != 0 && debitAdjustment != 0, "Honzon: adjustment amounts are zero");
 
-        (bool success, bytes memory returnData) = precompile.call(abi.encodeWithSignature("adjustLoan(address,address,int256,int256)", msg.sender, currencyId, collateralAdjustment, debitAdjustment));
+        (bool success, bytes memory returnData) = precompile.call(abi.encodeWithSignature("adjustLoan(address,address,int128,int128)", msg.sender, currencyId, collateralAdjustment, debitAdjustment));
         assembly {
             if eq(success, 0) {
                 revert(add(returnData, 0x20), returndatasize())

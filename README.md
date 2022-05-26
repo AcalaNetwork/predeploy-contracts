@@ -222,7 +222,7 @@ function claimDefaultEvmAddress(bytes32 accountId) external returns (bool);
 ```
 // Adjust CDP position
 // Returns a boolean value indicating whether the operation succeeded.
-function adjustLoan(address currencyId, int256 collateralAdjustment, int256 debitAdjustment) external returns (bool);
+function adjustLoan(address currencyId, int128 collateralAdjustment, int128 debitAdjustment) external returns (bool);
 
 // Close CDP position with DEX
 // Returns a boolean value indicating whether the operation succeeded.
