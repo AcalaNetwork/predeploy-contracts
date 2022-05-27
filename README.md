@@ -179,7 +179,7 @@ function removeLiquidity(address tokenA, address tokenB, uint256 removeShare) ex
 ```
 
 ### Homa Liquid Staking Protocol
-- Homa contact address: `ADDRESS.Homa`
+- Homa contract address: `ADDRESS.Homa`
 ```
 // Mint liquid currency with staking currency.
 // Returns a boolean value indicating whether the operation succeeded.
@@ -207,7 +207,7 @@ function getFastMatchFee() external view returns (uint256);
 ```
 
 ### EVM Accounts
-- EVMAccounts contact address: `ADDRESS.EVMAccounts`
+- EVMAccounts contract address: `ADDRESS.EVMAccounts`
 ```
 event ClaimAccount(address indexed sender, bytes32 indexed accountId, address indexed evmAddress);
 
@@ -222,6 +222,30 @@ function getEvmAddress(bytes32 accountId) external view returns (address);
 // Claim account mapping between AccountId and a generated EvmAddress based off of the AccountId.
 // Returns a boolean value indicating whether the operation succeeded.
 function claimDefaultEvmAddress(bytes32 accountId) external returns (bool);
+```
+
+### Honzon Protocol
+- Honzon contract address: `ADDRESS.Honzon`
+```
+// Adjust CDP position
+// Returns a boolean value indicating whether the operation succeeded.
+function adjustLoan(address currencyId, int128 collateralAdjustment, int128 debitAdjustment) external returns (bool);
+
+// Close CDP position with DEX
+// Returns a boolean value indicating whether the operation succeeded.
+function closeLoanByDex(address currencyId, uint256 maxCollateralAmount) external returns (bool);
+
+// Get an open CDP position
+// returns (collateral_amount, debit_amount)
+function getPosition(address who, address currencyId) external view returns (uint256, uint256);
+
+// Get liquidation ratio for a currencyId
+// returns (liquidation_ratio) is a FixedU128 representing a decimal value
+function getLiquidationRatio(address currencyId) external view returns (uint256);
+
+// Get current collateral ratio for a particular CDP position
+// returns (current_collateral_ratio) is a FixedU128 representing a decimal value
+function getCurrentCollateralRatio(address who, address currencyId) external view returns (uint256);
 ```
 
 ## DeFi Contracts (Coming Soon)
