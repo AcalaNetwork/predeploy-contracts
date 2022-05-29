@@ -5,25 +5,27 @@
   "repository": "https://github.com/AcalaNetwork/predeploy-contracts.git",
   "author": "Shaopeng Wang <spxwang@gmail.com>",
   "license": "Apache-2.0",
+  "files": [
+    "/contracts/**/*.sol",
+    "/build/contracts/*.json",
+    "!/contracts/mocks/**/*"
+  ],
   "scripts": {
     "clean": "hardhat clean",
     "build": "hardhat compile",
     "test": "hardhat run --network hardhat scripts/deploy.ts",
     "test-mandala": "hardhat run --network mandala scripts/deploy.ts",
-    "typechain": "hardhat typechain",
+    "prepack": "scripts/prepack.sh",
     "generate-bytecode": "hardhat run generate/generate.js"
   },
   "devDependencies": {
     "@nomiclabs/hardhat-ethers": "^2.0.5",
     "@nomiclabs/hardhat-waffle": "^2.0.3",
     "@openzeppelin/contracts": "4.5.0",
-    "@typechain/ethers-v5": "^10.0.0",
-    "@typechain/hardhat": "^6.0.0",
     "ethereum-waffle": "^3.4.4",
     "handlebars": "^4.7.7",
     "hardhat": "^2.9.3",
     "ts-node": "^10.7.0",
-    "typechain": "^8.0.0",
     "typescript": "^4.6.3"
   }
 }
