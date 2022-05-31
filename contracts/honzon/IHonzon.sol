@@ -25,4 +25,8 @@ interface IHonzon {
     // Get current collateral ratio for a particular CDP position
     // returns (current_collateral_ratio) is a FixedU128 representing a decimal value
     function getCurrentCollateralRatio(address who, address currencyId) external view returns (uint256);
+
+    // Get exchange rate of debit units to debit value for a currency_id
+    // returns (exchange_rate) is a FixedU128 representing a decimal value
+    function getDebitExchangeRate(address currencyId) external view returns (uint256);
 }
