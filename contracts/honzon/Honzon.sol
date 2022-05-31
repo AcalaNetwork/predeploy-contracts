@@ -105,8 +105,8 @@ contract Honzon is IHonzon {
     }
 
     /**
-     * @dev Get Exchanger rate of debit units to debit value (AUSD)
-     * Returns (collateral_ratio), value is FixedU128 with a range of [0.000000000000000000, 340282366920938463463.374607431768211455]
+     * @dev Get Exchange rate of debit units to debit value (AUSD)
+     * Returns (exchange_rate), value is FixedU128 with a range of [0.000000000000000000, 340282366920938463463.374607431768211455]
      */
     function getDebitExchangeRate(address currencyId)
     public
