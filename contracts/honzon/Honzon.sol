@@ -103,4 +103,23 @@ contract Honzon is IHonzon {
 
         return abi.decode(returnData, (uint256));
     }
+
+    /**
+     * @dev Get Exchange rate of debit units to debit value (AUSD)
+     * Returns (exchange_rate), value is FixedU128 with a range of [0.000000000000000000, 340282366920938463463.374607431768211455]
+     */
+    function getDebitExchangeRate(address currencyId)
+    public
+    view
+    override
+    returns (uint256) {
+        (bool success, bytes memory returnData) = precompile.staticcall(abi.encodeWithSignature("getDebitExchangeRate(address)", currencyId));
+        assembly {
+            if eq(success, 0) {
+                revert(add(returnData, 0x20), returndatasize())
+            }
+        }
+
+        return abi.decode(returnData, (uint256));
+    }
 }
