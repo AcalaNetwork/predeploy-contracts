@@ -101,7 +101,7 @@ contract Incentives is InterfaceIncentives {
         return abi.decode(returnData, (uint256));
     }
 
-    function getPendingRewards(address[] memory currencyIds, PoolId pool, address poolCurrencyId, address who)
+    function getPendingRewards(address[] calldata currencyIds, PoolId pool, address poolCurrencyId, address who)
     public
     view
     override
