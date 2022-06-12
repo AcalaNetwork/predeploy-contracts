@@ -8,29 +8,31 @@ interface InterfaceIncentives {
     event ClaimedRewards(address indexed sender, PoolId pool, address indexed poolCurrencyId);
     enum PoolId { LOANS, DEX }
 
-    // Adjust CDP position
-    // Returns a boolean value indicating whether the operation succeeded.
-    function getIncentiveRewardAmount(PoolId pool, address poolCurrencyId) external view returns (uint256);
+    // Gets reward amount in `rewardCurrency` added per period
+    // Returns (reward_amount)
+    function getIncentiveRewardAmount(PoolId pool, address poolCurrencyId, address rewardCurrencyId) external view returns (uint256);
 
-    // Close CDP position with DEX
-    // Returns a boolean value indicating whether the operation succeeded.
+    // Fixed reward rate for dex reward pool per period
+    // Returns (dex_reward_rate) as a FixedU128 representing a decimal
     function getDexRewardRate(address currencyId) external view returns (uint256);
 
-    // Get an open CDP position
-    // returns (collateral_amount, debit_amount)
+    // Stake LP token to add shares to PoolId::Dex
+    // Returns a boolean value indicating whether the operation succeeded.
     function depositDexShare(address currencyId, uint128 amount) external returns (bool);
 
-    // Get liquidation ratio for a currencyId
-    // returns (liquidation_ratio) is a FixedU128 representing a decimal value
+    // Unstake LP token to remove shares from PoolId::Dex
+    // Returns a boolean value indicating whether the operation succeeded.
     function withdrawDexShare(address currencyId, uint128 amount) external returns (bool);
 
-    // Get current collateral ratio for a particular CDP position
-    // returns (current_collateral_ratio) is a FixedU128 representing a decimal value
+    // Claim all avalible multi currencies rewards for specific PoolId
+    // Returns a boolean value indicating whether the operation succeeded.
     function claimRewards(PoolId pool, address poolCurrencyId) external returns (bool);
 
-    // Get exchange rate of debit units to debit value for a currency_id
-    // returns (exchange_rate) is a FixedU128 representing a decimal value
+    // Gets deduction rate for claiming reward early
+    // returns (claim_reward_deduction_rate) as a FixedU128 representing a decimal value
     function getClaimRewardDeductionRate(PoolId pool, address poolCurrencyId) external view returns (uint256);
 
+    // Gets the pending rewards for a pool, actual reward could be deducted.
+    // returns (balances), an array of reward balances corresponding to currencyIds
     function getPendingRewards(address[] calldata currencyIds, PoolId pool, address poolCurrencyId, address who) external view returns (uint256[] memory);
 }
