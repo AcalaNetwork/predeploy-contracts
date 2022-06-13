@@ -5,7 +5,7 @@ pragma solidity ^0.8.0;
 interface InterfaceIncentives {
     event DepositedShare(address indexed sender, address indexed currencyId, uint128 amount);
     event WithdrewShare(address indexed sender, address indexed currencyId, uint128 amount);
-    event ClaimedRewards(address indexed sender, PoolId pool, address indexed poolCurrencyId);
+    event ClaimedRewards(address indexed sender, PoolId indexed pool, address indexed poolCurrencyId);
     enum PoolId { LOANS, DEX }
 
     // Gets reward amount in `rewardCurrency` added per period

@@ -55,7 +55,7 @@ contract Incentives is InterfaceIncentives {
     returns (bool) {
         require(amount != 0, "Incentives: amount is zero");
 
-        (bool success, bytes memory returnData) = precompile.staticcall(abi.encodeWithSignature("depositDexShare(address,address,uint128)", msg.sender, currencyId, amount));
+        (bool success, bytes memory returnData) = precompile.call(abi.encodeWithSignature("depositDexShare(address,address,uint128)", msg.sender, currencyId, amount));
         assembly {
             if eq(success, 0) {
                 revert(add(returnData, 0x20), returndatasize())
@@ -76,7 +76,7 @@ contract Incentives is InterfaceIncentives {
     returns (bool) {
         require(amount != 0, "Incentives: amount is zero");
 
-        (bool success, bytes memory returnData) = precompile.staticcall(abi.encodeWithSignature("withdrawDexShare(address,address,uint128)", msg.sender, currencyId, amount));
+        (bool success, bytes memory returnData) = precompile.call(abi.encodeWithSignature("withdrawDexShare(address,address,uint128)", msg.sender, currencyId, amount));
         assembly {
             if eq(success, 0) {
                 revert(add(returnData, 0x20), returndatasize())
@@ -95,7 +95,7 @@ contract Incentives is InterfaceIncentives {
     public
     override
     returns (bool) {
-        (bool success, bytes memory returnData) = precompile.staticcall(abi.encodeWithSignature("claimRewards(address,PoolId,address)", msg.sender, pool, poolCurrencyId));
+        (bool success, bytes memory returnData) = precompile.call(abi.encodeWithSignature("claimRewards(address,PoolId,address)", msg.sender, pool, poolCurrencyId));
         assembly {
             if eq(success, 0) {
                 revert(add(returnData, 0x20), returndatasize())
