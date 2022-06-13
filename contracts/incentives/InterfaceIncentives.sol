@@ -3,8 +3,8 @@
 pragma solidity ^0.8.0;
 
 interface InterfaceIncentives {
-    event DepositedShare(address indexed sender, address indexed currencyId, uint128 amount);
-    event WithdrewShare(address indexed sender, address indexed currencyId, uint128 amount);
+    event DepositedShare(address indexed sender, address indexed currencyId, uint256 amount);
+    event WithdrewShare(address indexed sender, address indexed currencyId, uint256 amount);
     event ClaimedRewards(address indexed sender, PoolId indexed pool, address indexed poolCurrencyId);
     enum PoolId { LOANS, DEX }
 
@@ -18,11 +18,11 @@ interface InterfaceIncentives {
 
     // Stake LP token to add shares to PoolId::Dex
     // Returns a boolean value indicating whether the operation succeeded.
-    function depositDexShare(address currencyId, uint128 amount) external returns (bool);
+    function depositDexShare(address currencyId, uint256 amount) external returns (bool);
 
     // Unstake LP token to remove shares from PoolId::Dex
     // Returns a boolean value indicating whether the operation succeeded.
-    function withdrawDexShare(address currencyId, uint128 amount) external returns (bool);
+    function withdrawDexShare(address currencyId, uint256 amount) external returns (bool);
 
     // Claim all avalible multi currencies rewards for specific PoolId
     // Returns a boolean value indicating whether the operation succeeded.

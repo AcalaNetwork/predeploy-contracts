@@ -49,13 +49,13 @@ contract Incentives is InterfaceIncentives {
      * @dev Stake LP token to add shares to PoolId::Dex
      * Returns a boolean value indicating whether the operation succeeded.
      */
-    function depositDexShare(address currencyId, uint128 amount)
+    function depositDexShare(address currencyId, uint256 amount)
     public
     override
     returns (bool) {
         require(amount != 0, "Incentives: amount is zero");
 
-        (bool success, bytes memory returnData) = precompile.call(abi.encodeWithSignature("depositDexShare(address,address,uint128)", msg.sender, currencyId, amount));
+        (bool success, bytes memory returnData) = precompile.call(abi.encodeWithSignature("depositDexShare(address,address,uint256)", msg.sender, currencyId, amount));
         assembly {
             if eq(success, 0) {
                 revert(add(returnData, 0x20), returndatasize())
@@ -70,13 +70,13 @@ contract Incentives is InterfaceIncentives {
      * @dev Unstake LP token to remove shares from PoolId::Dex
      * Returns a boolean value indicating whether the operation succeeded.
      */
-    function withdrawDexShare(address currencyId, uint128 amount)
+    function withdrawDexShare(address currencyId, uint256 amount)
     public
     override
     returns (bool) {
         require(amount != 0, "Incentives: amount is zero");
 
-        (bool success, bytes memory returnData) = precompile.call(abi.encodeWithSignature("withdrawDexShare(address,address,uint128)", msg.sender, currencyId, amount));
+        (bool success, bytes memory returnData) = precompile.call(abi.encodeWithSignature("withdrawDexShare(address,address,uint256)", msg.sender, currencyId, amount));
         assembly {
             if eq(success, 0) {
                 revert(add(returnData, 0x20), returndatasize())
