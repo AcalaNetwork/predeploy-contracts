@@ -267,11 +267,11 @@ function getDexRewardRate(address currencyId) external view returns (uint256);
 
 // Stake LP token to add shares to PoolId::Dex
 // Returns a boolean value indicating whether the operation succeeded.
-function depositDexShare(address currencyId, uint128 amount) external returns (bool);
+function depositDexShare(address currencyId, uint256 amount) external returns (bool);
 
 // Unstake LP token to remove shares from PoolId::Dex
 // Returns a boolean value indicating whether the operation succeeded.
-function withdrawDexShare(address currencyId, uint128 amount) external returns (bool);
+function withdrawDexShare(address currencyId, uint256 amount) external returns (bool);
 
 // Claim all avalible multi currencies rewards for specific PoolId
 // Returns a boolean value indicating whether the operation succeeded.
