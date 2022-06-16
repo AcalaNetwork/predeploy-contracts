@@ -252,5 +252,39 @@ function getCurrentCollateralRatio(address who, address currencyId) external vie
 function getDebitExchangeRate(address currencyId) external view returns (uint256);
 ```
 
+### Incentives
+- Incentives contract address: `ADDRESS.Incentives`
+```
+enum PoolId { LOANS, DEX }
+
+// Gets reward amount in `rewardCurrency` added per period
+// Returns (reward_amount)
+function getIncentiveRewardAmount(PoolId pool, address poolCurrencyId, address rewardCurrencyId) external view returns (uint256);
+
+// Fixed reward rate for dex reward pool per period
+// Returns (dex_reward_rate) as a FixedU128 representing a decimal
+function getDexRewardRate(address currencyId) external view returns (uint256);
+
+// Stake LP token to add shares to PoolId::Dex
+// Returns a boolean value indicating whether the operation succeeded.
+function depositDexShare(address currencyId, uint256 amount) external returns (bool);
+
+// Unstake LP token to remove shares from PoolId::Dex
+// Returns a boolean value indicating whether the operation succeeded.
+function withdrawDexShare(address currencyId, uint256 amount) external returns (bool);
+
+// Claim all avalible multi currencies rewards for specific PoolId
+// Returns a boolean value indicating whether the operation succeeded.
+function claimRewards(PoolId pool, address poolCurrencyId) external returns (bool);
+
+// Gets deduction rate for claiming reward early
+// returns (claim_reward_deduction_rate) as a FixedU128 representing a decimal value
+function getClaimRewardDeductionRate(PoolId pool, address poolCurrencyId) external view returns (uint256);
+
+// Gets the pending rewards for a pool, actual reward could be deducted.
+// returns (balances), an array of reward balances corresponding to currencyIds
+function getPendingRewards(address[] calldata currencyIds, PoolId pool, address poolCurrencyId, address who) external view returns (uint256[] memory);
+```
+
 ## DeFi Contracts (Coming Soon)
 These contracts will make Acala's DeFi primitives (stablecoin, staking derivative, and DeX) available in Acala EVM.
