@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-pragma solidity ^0.8.0;
+pragma solidity ^0.7.0;
 
 library MultiCurrency {
     address constant private precompile = address(0x0000000000000000000000000000000000000400);
