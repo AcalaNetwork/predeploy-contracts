@@ -10,7 +10,11 @@ interface InterfaceIncentives {
 
     // Gets reward amount in `rewardCurrency` added per period
     // Returns (reward_amount)
-    function getIncentiveRewardAmount(PoolId pool, address poolCurrencyId, address rewardCurrencyId) external view returns (uint256);
+    function getIncentiveRewardAmount(
+        PoolId pool,
+        address poolCurrencyId,
+        address rewardCurrencyId
+    ) external view returns (uint256);
 
     // Fixed reward rate for dex reward pool per period
     // Returns (dex_reward_rate) as a FixedU128 representing a decimal
@@ -34,5 +38,10 @@ interface InterfaceIncentives {
 
     // Gets the pending rewards for a pool, actual reward could be deducted.
     // returns (balances), an array of reward balances corresponding to currencyIds
-    function getPendingRewards(address[] calldata currencyIds, PoolId pool, address poolCurrencyId, address who) external view returns (uint256[] memory);
+    function getPendingRewards(
+        address[] calldata currencyIds,
+        PoolId pool,
+        address poolCurrencyId,
+        address who
+    ) external view returns (uint256[] memory);
 }

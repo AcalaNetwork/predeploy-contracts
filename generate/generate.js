@@ -65,7 +65,7 @@ const generate = async () => {
 
   // add Incentives bytecodes
   const { bytecode: incentives } = await hre.artifacts.readArtifact("Incentives");
-  bytecodes.push(['Incentives', ethers.utils.getAddress('0x0000000000000000000000000000000000000808'), incentives]);
+  bytecodes.push(['INCENTIVES', ethers.utils.getAddress('0x0000000000000000000000000000000000000808'), incentives]);
 
   // Maybe each nft will deploy a contract, like the mirrored token.
   // add NFT bytecodes

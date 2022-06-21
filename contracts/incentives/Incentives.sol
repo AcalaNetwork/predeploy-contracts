@@ -5,7 +5,7 @@ pragma solidity ^0.8.0;
 import "./InterfaceIncentives.sol";
 
 contract Incentives is InterfaceIncentives {
-    address constant private precompile = address(0x000000000000000000000000000000000000040A);
+    address constant private PRECOMPILE = address(0x000000000000000000000000000000000000040A);
 
     /**
      * @dev Gets reward amount in `rewardCurrency` added per period
@@ -16,7 +16,12 @@ contract Incentives is InterfaceIncentives {
     view
     override
     returns (uint256) {
-        (bool success, bytes memory returnData) = precompile.staticcall(abi.encodeWithSignature("getIncentiveRewardAmount(PoolId,address,address)", pool, poolCurrencyId, rewardCurrencyId));
+        (bool success, bytes memory returnData) = PRECOMPILE.staticcall(
+            abi.encodeWithSignature(
+                "getIncentiveRewardAmount(PoolId,address,address)",
+                pool, poolCurrencyId, rewardCurrencyId
+            )
+        );
         assembly {
             if eq(success, 0) {
                 revert(add(returnData, 0x20), returndatasize())
@@ -35,7 +40,9 @@ contract Incentives is InterfaceIncentives {
     view
     override
     returns (uint256) {
-        (bool success, bytes memory returnData) = precompile.staticcall(abi.encodeWithSignature("getDexRewardRate(address)", currencyId));
+        (bool success, bytes memory returnData) = PRECOMPILE.staticcall(
+            abi.encodeWithSignature("getDexRewardRate(address)", currencyId)
+        );
         assembly {
             if eq(success, 0) {
                 revert(add(returnData, 0x20), returndatasize())
@@ -55,7 +62,9 @@ contract Incentives is InterfaceIncentives {
     returns (bool) {
         require(amount != 0, "Incentives: amount is zero");
 
-        (bool success, bytes memory returnData) = precompile.call(abi.encodeWithSignature("depositDexShare(address,address,uint256)", msg.sender, currencyId, amount));
+        (bool success, bytes memory returnData) = PRECOMPILE.call(
+            abi.encodeWithSignature("depositDexShare(address,address,uint256)", msg.sender, currencyId, amount)
+        );
         assembly {
             if eq(success, 0) {
                 revert(add(returnData, 0x20), returndatasize())
@@ -76,7 +85,9 @@ contract Incentives is InterfaceIncentives {
     returns (bool) {
         require(amount != 0, "Incentives: amount is zero");
 
-        (bool success, bytes memory returnData) = precompile.call(abi.encodeWithSignature("withdrawDexShare(address,address,uint256)", msg.sender, currencyId, amount));
+        (bool success, bytes memory returnData) = PRECOMPILE.call(
+            abi.encodeWithSignature("withdrawDexShare(address,address,uint256)", msg.sender, currencyId, amount)
+        );
         assembly {
             if eq(success, 0) {
                 revert(add(returnData, 0x20), returndatasize())
@@ -95,7 +106,9 @@ contract Incentives is InterfaceIncentives {
     public
     override
     returns (bool) {
-        (bool success, bytes memory returnData) = precompile.call(abi.encodeWithSignature("claimRewards(address,PoolId,address)", msg.sender, pool, poolCurrencyId));
+        (bool success, bytes memory returnData) = PRECOMPILE.call(
+            abi.encodeWithSignature("claimRewards(address,PoolId,address)", msg.sender, pool, poolCurrencyId)
+        );
         assembly {
             if eq(success, 0) {
                 revert(add(returnData, 0x20), returndatasize())
@@ -115,7 +128,9 @@ contract Incentives is InterfaceIncentives {
     view
     override
     returns (uint256) {
-        (bool success, bytes memory returnData) = precompile.staticcall(abi.encodeWithSignature("getClaimRewardDeductionRate(PoolId,address)", pool, poolCurrencyId));
+        (bool success, bytes memory returnData) = PRECOMPILE.staticcall(
+            abi.encodeWithSignature("getClaimRewardDeductionRate(PoolId,address)", pool, poolCurrencyId)
+        );
         assembly {
             if eq(success, 0) {
                 revert(add(returnData, 0x20), returndatasize())
@@ -134,7 +149,12 @@ contract Incentives is InterfaceIncentives {
     view
     override
     returns (uint256[] memory) {
-        (bool success, bytes memory returnData) = precompile.staticcall(abi.encodeWithSignature("getPendingRewards(address[],PoolId,address,address)", currencyIds, pool, poolCurrencyId, who));
+        (bool success, bytes memory returnData) = PRECOMPILE.staticcall(
+            abi.encodeWithSignature(
+                "getPendingRewards(address[],PoolId,address,address)",
+                currencyIds, pool, poolCurrencyId, who
+            )
+        );
         assembly {
             if eq(success, 0) {
                 revert(add(returnData, 0x20), returndatasize())
