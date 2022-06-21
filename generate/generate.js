@@ -37,31 +37,31 @@ const generate = async () => {
 
   // add Oracle bytecodes
   const { bytecode: oracle } = await hre.artifacts.readArtifact("Oracle");
-  bytecodes.push(['Oracle', ethers.utils.getAddress('0x0000000000000000000000000000000000000801'), oracle]);
+  bytecodes.push(['ORACLE', ethers.utils.getAddress('0x0000000000000000000000000000000000000801'), oracle]);
 
   // add Schedule bytecodes
   const { bytecode: schedule } = await hre.artifacts.readArtifact("Schedule");
-  bytecodes.push(['Schedule', ethers.utils.getAddress('0x0000000000000000000000000000000000000802'), schedule]);
+  bytecodes.push(['SCHEDULE', ethers.utils.getAddress('0x0000000000000000000000000000000000000802'), schedule]);
 
   // add DEX bytecodes
   const { bytecode: dex } = await hre.artifacts.readArtifact("DEX");
   bytecodes.push(['DEX', ethers.utils.getAddress('0x0000000000000000000000000000000000000803'), dex]);
 
   // add StableAsset bytecodes
-  // const { bytecode: stableAsset } = await hre.artifacts.readArtifact("StableAsset");
-  // bytecodes.push(['StableAsset', ethers.utils.getAddress('0x0000000000000000000000000000000000000804'), stableAsset]);
+  const { bytecode: stableAsset } = await hre.artifacts.readArtifact("StableAsset");
+  bytecodes.push(['STABLE_ASSET', ethers.utils.getAddress('0x0000000000000000000000000000000000000804'), stableAsset]);
 
   // add Homa bytecodes
   const { bytecode: homa } = await hre.artifacts.readArtifact("Homa");
-  bytecodes.push(['Homa', ethers.utils.getAddress('0x0000000000000000000000000000000000000805'), homa]);
+  bytecodes.push(['HOMA', ethers.utils.getAddress('0x0000000000000000000000000000000000000805'), homa]);
 
   // add EVMAccounts bytecodes
   const { bytecode: evmAccounts } = await hre.artifacts.readArtifact("EVMAccounts");
-  bytecodes.push(['EVMAccounts', ethers.utils.getAddress('0x0000000000000000000000000000000000000806'), evmAccounts]);
+  bytecodes.push(['EVM_ACCOUNTS', ethers.utils.getAddress('0x0000000000000000000000000000000000000806'), evmAccounts]);
 
   // add Honzon bytecodes
   const { bytecode: honzon } = await hre.artifacts.readArtifact("Honzon");
-  bytecodes.push(['Honzon', ethers.utils.getAddress('0x0000000000000000000000000000000000000807'), honzon]);
+  bytecodes.push(['HONZON', ethers.utils.getAddress('0x0000000000000000000000000000000000000807'), honzon]);
 
   // add Incentives bytecodes
   const { bytecode: incentives } = await hre.artifacts.readArtifact("Incentives");

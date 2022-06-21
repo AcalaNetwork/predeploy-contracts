@@ -3,12 +3,21 @@
 pragma solidity ^0.8.0;
 
 interface IHonzon {
-    event AdjustedLoan(address indexed sender, address indexed currencyId, int128 collateralAdjustment, int128 debitAdjustment);
+    event AdjustedLoan(
+        address indexed sender,
+        address indexed currencyId,
+        int128 collateralAdjustment,
+        int128 debitAdjustment
+    );
     event ClosedLoanByDex(address indexed sender, address indexed currencyId);
 
     // Adjust CDP position
     // Returns a boolean value indicating whether the operation succeeded.
-    function adjustLoan(address currencyId, int128 collateralAdjustment, int128 debitAdjustment) external returns (bool);
+    function adjustLoan(
+        address currencyId,
+        int128 collateralAdjustment,
+        int128 debitAdjustment
+    ) external returns (bool);
 
     // Close CDP position with DEX
     // Returns a boolean value indicating whether the operation succeeded.

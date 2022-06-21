@@ -5,7 +5,7 @@ pragma solidity ^0.8.0;
 import "./IOracle.sol";
 
 contract Oracle is IOracle {
-    address constant private precompile = address(0x0000000000000000000000000000000000000403);
+    address constant private PRECOMPILE = address(0x0000000000000000000000000000000000000403);
 
     /**
      * @dev Get the price of the currency_id.
@@ -19,7 +19,9 @@ contract Oracle is IOracle {
     {
         require(token != address(0), "Oracle: token is zero address");
 
-        (bool success, bytes memory returnData) = precompile.staticcall(abi.encodeWithSignature("getPrice(address)", token));
+        (bool success, bytes memory returnData) = PRECOMPILE.staticcall(
+            abi.encodeWithSignature("getPrice(address)", token)
+        );
         assembly {
             if eq(success, 0) {
                 revert(add(returnData, 0x20), returndatasize())
