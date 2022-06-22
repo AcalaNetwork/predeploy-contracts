@@ -5,14 +5,16 @@ pragma solidity ^0.8.0;
 import "./IEVMAccounts.sol";
 
 contract EVMAccounts is IEVMAccounts {
-    address constant private precompile = address(0x0000000000000000000000000000000000000408);
+    address constant private PRECOMPILE = address(0x0000000000000000000000000000000000000408);
 
     /**
      * @dev Get the AccountId used to generate the given EvmAddress.
      * Returns (accountId).
      */
     function getAccountId(address evmAddress) public view override returns (bytes32) {
-        (bool success, bytes memory returnData) = precompile.staticcall(abi.encodeWithSignature("getAccountId(address)", evmAddress));
+        (bool success, bytes memory returnData) = PRECOMPILE.staticcall(
+            abi.encodeWithSignature("getAccountId(address)", evmAddress)
+        );
         assembly {
             if eq(success, 0) {
                 revert(add(returnData, 0x20), returndatasize())
@@ -27,7 +29,9 @@ contract EVMAccounts is IEVMAccounts {
      * Returns (evmAddress). Return address(0x0) if the AccountId is not mapped.
      */
     function getEvmAddress(bytes32 accountId) public view override returns (address) {
-        (bool success, bytes memory returnData) = precompile.staticcall(abi.encodeWithSignature("getEvmAddress(bytes32)", accountId));
+        (bool success, bytes memory returnData) = PRECOMPILE.staticcall(
+            abi.encodeWithSignature("getEvmAddress(bytes32)", accountId)
+        );
         assembly {
             if eq(success, 0) {
                 revert(add(returnData, 0x20), returndatasize())
@@ -42,7 +46,9 @@ contract EVMAccounts is IEVMAccounts {
      * Returns a boolean value indicating whether the operation succeeded.
      */
     function claimDefaultEvmAddress(bytes32 accountId) public override returns (bool) {
-        (bool success, bytes memory returnData) = precompile.call(abi.encodeWithSignature("claimDefaultEvmAddress(bytes32)", accountId));
+        (bool success, bytes memory returnData) = PRECOMPILE.call(
+            abi.encodeWithSignature("claimDefaultEvmAddress(bytes32)", accountId)
+        );
         assembly {
             if eq(success, 0) {
                 revert(add(returnData, 0x20), returndatasize())

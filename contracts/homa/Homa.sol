@@ -5,7 +5,7 @@ pragma solidity ^0.8.0;
 import "./IHoma.sol";
 
 contract Homa is IHoma {
-    address constant private precompile = address(0x0000000000000000000000000000000000000407);
+    address constant private PRECOMPILE = address(0x0000000000000000000000000000000000000407);
 
     /**
      * @dev Mint liquid staking currency using staking currency
@@ -17,7 +17,9 @@ contract Homa is IHoma {
     returns (bool) {
         require(mintAmount != 0, "Homa: mintAmount is zero");
 
-        (bool success, bytes memory returnData) = precompile.call(abi.encodeWithSignature("mint(address,uint256)", msg.sender, mintAmount));
+        (bool success, bytes memory returnData) = PRECOMPILE.call(
+            abi.encodeWithSignature("mint(address,uint256)", msg.sender, mintAmount)
+        );
         assembly {
             if eq(success, 0) {
                 revert(add(returnData, 0x20), returndatasize())
@@ -38,7 +40,9 @@ contract Homa is IHoma {
     returns (bool) {
         require(redeemAmount != 0, "Homa: redeemAmount is zero");
 
-        (bool success, bytes memory returnData) = precompile.call(abi.encodeWithSignature("requestRedeem(address,uint256,bool)", msg.sender, redeemAmount, fastMatch));
+        (bool success, bytes memory returnData) = PRECOMPILE.call(
+            abi.encodeWithSignature("requestRedeem(address,uint256,bool)", msg.sender, redeemAmount, fastMatch)
+        );
         assembly {
             if eq(success, 0) {
                 revert(add(returnData, 0x20), returndatasize())
@@ -51,14 +55,15 @@ contract Homa is IHoma {
 
     /**
      * @dev Get exchange rate of liquid currency to staking currency (liquid : staking).
-     * Returns (exchange_rate), value is FixedU128 with a range of [0.000000000000000000, 340282366920938463463.374607431768211455]
+     * Returns (exchange_rate), value is FixedU128 with
+     * a range of [0.000000000000000000, 340282366920938463463.374607431768211455]
      */
     function getExchangeRate()
     public
     view
     override
     returns (uint256) {
-        (bool success, bytes memory returnData) = precompile.staticcall(abi.encodeWithSignature("getExchangeRate()"));
+        (bool success, bytes memory returnData) = PRECOMPILE.staticcall(abi.encodeWithSignature("getExchangeRate()"));
         assembly {
             if eq(success, 0) {
                 revert(add(returnData, 0x20), returndatasize())
@@ -70,14 +75,17 @@ contract Homa is IHoma {
 
     /**
      * @dev Get estimated reward rate.
-     * Returns (reward_rate), value is FixedU128 with a range of [0.000000000000000000, 340282366920938463463.374607431768211455]
+     * Returns (reward_rate), value is FixedU128 with
+     * a range of [0.000000000000000000, 340282366920938463463.374607431768211455]
      */
     function getEstimatedRewardRate()
     public
     view
     override
     returns (uint256) {
-        (bool success, bytes memory returnData) = precompile.staticcall(abi.encodeWithSignature("getEstimatedRewardRate()"));
+        (bool success, bytes memory returnData) = PRECOMPILE.staticcall(
+            abi.encodeWithSignature("getEstimatedRewardRate()")
+        );
         assembly {
             if eq(success, 0) {
                 revert(add(returnData, 0x20), returndatasize())
@@ -89,14 +97,15 @@ contract Homa is IHoma {
 
     /**
      * @dev Get commission rate taken as a fee by homa protocol
-     * Returns (commisssion_rate), value is FixedU128 with a range of [0.000000000000000000, 340282366920938463463.374607431768211455]
+     * Returns (commisssion_rate), value is FixedU128 with
+     * a range of [0.000000000000000000, 340282366920938463463.374607431768211455]
      */
     function getCommissionRate()
     public
     view
     override
     returns (uint256) {
-        (bool success, bytes memory returnData) = precompile.staticcall(abi.encodeWithSignature("getCommissionRate()"));
+        (bool success, bytes memory returnData) = PRECOMPILE.staticcall(abi.encodeWithSignature("getCommissionRate()"));
         assembly {
             if eq(success, 0) {
                 revert(add(returnData, 0x20), returndatasize())
@@ -108,14 +117,15 @@ contract Homa is IHoma {
 
     /**
      * @dev Get fast match fee, this is charged when requestRedeem uses fast match
-     * Returns (reward_rate), value is FixedU128 with a range of [0.000000000000000000, 340282366920938463463.374607431768211455]
+     * Returns (reward_rate), value is FixedU128 with
+     * a range of [0.000000000000000000, 340282366920938463463.374607431768211455]
      */
     function getFastMatchFee()
     public
     view
     override
     returns (uint256) {
-        (bool success, bytes memory returnData) = precompile.staticcall(abi.encodeWithSignature("getFastMatchFee()"));
+        (bool success, bytes memory returnData) = PRECOMPILE.staticcall(abi.encodeWithSignature("getFastMatchFee()"));
         assembly {
             if eq(success, 0) {
                 revert(add(returnData, 0x20), returndatasize())

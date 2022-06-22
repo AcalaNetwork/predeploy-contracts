@@ -3,13 +3,13 @@
 pragma solidity ^0.8.0;
 
 interface IEVM {
-    event TransferredMaintainer(address indexed contract_address, address indexed new_maintainer);
+    event TransferredMaintainer(address indexed contractAddress, address indexed newMaintainer);
 
-    event ContractPublished(address indexed contract_address);
+    event ContractPublished(address indexed contractAddress);
 
-    event DeveloperEnabled(address indexed account_address);
+    event DeveloperEnabled(address indexed accountAddress);
 
-    event DeveloperDisabled(address indexed account_address);
+    event DeveloperDisabled(address indexed accountAddress);
 
     // Returns the const of NewContractExtraBytes.
     function newContractExtraBytes() external view returns (uint256);
@@ -18,7 +18,7 @@ interface IEVM {
     function storageDepositPerByte() external view returns (uint256);
 
     // Returns the maintainer of the contract.
-    function maintainerOf(address contract_address) external view returns (address);
+    function maintainerOf(address contractAddress) external view returns (address);
 
     // Returns the const of DeveloperDeposit.
     function developerDeposit() external view returns (uint256);
@@ -28,11 +28,11 @@ interface IEVM {
 
     // Transfer the maintainer of the contract.
     // Returns a boolean value indicating whether the operation succeeded.
-    function transferMaintainer(address contract_address, address new_maintainer) external returns (bool);
+    function transferMaintainer(address contractAddress, address newMaintainer) external returns (bool);
 
     // Publish contract
     // Returns a boolean value indicating whether the operation succeeded.
-    function publishContract(address contract_address) external returns (bool);
+    function publishContract(address contractAddress) external returns (bool);
 
     // Returns if the account is enabled for developer mode
     function developerStatus(address account) external view returns (bool);
