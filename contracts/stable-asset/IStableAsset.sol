@@ -6,15 +6,15 @@ interface IStableAsset {
 
     event StableAssetSwapped(
         address indexed sender,
-        uint32 poolId,
+        uint32 indexed poolId,
         uint32 i,
         uint32 j,
         uint256 dx,
         uint256 minDY,
         uint32 assetLength
     );
-    event StableAssetMinted(address indexed sender, uint32 poolId, uint256[] amounts, uint256 minMintAmount);
-    event StableAssetRedeemed(address indexed sender, uint32 poolId, uint256 redeemAmount, uint256[] amounts);
+    event StableAssetMinted(address indexed sender, uint32 indexed poolId, uint256[] amounts, uint256 minMintAmount);
+    event StableAssetRedeemed(address indexed sender, uint32 indexed poolId, uint256 redeemAmount, uint256[] amounts);
 
     // Get stable asset pool tokens.
     // Returns a boolean value indicating whether the pool exists and the corresponding value.

@@ -120,7 +120,7 @@ function developerDisable() external returns (bool);
 ```
 
 ### Oracle Price Feed
-- Oracle contract address: `ADDRESS.Oracle`
+- Oracle contract address: `ADDRESS.ORACLE`
 ```
 // Get the price of the currency_id.
 // Returns the (price, timestamp)
@@ -128,7 +128,7 @@ function getPrice(address token) public view returns (uint256, uint256);
 ```
 
 ### On-chain Automatic Scheduler
-- ScheduleCall contract address: `ADDRESS.Schedule`
+- ScheduleCall contract address: `ADDRESS.SCHEDULE`
 ```
 // Schedule call the contract.
 // Returns a bytes value equal to the task_id of the task created.
@@ -180,7 +180,7 @@ function removeLiquidity(address tokenA, address tokenB, uint256 removeShare) ex
 ```
 
 ### Homa Liquid Staking Protocol
-- Homa contract address: `ADDRESS.Homa`
+- Homa contract address: `ADDRESS.HOMA`
 ```
 // Mint liquid currency with staking currency.
 // Returns a boolean value indicating whether the operation succeeded.
@@ -208,7 +208,7 @@ function getFastMatchFee() external view returns (uint256);
 ```
 
 ### EVM Accounts
-- EVMAccounts contract address: `ADDRESS.EVMAccounts`
+- EVMAccounts contract address: `ADDRESS.EVM_ACCOUNTS`
 ```
 event ClaimAccount(address indexed sender, bytes32 indexed accountId, address indexed evmAddress);
 
@@ -226,7 +226,7 @@ function claimDefaultEvmAddress(bytes32 accountId) external returns (bool);
 ```
 
 ### Honzon Protocol
-- Honzon contract address: `ADDRESS.Honzon`
+- Honzon contract address: `ADDRESS.HONZON`
 ```
 // Adjust CDP position
 // Returns a boolean value indicating whether the operation succeeded.
@@ -254,7 +254,7 @@ function getDebitExchangeRate(address currencyId) external view returns (uint256
 ```
 
 ### Incentives
-- Incentives contract address: `ADDRESS.Incentives`
+- Incentives contract address: `ADDRESS.INCENTIVES`
 ```
 enum PoolId { LOANS, DEX }
 
@@ -285,6 +285,53 @@ function getClaimRewardDeductionRate(PoolId pool, address poolCurrencyId) extern
 // Gets the pending rewards for a pool, actual reward could be deducted.
 // returns (balances), an array of reward balances corresponding to currencyIds
 function getPendingRewards(address[] calldata currencyIds, PoolId pool, address poolCurrencyId, address who) external view returns (uint256[] memory);
+```
+
+### StableAsset
+- StableAsset contract address: `ADDRESS.STABLE_ASSET`
+```
+// Get stable asset pool tokens.
+// Returns a boolean value indicating whether the pool exists and the corresponding value.
+function getStableAssetPoolTokens(uint32 poolId) external view returns (bool, address[] memory);
+
+// Get stable asset pool total supply.
+// Returns a boolean value indicating whether the pool exists and the corresponding value.
+function getStableAssetPoolTotalSupply(uint32 poolId) external view returns (bool, uint256);
+
+// Get stable asset pool precision.
+// Returns a boolean value indicating whether the pool exists and the corresponding value.
+function getStableAssetPoolPrecision(uint32 poolId) external view returns (bool, uint256);
+
+// Get stable asset pool mint fee.
+// Returns a boolean value indicating whether the pool exists and the corresponding value.
+function getStableAssetPoolMintFee(uint32 poolId) external view returns (bool, uint256);
+
+// Get stable asset pool swap fee.
+// Returns a boolean value indicating whether the pool exists and the corresponding value.
+function getStableAssetPoolSwapFee(uint32 poolId) external view returns (bool, uint256);
+
+// Get stable asset pool redeem fee.
+// Returns a boolean value indicating whether the pool exists and the corresponding value.
+function getStableAssetPoolRedeemFee(uint32 poolId) external view returns (bool, uint256);
+
+// Stable asset swap tokens.
+// Returns a boolean value indicating whether the operation succeeded.
+function stableAssetSwap(
+    uint32 poolId,
+    uint32 i,
+    uint32 j,
+    uint256 dx,
+    uint256 minDY,
+    uint32 assetLength
+) external returns (bool);
+
+// Stable asset mint.
+// Returns a boolean value indicating whether the operation succeeded.
+function stableAssetMint(uint32 poolId, uint256[] calldata amounts, uint256 minMintAmount) external returns (bool);
+
+// Stable asset redeem.
+// Returns a boolean value indicating whether the operation succeeded.
+function stableAssetRedeem(uint32 poolId, uint256 redeemAmount, uint256[] calldata amounts) external returns (bool);
 ```
 
 ## DeFi Contracts (Coming Soon)
