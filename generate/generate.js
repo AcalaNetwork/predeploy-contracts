@@ -12,11 +12,13 @@ const exec = util.promisify(childProcess.exec);
 const generate = async () => {
   const acalaTokensFile = path.join(__dirname, '../resources', 'acala_tokens.json');
   const karuraTokensFile = path.join(__dirname, '../resources', 'karura_tokens.json');
+  const mandalaTokensFile = path.join(__dirname, '../resources', 'mandala_tokens.json');
   const bytecodesFile = path.join(__dirname, '../resources', 'bytecodes.json');
   const addressDir = path.join(__dirname, '../contracts/utils');
 
   const acalaTokens = require(acalaTokensFile);
   const karuraTokens = require(karuraTokensFile);
+  const mandalaTokens = require(mandalaTokensFile);
 
   // compile to generate contracts json.
   await exec('yarn build');
@@ -26,6 +28,9 @@ const generate = async () => {
     return [...output, [symbol, ethers.utils.getAddress(address), token]];
   }, []);
   const karuraTokenList = karuraTokens.reduce((output, { symbol, address }) => {
+    return [...output, [symbol, ethers.utils.getAddress(address), token]];
+  }, []);
+  const mandalaTokenList = mandalaTokens.reduce((output, { symbol, address }) => {
     return [...output, [symbol, ethers.utils.getAddress(address), token]];
   }, []);
 
@@ -75,20 +80,23 @@ const generate = async () => {
   // merge tokenList into bytecodes
   const acalaBytecodes = acalaTokenList.concat(bytecodes);
   const karuraBytecodes = karuraTokenList.concat(bytecodes);
+  const mandalaBytecodes = mandalaTokenList.concat(bytecodes);
 
-  await writeFile(bytecodesFile, JSON.stringify(acalaTokenList.concat(karuraTokenList).concat(bytecodes), null, 2), 'utf8');
+  await writeFile(bytecodesFile, JSON.stringify(acalaTokenList.concat(karuraTokenList).concat(mandalaTokenList).concat(bytecodes), null, 2), 'utf8');
 
   // generate address constant for sol
   let tmpl = fs.readFileSync(path.resolve(__dirname, '../resources', 'address.sol.hbs'), 'utf8');
   let template = Handlebars.compile(tmpl);
   await writeFile(path.join(addressDir, 'AcalaAddress.sol'), template(acalaBytecodes), 'utf8');
   await writeFile(path.join(addressDir, 'KaruraAddress.sol'), template(karuraBytecodes), 'utf8');
+  await writeFile(path.join(addressDir, 'MandalaAddress.sol'), template(mandalaBytecodes), 'utf8');
 
   // generate address constant for js
   tmpl = fs.readFileSync(path.resolve(__dirname, '../resources', 'address.js.hbs'), 'utf8');
   template = Handlebars.compile(tmpl);
   await writeFile(path.join(addressDir, 'AcalaAddress.js'), template(acalaBytecodes), 'utf8');
   await writeFile(path.join(addressDir, 'KaruraAddress.js'), template(karuraBytecodes), 'utf8');
+  await writeFile(path.join(addressDir, 'MandalaAddress.js'), template(mandalaBytecodes), 'utf8');
 
   // recompile Address.sol
   await exec('yarn build');
@@ -96,6 +104,7 @@ const generate = async () => {
   // generate Address.d.ts
   await exec('tsc contracts/utils/AcalaAddress.js --declaration --allowJs --emitDeclarationOnly');
   await exec('tsc contracts/utils/KaruraAddress.js --declaration --allowJs --emitDeclarationOnly');
+  await exec('tsc contracts/utils/MandalaAddress.js --declaration --allowJs --emitDeclarationOnly');
 };
 
 const main = async () => {
