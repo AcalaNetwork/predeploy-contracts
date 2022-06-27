@@ -82,7 +82,7 @@ const generate = async () => {
   const karuraBytecodes = karuraTokenList.concat(bytecodes);
   const mandalaBytecodes = mandalaTokenList.concat(bytecodes);
 
-  await writeFile(bytecodesFile, JSON.stringify(acalaTokenList.concat(karuraTokenList).concat(mandalaTokenList).concat(bytecodes), null, 2), 'utf8');
+  await writeFile(bytecodesFile, JSON.stringify(acalaTokenList.concat(karuraTokenList).concat(bytecodes), null, 2), 'utf8');
 
   // generate address constant for sol
   let tmpl = fs.readFileSync(path.resolve(__dirname, '../resources', 'address.sol.hbs'), 'utf8');
