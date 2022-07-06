@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-pragma solidity ^0.8.0;
+pragma solidity ^0.6.0;
 
 import "./InterfaceIncentives.sol";
 
@@ -144,7 +144,7 @@ contract Incentives is InterfaceIncentives {
      * @dev Gets the pending rewards for a pool, actual reward could be deducted.
      * returns (balances), an array of reward balances corresponding to currencyIds
      */
-    function getPendingRewards(address[] calldata currencyIds, PoolId pool, address poolCurrencyId, address who)
+    function getPendingRewards(address[] memory currencyIds, PoolId pool, address poolCurrencyId, address who)
     public
     view
     override

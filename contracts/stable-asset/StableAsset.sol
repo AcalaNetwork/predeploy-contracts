@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-pragma solidity ^0.8.0;
+pragma solidity ^0.6.0;
 
 import "./IStableAsset.sol";
 
@@ -206,7 +206,7 @@ contract StableAsset is IStableAsset {
      * @param minMintAmount amount of minimum pool token received
      * @return succeed whether the operation succeeded
      */
-    function stableAssetMint(uint32 poolId, uint256[] calldata amounts, uint256 minMintAmount)
+    function stableAssetMint(uint32 poolId, uint256[] memory amounts, uint256 minMintAmount)
     public
     override
     returns (bool) {
@@ -232,7 +232,7 @@ contract StableAsset is IStableAsset {
      * @param amounts minimum amounts of redeemed token received
      * @return succeed whether the operation succeeded
      */
-    function stableAssetRedeem(uint32 poolId, uint256 redeemAmount, uint256[] calldata amounts)
+    function stableAssetRedeem(uint32 poolId, uint256 redeemAmount, uint256[] memory amounts)
     public
     override
     returns (bool) {
@@ -293,7 +293,7 @@ contract StableAsset is IStableAsset {
      * @param maxRedeemAmount the maximum amount of pool token to be input
      * @return succeed whether the operation succeeded
      */
-    function stableAssetRedeemMulti(uint32 poolId, uint256[] calldata amounts, uint256 maxRedeemAmount)
+    function stableAssetRedeemMulti(uint32 poolId, uint256[] memory amounts, uint256 maxRedeemAmount)
     public
     override
     returns (bool) {
