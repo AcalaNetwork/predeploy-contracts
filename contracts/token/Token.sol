@@ -3,9 +3,9 @@
 // Based on ERC20 implementation of @openzeppelin/contracts (v4.5.0):
 // https://github.com/OpenZeppelin/openzeppelin-contracts/blob/v4.5.0/contracts/token/ERC20/ERC20.sol
 
-pragma solidity ^0.8.0;
+pragma solidity ^0.7.0;
 
-import "@openzeppelin/contracts/utils/math/SafeMath.sol";
+import "@openzeppelin/contracts/math/SafeMath.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
 import "./MultiCurrency.sol";
@@ -147,9 +147,9 @@ contract Token is IERC20 {
         address owner = msg.sender;
         uint256 currentAllowance = _allowances[owner][spender];
         require(currentAllowance >= subtractedValue, "ERC20: decreased allowance below zero");
-        unchecked {
+        //unchecked {
             _approve(owner, spender, currentAllowance - subtractedValue);
-        }
+        //}
 
         return true;
     }
@@ -214,9 +214,9 @@ contract Token is IERC20 {
         uint256 currentAllowance = allowance(owner, spender);
         if (currentAllowance != type(uint256).max) {
             require(currentAllowance >= amount, "ERC20: insufficient allowance");
-            unchecked {
+            //unchecked {
                 _approve(owner, spender, currentAllowance - amount);
-            }
+            //}
         }
     }
 }
