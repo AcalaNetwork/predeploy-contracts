@@ -1,0 +1,7 @@
+node_modules/*
+# build artifacts
+artifacts/*
+# cache
+cache/*
+# data definition files
+**/*.d.ts

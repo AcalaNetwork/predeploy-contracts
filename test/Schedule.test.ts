@@ -155,10 +155,10 @@ describe("Schedule", () => {
     let block_hash = await provider.api.query.system.blockHash(current_block_number);
     const data = await provider.api.derive.tx.events(block_hash);
 
-    let event = data.events.filter(item => provider.api.events.evm.Log.is(item.event));
+    let event = data.events.filter(item => provider.api.events.evm.Executed.is(item.event));
     expect(event.length).to.above(0);
 
-    let decode_log = await iface.parseLog(event[0].event.data.toJSON()[0]);
+    let decode_log = iface.parseLog(event[0].event.data.toJSON()[0]);
     await expect(schedule.cancelCall(ethers.utils.hexlify(decode_log.args.task_id)))
       .to.emit(schedule, "CanceledCall")
       .withArgs(await wallet.getAddress(), ethers.utils.hexlify(decode_log.args.task_id));
@@ -188,7 +188,7 @@ describe("Schedule", () => {
     let event = data.events.filter(item => provider.api.events.evm.Log.is(item.event));
     expect(event.length).to.above(0);
 
-    let decode_log = await iface.parseLog(event[0].event.data.toJSON()[0]);
+    let decode_log = iface.parseLog(event[0].event.data.toJSON()[0]);
     await expect(schedule.rescheduleCall(7, ethers.utils.hexlify(decode_log.args.task_id)))
       .to.emit(schedule, "RescheduledCall")
       .withArgs(await wallet.getAddress(), ethers.utils.hexlify(decode_log.args.task_id));

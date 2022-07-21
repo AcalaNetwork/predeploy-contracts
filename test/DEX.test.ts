@@ -94,14 +94,14 @@ describe("DEX", () => {
     expect(response).to.be.above(0);
   });
 
-  it("reverts when trying to get swap target amount with 1 or 4 (or more) path arguments", async () => {
+  it("returns zero when trying to get swap target amount with 1 or 5 (or more) path arguments", async () => {
     const path1 = [ADDRESS.ACA];
-    const path4 = [ADDRESS.ACA, ADDRESS.AUSD, ADDRESS.DOT, ADDRESS.KAR];
+    const path4 = [ADDRESS.ACA, ADDRESS.AUSD, ADDRESS.DOT, ADDRESS.LDOT, ADDRESS.TAP];
+    const response1 = await dex.getSwapTargetAmount(path1, 100);
+    const response2 = await dex.getSwapTargetAmount(path4, 100);
 
-    await expect(dex.getSwapTargetAmount(path1, 100))
-      .to.be.revertedWith("DEX: token path over the limit");
-    await expect(dex.getSwapTargetAmount(path4, 100))
-      .to.be.revertedWith("DEX: token path over the limit");
+    expect(response1).to.be.equal(0);
+    expect(response2).to.be.equal(0);
   });
 
   it("reverts when trying to pass 0x0 address as one of the path arguments when getting swap target amount", async () => {
@@ -132,14 +132,14 @@ describe("DEX", () => {
     expect(response).to.be.above(0);
   });
 
-  it("reverts when trying to get swap supply amount with 1 or 4 (or more) path arguments", async () => {
+  it("returns 0 when trying to get swap supply amount with 1 or 4 (or more) path arguments", async () => {
     const path1 = [ADDRESS.ACA];
-    const path4 = [ADDRESS.ACA, ADDRESS.AUSD, ADDRESS.DOT, ADDRESS.KAR];
+    const path4 = [ADDRESS.ACA, ADDRESS.AUSD, ADDRESS.DOT, ADDRESS.LDOT, ADDRESS.TAP];
+    const response1 = await dex.getSwapSupplyAmount(path1, 100);
+    const response2 = await dex.getSwapSupplyAmount(path4, 100);
 
-    await expect(dex.getSwapSupplyAmount(path1, 100))
-      .to.be.revertedWith("DEX: token path over the limit");
-    await expect(dex.getSwapSupplyAmount(path4, 100))
-      .to.be.revertedWith("DEX: token path over the limit");
+    expect(response1).to.be.equal(0);
+    expect(response2).to.be.equal(0);
   });
 
   it("reverts when trying to pass 0x0 address as one of the path arguments when getting swap supply amount", async () => {
@@ -190,12 +190,12 @@ describe("DEX", () => {
 
   it("reverts when trying to swap with exact supply with 1 or 4 (or more) path arguments", async () => {
     const path1 = [ADDRESS.ACA];
-    const path4 = [ADDRESS.ACA, ADDRESS.AUSD, ADDRESS.DOT, ADDRESS.KAR];
+    const path4 = [ADDRESS.ACA, ADDRESS.AUSD, ADDRESS.DOT, ADDRESS.LDOT, ADDRESS.TAP];
 
     await expect(dex.swapWithExactSupply(path1, 100, 1))
-      .to.be.revertedWith("DEX: token path over the limit");
+      .to.be.revertedWith("InvalidTradingPath");
     await expect(dex.swapWithExactSupply(path4, 100, 1))
-      .to.be.revertedWith("DEX: token path over the limit");
+      .to.be.revertedWith("InvalidTradingPath");
   });
 
   it("reverts when trying to pass 0x0 address as one of the path arguments when swapping with exact supply", async () => {
@@ -246,12 +246,12 @@ describe("DEX", () => {
 
   it("reverts when trying to swap with exact target with 1 or 4 (or more) path arguments", async () => {
     const path1 = [ADDRESS.ACA];
-    const path4 = [ADDRESS.ACA, ADDRESS.AUSD, ADDRESS.DOT, ADDRESS.KAR];
+    const path4 = [ADDRESS.ACA, ADDRESS.AUSD, ADDRESS.DOT, ADDRESS.LDOT, ADDRESS.TAP];
 
     await expect(dex.swapWithExactTarget(path1, 100, 1000))
-      .to.be.revertedWith("DEX: token path over the limit");
+      .to.be.revertedWith("InvalidTradingPathLength");
     await expect(dex.swapWithExactTarget(path4, 100, 1000))
-      .to.be.revertedWith("DEX: token path over the limit");
+      .to.be.revertedWith("InvalidTradingPathLength");
   });
 
   it("reverts when trying to pass 0x0 address as one of the path arguments when swapping with exact target", async () => {
