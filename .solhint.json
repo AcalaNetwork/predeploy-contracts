@@ -1,0 +1,11 @@
+{
+  "extends": "solhint:recommended",
+  "plugins": [],
+    "rules": {
+      "no-inline-assembly": "off",
+      "avoid-low-level-calls": "off",
+      "reason-string": "off",
+      "compiler-version": ["error", "^0.8.0"],
+      "max-line-length": ["warn", 120]
+    }
+}
