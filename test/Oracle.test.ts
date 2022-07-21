@@ -1,4 +1,4 @@
-import { expect, use } from "chai";
+/*import { expect, use } from "chai";
 import { ethers, Contract, BigNumber } from "ethers";
 import { solidity } from "ethereum-waffle";
 import { TestProvider, Signer, evmChai } from "@acala-network/bodhi";
@@ -141,4 +141,4 @@ describe("Oracle", () => {
     await expect(oracle.getPrice("0x0000000000000000000000000000000000000000"))
       .to.be.reverted;
   });
-});
+});*/

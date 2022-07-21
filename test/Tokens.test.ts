@@ -92,13 +92,13 @@ describe("Token", () => {
 
   it("reverts when calling transferFrom if the allowance is not given", async () => {
     await expect(token.transferFrom(await walletTo.getAddress(), await wallet.getAddress(), 1))
-      .to.be.revertedWith("ERC20: transfer amount exceeds allowance");
+      .to.be.revertedWith("ERC20: insufficient allowance");
   });
 
   it("reverts when calling transferFrom if the allowance is exceeded", async () => {
     await token.approve(await walletTo.getAddress(), 10);
     await expect(token.transferFrom(await wallet.getAddress(), await walletTo.getAddress(), 100))
-      .to.be.revertedWith("ERC20: transfer amount exceeds allowance");
+      .to.be.revertedWith("ERC20: insufficient allowance");
   });
 
   it("emits Transfer when calling transferFrom if the allowance is not exceeded", async () => {

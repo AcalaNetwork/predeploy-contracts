@@ -15,16 +15,6 @@ const provider = new TestProvider({
 
 const testPairs = createTestPairs();
 
-const empty_block = async (block_number: number) => {
-  return new Promise((resolve) => {
-    provider.api.tx.system.remark(block_number.toString(16)).signAndSend(testPairs.alice.address, (result) => {
-      if (result.status.isInBlock) {
-        resolve(undefined);
-      }
-    });
-  });
-};
-
 const SCHEDULE_ABI = require("../artifacts/contracts/schedule/Schedule.sol/Schedule.json").abi;
 const DEX_ABI = require("../artifacts/contracts/dex/DEX.sol/DEX.json").abi;
 const ERC20_ABI = require("../artifacts/contracts/token/Token.sol/Token.json").abi;
@@ -62,7 +52,7 @@ describe("Schedule", () => {
     const call = await dex.populateTransaction.swapWithExactSupply([ADDRESS.DOT, ADDRESS.AUSD], 100, 1);
     const result = await schedule.callStatic.scheduleCall(ADDRESS.DEX, 0, 300000, 10000, 1, ethers.utils.hexlify(call.data as string));
 
-    expect(result.length).to.equal(84);
+    expect(result.length).to.equal(88);
     expect(result.substring(0,2)).to.equal("0x");
   });
 
@@ -78,7 +68,7 @@ describe("Schedule", () => {
     let current_block_number = Number(await provider.api.query.system.number());
 
     while (current_block_number < target_block_number) {
-      await empty_block(current_block_number);
+      await provider.api.rpc.engine.createBlock(true /* create empty */, true /* finalize it*/);
       current_block_number = Number(await provider.api.query.system.number());
     };
 
@@ -100,7 +90,7 @@ describe("Schedule", () => {
     let current_block_number = Number(await provider.api.query.system.number());
 
     while (current_block_number < first_target_block_number) {
-      await empty_block(current_block_number);
+      await provider.api.rpc.engine.createBlock(true /* create empty */, true /* finalize it*/);
       current_block_number = Number(await provider.api.query.system.number());
     };
 
@@ -108,7 +98,7 @@ describe("Schedule", () => {
     const initial_balance_AUSD = await tokenAUSD.balanceOf(await wallet.getAddress());
 
     while (current_block_number < second_target_block_number) {
-      await empty_block(current_block_number);
+      await provider.api.rpc.engine.createBlock(true /* create empty */, true /* finalize it*/);
       current_block_number = Number(await provider.api.query.system.number());
     };
 
@@ -132,7 +122,7 @@ describe("Schedule", () => {
     let current_block_number = Number(await provider.api.query.system.number());
 
     while (current_block_number < target_block_number) {
-      await empty_block(current_block_number);
+      await provider.api.rpc.engine.createBlock(true /* create empty */, true /* finalize it*/);
       current_block_number = Number(await provider.api.query.system.number());
     };
 
@@ -158,13 +148,13 @@ describe("Schedule", () => {
     let event = data.events.filter(item => provider.api.events.evm.Executed.is(item.event));
     expect(event.length).to.above(0);
 
-    let decode_log = iface.parseLog(event[0].event.data.toJSON()[0]);
+    let decode_log = iface.parseLog(event[0].event.data.logs[0].toJSON()[0]);
     await expect(schedule.cancelCall(ethers.utils.hexlify(decode_log.args.task_id)))
       .to.emit(schedule, "CanceledCall")
       .withArgs(await wallet.getAddress(), ethers.utils.hexlify(decode_log.args.task_id));
 
     while (current_block_number < target_block_number) {
-      await empty_block(current_block_number);
+      await provider.api.rpc.engine.createBlock(true /* create empty */, true /* finalize it*/);
       current_block_number = Number(await provider.api.query.system.number());
     };
 
@@ -194,14 +184,14 @@ describe("Schedule", () => {
       .withArgs(await wallet.getAddress(), ethers.utils.hexlify(decode_log.args.task_id));
 
     while (current_block_number < first_target_block_number) {
-      await empty_block(current_block_number);
+      await provider.api.rpc.engine.createBlock(true /* create empty */, true /* finalize it*/);
       current_block_number = Number(await provider.api.query.system.number());
     };
 
     const initial_balance = await tokenDOT.balanceOf(await wallet.getAddress());
 
     while (current_block_number < second_target_block_number) {
-      await empty_block(current_block_number);
+      await provider.api.rpc.engine.createBlock(true /* create empty */, true /* finalize it*/);
       current_block_number = Number(await provider.api.query.system.number());
     };
 

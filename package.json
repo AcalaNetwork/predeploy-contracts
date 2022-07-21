@@ -17,7 +17,7 @@
     "test-mandala": "hardhat run --network mandala scripts/deploy.ts",
     "prepack": "scripts/prepack.sh",
     "generate-bytecode": "hardhat run generate/generate.js",
-    "lint": "solhint contracts/**/*.sol && tsc --noEmit && eslint \"**/*.ts\"",
+    "lint": "solhint contracts/**/*.sol",
     "test-contracts": "export NODE_ENV=test && mocha -r ts-node/register/transpile-only --timeout 50000 --no-warnings test/**/*.test.{js,ts}"
   },
   "devDependencies": {
