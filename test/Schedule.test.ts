@@ -1,11 +1,10 @@
 import { expect, use } from "chai";
 import { ethers, Contract } from "ethers";
 import { solidity } from "ethereum-waffle";
-import { evmChai } from "@acala-network/bodhi/evmChai";
-import { TestProvider, Signer } from "@acala-network/bodhi";
+import { TestProvider, Signer, evmChai } from "@acala-network/bodhi";
 import { WsProvider } from "@polkadot/api";
 import { createTestPairs } from "@polkadot/keyring/testingPairs";
-import ADDRESS from "@acala-network/contracts/utils/Address";
+import ADDRESS from "../contracts/utils/MandalaAddress";
 
 use(solidity);
 use(evmChai);
@@ -26,9 +25,9 @@ const empty_block = async (block_number: number) => {
   });
 };
 
-const SCHEDULE_ABI = require("../build/Schedule.json").abi;
-const DEX_ABI = require("../build/DEX.json").abi;
-const ERC20_ABI = require("../build/Token.json").abi;
+const SCHEDULE_ABI = require("../artifacts/contracts/schedule/Schedule.sol/Schedule.json").abi;
+const DEX_ABI = require("../artifacts/contracts/dex/DEX.sol/DEX.json").abi;
+const ERC20_ABI = require("../artifacts/contracts/token/Token.sol/Token.json").abi;
 
 describe("Schedule", () => {
   let wallet: Signer;
@@ -42,7 +41,7 @@ describe("Schedule", () => {
     await provider.api.isReady;
 
     [wallet, walletTo] = await provider.getWallets();
-    schedule = new ethers.Contract(ADDRESS.Schedule, SCHEDULE_ABI, wallet);
+    schedule = new ethers.Contract(ADDRESS.SCHEDULE, SCHEDULE_ABI, wallet);
     dex = new ethers.Contract(ADDRESS.DEX, DEX_ABI, wallet as any);
     tokenDOT = new ethers.Contract(ADDRESS.DOT, ERC20_ABI, wallet as any);
     tokenAUSD = new ethers.Contract(ADDRESS.AUSD, ERC20_ABI, wallet as any);

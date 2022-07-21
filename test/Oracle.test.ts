@@ -1,11 +1,10 @@
 import { expect, use } from "chai";
 import { ethers, Contract, BigNumber } from "ethers";
 import { solidity } from "ethereum-waffle";
-import { evmChai } from "@acala-network/bodhi/evmChai";
-import { TestProvider, Signer } from "@acala-network/bodhi";
+import { TestProvider, Signer, evmChai } from "@acala-network/bodhi";
 import { WsProvider } from "@polkadot/api";
 import { createTestPairs } from "@polkadot/keyring/testingPairs";
-import ADDRESS from "@acala-network/contracts/utils/Address";
+import ADDRESS from "../contracts/utils/MandalaAddress";
 
 use(solidity);
 use(evmChai);
@@ -28,7 +27,7 @@ const feedValues = async (token: string, price: number) => {
   });
 };
 
-const ORACLE_ABI = require("../build/Oracle.json").abi;
+const ORACLE_ABI = require("../artifacts/contracts/oracle/Oracle.sol/Oracle.json").abi;
 
 describe("Oracle", () => {
   let wallet: Signer;
@@ -38,7 +37,7 @@ describe("Oracle", () => {
     await provider.api.isReady;
 
     [wallet] = await provider.getWallets();
-    oracle = new ethers.Contract(ADDRESS.Oracle, ORACLE_ABI, wallet as any);
+    oracle = new ethers.Contract(ADDRESS.ORACLE, ORACLE_ABI, wallet as any);
   });
 
   after(async () => {

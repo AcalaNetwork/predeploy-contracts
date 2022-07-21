@@ -1,10 +1,9 @@
 import { expect, use } from "chai";
 import { ethers, Contract } from "ethers";
 import { solidity } from "ethereum-waffle";
-import { evmChai } from "@acala-network/bodhi/evmChai";
-import { TestProvider, Signer } from "@acala-network/bodhi";
+import { TestProvider, Signer, evmChai } from "@acala-network/bodhi";
 import { WsProvider } from "@polkadot/api";
-import ADDRESS from "@acala-network/contracts/utils/Address";
+import ADDRESS from "../contracts/utils/MandalaAddress";
 
 use(solidity);
 use(evmChai);
@@ -13,7 +12,7 @@ const provider = new TestProvider({
   provider: new WsProvider("ws://127.0.0.1:9944"),
 });
 
-const ERC20_ABI = require("../build/Token.json").abi;
+const ERC20_ABI = require("../artifacts/contracts/token/Token.sol/Token.json").abi;
 
 describe("Token", () => {
   let wallet: Signer;
