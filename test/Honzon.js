@@ -4,12 +4,9 @@ const { AUSD, DOT, ACA, HONZON } = require('../contracts/utils/MandalaAddress');
 const { getTestProvider, feedTestOraclePrices} = require('./utils');
 
 const HonzonContract = require('../artifacts/contracts/honzon/Honzon.sol/Honzon.json');
-const TokenContract = require('../artifacts/contracts/token/Token.sol/Token.json');
 
 describe('Honzon Contract', function () {
     let instance;
-    let DOTinstance;
-    let AUSDinstance;
     let deployer;
     let user;
     let deployerAddress;
@@ -22,8 +19,6 @@ describe('Honzon Contract', function () {
         provider = await getTestProvider();
         await feedTestOraclePrices(provider);
         instance = new Contract(HONZON, HonzonContract.abi, deployer);
-        AUSDinstance = new Contract(AUSD, TokenContract.abi, deployer);
-        DOTinstance = new Contract(DOT, TokenContract.abi, deployer);
     });
 
     describe('Operation', function () {
@@ -66,8 +61,20 @@ describe('Honzon Contract', function () {
 
                 expect(collateral).to.be.equal(BigNumber.from("0"));
                 expect(debit).to.be.equal(BigNumber.from("0"));
-            })
+            });
 
+
+            it('gets open cdp postion correctly', async function () {
+                // set position
+                await instance.connect(user).adjustLoan(DOT, 100_000_000_000_000, 10_000_000_000_000);
+                const response = await instance.getPosition(userAddress, DOT);
+
+                const collateral = response[0];
+                const debit = response[1];
+
+                expect(collateral).to.be.equal(BigNumber.from("100000000000000"));
+                expect(debit).to.be.equal(BigNumber.from("10000000000000"));
+            });
         })
 
         describe('getLiquidationRatio',  function () {
@@ -84,15 +91,25 @@ describe('Honzon Contract', function () {
             });
         });
 
-        describe('getDebitExchangeRate', function() {
-            it('token will returns default of 0.1 if not initialized', async function () {
-                const response = await instance.getDebitExchangeRate(ACA);
+        describe('getCurrentCollateralRatio', function () {
+            it('returns max u128 for nonexistent storage', async function () {
+                const response = await instance.getCurrentCollateralRatio(deployerAddress, ACA);
 
-                expect(response).to.be.equal(BigNumber.from("100000000000000000"));
+                // Returns max value for ratio of non existent storage so value is FixedU128::max_value
+                expect(response).to.be.equal(BigNumber.from("0xffffffffffffffffffffffffffffffff"));
             });
 
-            it('debit exchange rate is not the default for enabled collateral currency', async function () {
-                const response = await instance.getDebitExchangeRate(DOT);
+            it('returns collateral ratio for cdp position', async function () {
+                const response = await instance.getCurrentCollateralRatio(userAddress, DOT);
+
+                // ratio of dot(priced as ausd) to ausd of open position. Is represented by FixedU128
+                expect(response).to.be.equal(BigNumber.from("173870000000000000000000"));
+            });
+        });
+
+        describe('getDebitExchangeRate', function () {
+            it('token will returns default of 0.1 if when initialized', async function () {
+                const response = await instance.getDebitExchangeRate(ACA);
 
                 expect(response).to.be.equal(BigNumber.from("100000000000000000"));
             });
