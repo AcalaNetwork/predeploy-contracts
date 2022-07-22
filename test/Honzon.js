@@ -1,6 +1,6 @@
 const { expect } = require('chai');
 const { Contract, BigNumber } = require('ethers');
-const { AUSD, DOT, ACA, HONZON } = require('../contracts/utils/MandalaAddress');
+const { AUSD, DOT, ACA, HONZON, LDOT } = require('../contracts/utils/MandalaAddress');
 const { getTestProvider, feedTestOraclePrices} = require('./utils');
 
 const HonzonContract = require('../artifacts/contracts/honzon/Honzon.sol/Honzon.json');
@@ -33,8 +33,12 @@ describe('Honzon Contract', function () {
                await expect(instance.connect(user).adjustLoan(DOT, 100_000_000_000_000, 10_000_000_000_000))
                     .to.emit(instance, 'AdjustedLoan')
                     .withArgs(userAddress, DOT, 100_000_000_000_000, 10_000_000_000_000);
-
             });
+
+            it('fails when trying to add too much debit', async function () {
+                await expect(instance.connect(user).adjustLoan(LDOT, 0, 1_000_000_000_000))
+                    .to.be.revertedWith("BelowRequiredCollateralRatio");
+            })
         });
 
         describe('closeLoanByDex', function () {
@@ -47,15 +51,12 @@ describe('Honzon Contract', function () {
             it('fails to close empty position', async function () {
                 await expect(instance.connect(user).closeLoanByDex(ACA, 100_000_000_000_000))
                     .to.be.revertedWith("NoDebitValue");
-
-
             });
         })
 
         describe('getPosition', function () {
             it('getPosition returns (0,0) for nonexistent storage', async function () {
                 const response = await instance.getPosition(deployerAddress, ACA);
-
                 const collateral = response[0];
                 const debit = response[1];
 
@@ -68,7 +69,6 @@ describe('Honzon Contract', function () {
                 // set position
                 await instance.connect(user).adjustLoan(DOT, 100_000_000_000_000, 10_000_000_000_000);
                 const response = await instance.getPosition(userAddress, DOT);
-
                 const collateral = response[0];
                 const debit = response[1];
 
