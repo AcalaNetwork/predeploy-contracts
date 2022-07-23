@@ -1,7 +1,7 @@
 const { expect } = require('chai');
 const { Contract, BigNumber } = require('ethers');
 const { AUSD, DOT, ACA, HONZON, LDOT } = require('../contracts/utils/MandalaAddress');
-const { getTestProvider, feedTestOraclePrices} = require('./utils');
+const { getTestProvider, feedTestOraclePrices} = require('./util/utils');
 
 const HonzonContract = require('../artifacts/contracts/honzon/Honzon.sol/Honzon.json');
 
@@ -36,7 +36,7 @@ describe('Honzon Contract', function () {
             });
 
             it('fails when trying to add too much debit', async function () {
-                await expect(instance.connect(user).adjustLoan(LDOT, 0, 1_000_000_000_000))
+                await expect(instance.connect(user).adjustLoan(LDOT, 100, 1_000_000_000_000))
                     .to.be.revertedWith("BelowRequiredCollateralRatio");
             })
         });

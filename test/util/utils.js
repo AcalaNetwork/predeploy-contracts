@@ -31,4 +31,4 @@ async function feedTestOraclePrices(provider) {
         .signAndSend(testPairs.alice.address);
 }
 
-module.exports = { getTestProvider, feedTestOraclePrices };
+module.exports = { getTestProvider, feedTestOraclePrices, testPairs };

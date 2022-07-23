@@ -54,7 +54,7 @@ contract Homa is IHoma {
     }
 
     /**
-     * @dev Get exchange rate of liquid currency to staking currency (liquid : staking).
+     * @dev Get exchange rate of staking currency to liquid currency (staking : liquid).
      * Returns (exchange_rate), value is FixedU128 with
      * a range of [0.000000000000000000, 340282366920938463463.374607431768211455]
      */
