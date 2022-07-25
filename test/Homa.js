@@ -25,7 +25,7 @@ describe('Homa Contract', function () {
         // update homa params
         await provider.api.tx.sudo.sudo(
             provider.api.tx.homa.updateHomaParams(
-                1_000_000_000_000,
+                1_000_000_000_000_000,
                 BigNumber.from("100000000000000000"),
                 BigNumber.from("100000000000000000"),
                 BigNumber.from("100000000000000000")
@@ -79,6 +79,7 @@ describe('Homa Contract', function () {
                 .withArgs(userAddress, amount, fastMatch);
 
             const afterRedeemBalance = await LDOTinstance.balanceOf(userAddress);
+            // Note: This check will only work once before state has to be reset
             expect(initialBalance - afterRedeemBalance).to.be.equal(amount);
         })
     });

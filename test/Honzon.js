@@ -108,7 +108,7 @@ describe('Honzon Contract', function () {
         });
 
         describe('getDebitExchangeRate', function () {
-            it('token will returns default of 0.1 if when initialized', async function () {
+            it('token will returns default of 0.1', async function () {
                 const response = await instance.getDebitExchangeRate(ACA);
 
                 expect(response).to.be.equal(BigNumber.from("100000000000000000"));
