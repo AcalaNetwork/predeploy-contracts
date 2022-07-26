@@ -332,6 +332,24 @@ function stableAssetMint(uint32 poolId, uint256[] calldata amounts, uint256 minM
 // Stable asset redeem.
 // Returns a boolean value indicating whether the operation succeeded.
 function stableAssetRedeem(uint32 poolId, uint256 redeemAmount, uint256[] calldata amounts) external returns (bool);
+
+// Stable asset redeem single.
+// Returns a boolean value indicating whether the operation succeeded.
+function stableAssetRedeemSingle(
+    uint32 poolId,
+    uint256 redeemAmount,
+    uint32 i,
+    uint256 minRedeemAmount,
+    uint32 assetLength
+) external returns (bool);
+
+// Stable asset redeem multi.
+// Returns a boolean value indicating whether the operation succeeded.
+function stableAssetRedeemMulti(
+    uint32 poolId,
+    uint256[] calldata amounts,
+    uint256 maxRedeemAmount
+) external returns (bool);
 ```
 
 ## DeFi Contracts (Coming Soon)

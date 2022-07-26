@@ -15,6 +15,20 @@ interface IStableAsset {
     );
     event StableAssetMinted(address indexed sender, uint32 indexed poolId, uint256[] amounts, uint256 minMintAmount);
     event StableAssetRedeemed(address indexed sender, uint32 indexed poolId, uint256 redeemAmount, uint256[] amounts);
+    event StableAssetRedeemedSingle(
+        address indexed sender,
+        uint32 indexed poolId,
+        uint256 redeemAmount,
+        uint32 i,
+        uint256 minRedeemAmount,
+        uint32 assetLength
+    );
+    event StableAssetRedeemedMulti(
+        address indexed sender,
+        uint32 indexed poolId,
+        uint256[] amounts,
+        uint256 maxRedeemAmount
+    );
 
     // Get stable asset pool tokens.
     // Returns a boolean value indicating whether the pool exists and the corresponding value.
@@ -58,4 +72,22 @@ interface IStableAsset {
     // Stable asset redeem.
     // Returns a boolean value indicating whether the operation succeeded.
     function stableAssetRedeem(uint32 poolId, uint256 redeemAmount, uint256[] calldata amounts) external returns (bool);
+
+    // Stable asset redeem single.
+    // Returns a boolean value indicating whether the operation succeeded.
+    function stableAssetRedeemSingle(
+        uint32 poolId,
+        uint256 redeemAmount,
+        uint32 i,
+        uint256 minRedeemAmount,
+        uint32 assetLength
+    ) external returns (bool);
+
+    // Stable asset redeem multi.
+    // Returns a boolean value indicating whether the operation succeeded.
+    function stableAssetRedeemMulti(
+        uint32 poolId,
+        uint256[] calldata amounts,
+        uint256 maxRedeemAmount
+    ) external returns (bool);
 }
