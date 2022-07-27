@@ -21,7 +21,7 @@ describe('Honzon Contract', function () {
         instance = new Contract(HONZON, HonzonContract.abi, deployer);
     });
 
-    describe('Operation', function () {
+    describe('HonzonTests', function () {
         this.timeout(100000);
 
         describe('adjustLoan', function () {
