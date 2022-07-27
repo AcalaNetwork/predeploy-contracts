@@ -226,9 +226,9 @@ contract StableAsset is IStableAsset {
     }
 
     /**
-     * @dev Stable asset redeem.
+     * @dev Stable asset redeem, redeems the token proportionally.
      * @param poolId ID of the pool
-     * @param redeemAmount amount of token to be redeemed
+     * @param redeemAmount amount of pool token to be redeemed
      * @param amounts minimum amounts of redeemed token received
      * @return succeed whether the operation succeeded
      */
@@ -250,4 +250,67 @@ contract StableAsset is IStableAsset {
         emit StableAssetRedeemed(msg.sender, poolId, redeemAmount, amounts);
         return true;
     }
+
+    /**
+     * @dev Stable asset redeem single. Redeems token into single token from pool.
+     * @param poolId ID of the pool
+     * @param redeemAmount amount of pool token to be redeemed
+     * @param i the array index of the input token in stable pool
+     * @param minRedeemAmount the minimum amount of token recieved
+     * @param assetLength the length of array of tokens in stable pool
+     * @return succeed whether the operation succeeded
+     */
+    function stableAssetRedeemSingle(
+        uint32 poolId,
+        uint256 redeemAmount,
+        uint32 i,
+        uint256 minRedeemAmount,
+        uint32 assetLength
+    )
+    public
+    override
+    returns (bool) {
+        (bool success, bytes memory returnData) = PRECOMPILE.call(
+            abi.encodeWithSignature(
+                "stableAssetRedeemSingle(address,uint32,uint256,uint32,uint256,uint32)",
+                msg.sender, poolId, redeemAmount, i, minRedeemAmount, assetLength
+            )
+        );
+        assembly {
+            if eq(success, 0) {
+                revert(add(returnData, 0x20), returndatasize())
+            }
+        }
+
+        emit StableAssetRedeemedSingle(msg.sender, poolId, redeemAmount, i, minRedeemAmount, assetLength);
+        return true;
+    }
+
+    /**
+     * @dev Stable asset redeem multi. Redeems token into single token from pool.
+     * @param poolId ID of the pool
+     * @param amounts amount of underlying token to be recieved
+     * @param maxRedeemAmount the maximum amount of pool token to be input
+     * @return succeed whether the operation succeeded
+     */
+    function stableAssetRedeemMulti(uint32 poolId, uint256[] calldata amounts, uint256 maxRedeemAmount)
+    public
+    override
+    returns (bool) {
+        (bool success, bytes memory returnData) = PRECOMPILE.call(
+            abi.encodeWithSignature(
+                "stableAssetRedeemMulti(address,uint32,uint256[],uint256)",
+                msg.sender, poolId, amounts, maxRedeemAmount
+            )
+        );
+        assembly {
+            if eq(success, 0) {
+                revert(add(returnData, 0x20), returndatasize())
+            }
+        }
+
+        emit StableAssetRedeemedMulti(msg.sender, poolId, amounts, maxRedeemAmount);
+        return true;
+    }
+
 }
