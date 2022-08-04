@@ -1,17 +1,16 @@
 const { expect } = require('chai');
 const { Contract, BigNumber } = require('ethers');
 const { INCENTIVES, LDOT, ACA, AUSD, LP_DOT_AUSD, LP_ACA_AUSD } = require('../contracts/utils/MandalaAddress');
-const { getTestProvider, testPairs } = require('./util/utils');
+const { getTestProvider, testPairs } = require('./utils/utils');
 
 const IncentivesContract = require('../artifacts/contracts/incentives/Incentives.sol/Incentives.json');
-const ERC20Contract = require('../artifacts/contracts/token/Token.sol/Token.json');
+const NULL_ADDRESS = '0x0000000000000000000000000000000000000000';
+
 // Value of 0 represents loans and value of 1 represents dex
 const PoolId = {
     Loans: 0,
     Dex: 1,
 };
-
-const NULL_ADDRESS = '0x0000000000000000000000000000000000000000';
 
 const formatAmount = (amount) => {
   return amount.replace(/_/g, '');
@@ -31,7 +30,6 @@ const send = async (extrinsic, sender) => {
 
 describe('Incentives Contract', function () {
     let instance;
-    let LDOTinstance;
     let deployer;
     let user;
     let deployerAddress;
@@ -44,7 +42,6 @@ describe('Incentives Contract', function () {
         deployerAddress = await deployer.getAddress();
         provider = await getTestProvider();
         instance = new Contract(INCENTIVES, IncentivesContract.abi, deployer);
-        LDOTinstance = new Contract(LDOT, ERC20Contract.abi, deployer);
         [wallet] = await provider.getWallets();
     });
 
@@ -136,7 +133,49 @@ describe('Incentives Contract', function () {
             });
 
             it("returns values", async function () {
+                const Rate = FixedU128.div(BigNumber.from('10')); // 1/10
+                const updateRewardsDeduction = provider.api.tx.sudo.sudo(
+                    provider.api.tx.incentives.updateClaimRewardDeductionRates([[{Dex: {DexShare: [{Token: 'ACA'}, {Token: 'AUSD'}]}}, Rate]])
+                )
+                await send(updateRewardsDeduction, testPairs.alice.address);
 
+                const updateDexRewards = provider.api.tx.sudo.sudo(
+                    provider.api.tx.incentives.updateDexSavingRewards([[{Dex: {DexShare: [{Token: 'ACA'}, {Token: 'AUSD'}]}}, Rate]])
+                )
+                await send(updateDexRewards, testPairs.alice.address);
+
+                const updateBalance = provider.api.tx.sudo.sudo(
+                    provider.api.tx.currencies.updateBalance(
+                      { id: await wallet.getSubstrateAddress() },
+                      {
+                        DexShare: [{ Token: 'ACA' }, { Token: 'AUSD' }]
+                      },
+                      1_000_000_000_000_000
+                    )
+                );
+                await send(updateBalance, testPairs.alice.address);
+
+                await expect(instance.connect(wallet).depositDexShare(LP_ACA_AUSD, 1_000_000_000))
+                    .to.emit(instance, 'DepositedShare')
+                    .withArgs(wallet.getAddress, LP_ACA_AUSD, 1_000_000_000);
+
+                for (let i = 0; i < 10; i++) {
+                    await provider.api.rpc.engine.createBlock(true /* create empty */, true /* finalize it*/);
+                }
+
+                await expect(instance.connect(wallet).withdrawDexShare(LP_ACA_AUSD, 1_000_000_000))
+                    .to.emit(instance, 'WithdrewShare')
+                    .withArgs(wallet.getAddress, LP_ACA_AUSD, 1_000_000_000);
+
+                /// Note will fail on second attempt need to reset state each time
+                const pendingRewards = await instance.getPendingRewards([LP_ACA_AUSD, ACA, AUSD], PoolId.Dex, LP_ACA_AUSD, wallet.getAddress());
+                expect(pendingRewards[0]).to.be.equal(0);
+                expect(pendingRewards[1]).to.be.equal(0);
+                expect(pendingRewards[2]).to.be.equal(BigNumber.from("400000000000000000"));
+
+                await expect(instance.connect(wallet).claimRewards(PoolId.Dex, LP_ACA_AUSD))
+                    .to.emit(instance, 'ClaimedRewards')
+                    .withArgs(wallet.getAddress, PoolId.Dex, LP_ACA_AUSD);
             });
          });
 

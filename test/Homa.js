@@ -1,7 +1,7 @@
 const { expect } = require('chai');
 const { Contract, BigNumber } = require('ethers');
 const { HOMA, LDOT } = require('../contracts/utils/MandalaAddress');
-const { getTestProvider, testPairs } = require('./util/utils');
+const { getTestProvider, testPairs } = require('./utils/utils');
 
 const HomaContract = require('../artifacts/contracts/homa/Homa.sol/Homa.json');
 const ERC20Contract = require('../artifacts/contracts/token/Token.sol/Token.json');
