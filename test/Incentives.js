@@ -1,6 +1,6 @@
 const { expect } = require('chai');
 const { Contract, BigNumber } = require('ethers');
-const { INCENTIVES, LDOT, ACA, LP_DOT_AUSD, LP_ACA_AUSD } = require('../contracts/utils/MandalaAddress');
+const { INCENTIVES, LDOT, ACA, AUSD, LP_DOT_AUSD, LP_ACA_AUSD } = require('../contracts/utils/MandalaAddress');
 const { getTestProvider, testPairs } = require('./util/utils');
 
 const IncentivesContract = require('../artifacts/contracts/incentives/Incentives.sol/Incentives.json');
@@ -19,6 +19,16 @@ const formatAmount = (amount) => {
 
 const FixedU128 = BigNumber.from(formatAmount('1_000_000_000_000_000_000'));
 
+const send = async (extrinsic, sender) => {
+  return new Promise(async (resolve) => {
+    extrinsic.signAndSend(sender, (result) => {
+      if (result.status.isFinalized || result.status.isInBlock) {
+        resolve(undefined);
+      }
+    });
+  });
+};
+
 describe('Incentives Contract', function () {
     let instance;
     let LDOTinstance;
@@ -26,6 +36,7 @@ describe('Incentives Contract', function () {
     let user;
     let deployerAddress;
     let provider;
+    let wallet;
 
     beforeEach(async function () {
         [deployer, user] = await ethers.getSigners();
@@ -34,6 +45,7 @@ describe('Incentives Contract', function () {
         provider = await getTestProvider();
         instance = new Contract(INCENTIVES, IncentivesContract.abi, deployer);
         LDOTinstance = new Contract(LDOT, ERC20Contract.abi, deployer);
+        [wallet] = await provider.getWallets();
     });
 
     describe("Incentive Tests", function () {
@@ -41,22 +53,31 @@ describe('Incentives Contract', function () {
 
         describe("getIncentiveRewardAmount", function () {
             it("works", async function () {
-                await provider.api.tx.sudo.sudo(
+                const updateRewards = provider.api.tx.sudo.sudo(
                     provider.api.tx.incentives.updateIncentiveRewards([[{Loans: {Token: 'ACA'}}, [[{ Token: 'ACA' }, 100]]]])
                 )
-                .signAndSend(testPairs.alice.address);
+                await send(updateRewards, testPairs.alice.address);
                 const rewardAmount = await instance.getIncentiveRewardAmount(PoolId.Loans, ACA, ACA);
 
                 expect(rewardAmount).to.be.equal(100);
             });
 
-            it("reverts when input bad PoolId Value", async function () {
-                expect(await instance.getIncentiveRewardAmount(2, ACA, ACA)).to.be.reverted;
+            it("non existent reward is zero", function () {
+                it("", async function () {
+                    const rewardAmount = await instance.getIncentiveRewardAmount(PoolId.Loans, LDOT, ACA);
+
+                    expect(rewardAmount).to.be.equal(0);
+                });
             });
+
+            // Hardhat errors out issue: https://github.com/AcalaNetwork/bodhi.js/issues/523
+            /*it("reverts when input bad PoolId Value", async function () {
+                expect(await instance.getIncentiveRewardAmount(2, ACA, ACA)).to.be.reverted;
+            });*/
         });
 
         describe("getDexRewardRate", function () {
-            it('empty storage returns 0', async function () {
+            it("empty storage returns 0", async function () {
                 const rewardRate = await instance.getDexRewardRate(LP_DOT_AUSD);
 
                 expect(rewardRate).to.be.equal(0);
@@ -64,17 +85,123 @@ describe('Incentives Contract', function () {
 
             it("works", async function () {
                 const Rate = FixedU128.div(BigNumber.from('10')); // 1/10
-                await provider.api.tx.sudo.sudo(
+                const updateRewards = provider.api.tx.sudo.sudo(
                     provider.api.tx.incentives.updateDexSavingRewards([[{Dex: {DexShare: [{Token: 'ACA'}, {Token: 'AUSD'}]}}, Rate]])
                 )
-                .signAndSend(testPairs.alice.address);
+
+                await send(updateRewards, testPairs.alice.address);
                 const rewardRate = await instance.getDexRewardRate(LP_ACA_AUSD);
 
                 expect(rewardRate).to.be.equal(Rate);
             });
 
-            it("null currency reverts", async function () {
+            // Hardhat errors out issue: https://github.com/AcalaNetwork/bodhi.js/issues/523
+            /*it("null currency reverts", async function () {
                 expect(await instance.getDexRewardRate(NULL_ADDRESS)).to.be.reverted;
+            });*/
+        });
+
+        describe("getClaimRewardDeductionRate", function () {
+            it("empty storage returns 0", async function () {
+                const rewardDeductionRate = await instance.getClaimRewardDeductionRate(PoolId.Dex, LP_DOT_AUSD);
+
+                expect(rewardDeductionRate).to.be.equal(0);
+            });
+
+            it("works", async function () {
+                const Rate = FixedU128.div(BigNumber.from('10')); // 1/10
+                const updateRewards = provider.api.tx.sudo.sudo(
+                    provider.api.tx.incentives.updateClaimRewardDeductionRates([[{Loans: {Token: 'ACA'}}, Rate]])
+                )
+
+                await send(updateRewards, testPairs.alice.address);
+                const rewardDeductionRate = await instance.getClaimRewardDeductionRate(PoolId.Loans, ACA);
+
+                expect(rewardDeductionRate).to.be.equal(Rate);
+            });
+        });
+
+        describe("getPendingRewards", function () {
+            it("empty storage returns 0", async function () {
+                const Rate = FixedU128.div(BigNumber.from('10')); // 1/10
+                const updateRewards = provider.api.tx.sudo.sudo(
+                    provider.api.tx.incentives.updateClaimRewardDeductionRates([[{Loans: {Token: 'ACA'}}, Rate]])
+                )
+                await send(updateRewards, testPairs.alice.address);
+
+                const pendingRewards = await instance.getPendingRewards([ACA, AUSD, LDOT], PoolId.Loans, ACA, userAddress);
+                pendingRewards.forEach(element => {
+                    expect(element).to.be.equal(0);
+                });
+            });
+
+            it("returns values", async function () {
+
+            });
+         });
+
+        describe("depositDexShare", function () {
+            it("works", async function () {
+                const updateBalance = provider.api.tx.sudo.sudo(
+                    provider.api.tx.currencies.updateBalance(
+                      { id: await wallet.getSubstrateAddress() },
+                      {
+                        DexShare: [{ Token: 'ACA' }, { Token: 'AUSD' }]
+                      },
+                      1_000_000_000_000_000
+                    )
+                );
+                await send(updateBalance, testPairs.alice.address);
+
+                await expect(instance.connect(wallet).depositDexShare(LP_ACA_AUSD, 1_000_000_000))
+                    .to.emit(instance, 'DepositedShare')
+                    .withArgs(wallet.getAddress, LP_ACA_AUSD, 1_000_000_000);
+            });
+        });
+
+        describe("withdrawDexShare", function () {
+            it("works", async function () {
+                const updateBalance = provider.api.tx.sudo.sudo(
+                    provider.api.tx.currencies.updateBalance(
+                      { id: await wallet.getSubstrateAddress() },
+                      {
+                        DexShare: [{ Token: 'ACA' }, { Token: 'AUSD' }]
+                      },
+                      1_000_000_000_000_000
+                    )
+                );
+                await send(updateBalance, testPairs.alice.address);
+
+                await expect(instance.connect(wallet).depositDexShare(LP_ACA_AUSD, 1_000_000_000))
+                    .to.emit(instance, 'DepositedShare')
+                    .withArgs(wallet.getAddress, LP_ACA_AUSD, 1_000_000_000);
+
+                await expect(instance.connect(wallet).withdrawDexShare(LP_ACA_AUSD, 1_000_000_000))
+                    .to.emit(instance, 'WithdrewShare')
+                    .withArgs(wallet.getAddress, LP_ACA_AUSD, 1_000_000_000);
+            });
+        });
+
+        describe("claimRewards", function () {
+            it("works", async function () {
+                const updateBalance = provider.api.tx.sudo.sudo(
+                    provider.api.tx.currencies.updateBalance(
+                      { id: await wallet.getSubstrateAddress() },
+                      {
+                        DexShare: [{ Token: 'ACA' }, { Token: 'AUSD' }]
+                      },
+                      1_000_000_000_000_000
+                    )
+                );
+                await send(updateBalance, testPairs.alice.address);
+
+                await expect(instance.connect(wallet).depositDexShare(LP_ACA_AUSD, 1_000_000_000))
+                    .to.emit(instance, 'DepositedShare')
+                    .withArgs(wallet.getAddress, LP_ACA_AUSD, 1_000_000_000);
+
+                await expect(instance.connect(wallet).claimRewards(PoolId.Dex, LP_ACA_AUSD))
+                    .to.emit(instance, 'ClaimedRewards')
+                    .withArgs(wallet.getAddress, PoolId.Dex, LP_ACA_AUSD);
             });
         });
     });
