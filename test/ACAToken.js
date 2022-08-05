@@ -1,11 +1,12 @@
-const { expect } = require('chai');
-const { Contract, BigNumber } = require('ethers');
-const { ACA } = require('../contracts/utils/MandalaAddress');
-const { getTestProvider } = require('./utils/utils');
+const { expect } = require("chai");
+const { Contract, BigNumber } = require("ethers");
+const { ACA } = require("../contracts/utils/MandalaAddress");
+const { getTestProvider } = require("./utils/utils");
 
-const ERC20_ABI = require('../artifacts/contracts/token/Token.sol/Token.json').abi;
+const ERC20_ABI =
+  require("../artifacts/contracts/token/Token.sol/Token.json").abi;
 
-describe('ACAToken', () => {
+describe("ACAToken", () => {
   let provider;
   let wallet;
   let walletTo;
@@ -21,35 +22,36 @@ describe('ACAToken', () => {
     walletToAddress = await walletTo.getAddress();
   });
 
-  it('get token name', async () => {
+  it("get token name", async () => {
     const name = await token.name();
-    expect(name).to.equal('Acala');
+    expect(name).to.equal("Acala");
   });
 
-  it('get token symbol', async () => {
+  it("get token symbol", async () => {
     const symbol = await token.symbol();
-    expect(symbol).to.equal('ACA');
+    expect(symbol).to.equal("ACA");
   });
 
-  it('get token decimals', async () => {
+  it("get token decimals", async () => {
     const decimals = await token.decimals();
     expect(decimals).to.equal(12);
   });
 
-  it('Transfer adds amount to destination account', async () => {
+  it("Transfer adds amount to destination account", async () => {
     const balance = await token.balanceOf(walletToAddress);
     await token.transfer(walletToAddress, 7);
     expect((await token.balanceOf(walletToAddress)).sub(balance)).to.equal(7);
   });
 
-  it('Transfer emits event', async () => {
+  it("Transfer emits event", async () => {
     await expect(token.transfer(walletToAddress, 7))
-      .to.emit(token, 'Transfer')
+      .to.emit(token, "Transfer")
       .withArgs(walletAddress, walletToAddress, 7);
   });
 
-  it('Can not transfer above the amount', async () => {
+  it("Can not transfer above the amount", async () => {
     const balance = await token.balanceOf(walletAddress);
-    await expect(token.transfer(walletToAddress, balance.add(7))).to.be.reverted;
+    await expect(token.transfer(walletToAddress, balance.add(7))).to.be
+      .reverted;
   });
 });
