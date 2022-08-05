@@ -16,7 +16,7 @@ describe('Homa Contract', function () {
 
     beforeEach(async function () {
         [deployer, user] = await ethers.getSigners();
-        userAddress  =await user.getAddress();
+        userAddress = await user.getAddress();
         deployerAddress = await deployer.getAddress();
         provider = await getTestProvider();
         instance = new Contract(HOMA, HomaContract.abi, deployer);
