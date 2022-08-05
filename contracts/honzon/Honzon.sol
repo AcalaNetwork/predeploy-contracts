@@ -79,17 +79,17 @@ contract Honzon is IHonzon {
     }
 
     /**
-     * @dev Get liquidation ratio for a currency
-     * Returns (liquidation_ratio), value is FixedU128 with
-     * a range of [0.000000000000000000, 340282366920938463463.374607431768211455]
+     * @dev Get collateral parameters for a currency
+     * Returns (params), which is an array of 5 parameters for a collateral type
+     * see IHonzon.sol for documentation of each value
      */
-    function getLiquidationRatio(address currencyId)
+    function getCollateralParameters(address currencyId)
     public
     view
     override
-    returns (uint256) {
+    returns (uint256[] memory) {
         (bool success, bytes memory returnData) = PRECOMPILE.staticcall(
-            abi.encodeWithSignature("getLiquidationRatio(address)", currencyId)
+            abi.encodeWithSignature("getCollateralParameters(address)", currencyId)
         );
         assembly {
             if eq(success, 0) {
@@ -97,7 +97,7 @@ contract Honzon is IHonzon {
             }
         }
 
-        return abi.decode(returnData, (uint256));
+        return abi.decode(returnData, (uint256[]));
     }
 
     /**
