@@ -67,10 +67,9 @@ describe('Incentives Contract', function () {
                 });
             });
 
-            // Hardhat errors out issue: https://github.com/AcalaNetwork/bodhi.js/issues/523
-            /*it("reverts when input bad PoolId Value", async function () {
-                expect(await instance.getIncentiveRewardAmount(2, ACA, ACA)).to.be.reverted;
-            });*/
+            it("reverts when input bad PoolId Value", async function () {
+                await expect(instance.getIncentiveRewardAmount(2, ACA, ACA)).to.be.reverted;
+            });
         });
 
         describe("getDexRewardRate", function () {
@@ -92,10 +91,9 @@ describe('Incentives Contract', function () {
                 expect(rewardRate).to.be.equal(Rate);
             });
 
-            // Hardhat errors out issue: https://github.com/AcalaNetwork/bodhi.js/issues/523
-            /*it("null currency reverts", async function () {
-                expect(await instance.getDexRewardRate(NULL_ADDRESS)).to.be.reverted;
-            });*/
+            it("null currency reverts", async function () {
+                await expect(instance.getDexRewardRate(NULL_ADDRESS)).to.be.reverted;
+            });
         });
 
         describe("getClaimRewardDeductionRate", function () {
