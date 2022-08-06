@@ -31,4 +31,18 @@ async function feedTestOraclePrices(provider) {
     .signAndSend(testPairs.alice.address);
 }
 
-module.exports = { getTestProvider, feedTestOraclePrices, testPairs };
+async function nextBlock(block_number, provider) {
+  return new Promise((resolve) => {
+    provider.api.tx.system
+      .remark(block_number.toString(16))
+      .signAndSend(testPairs.alice.address, (result) => {
+        if (result.status.isFinalized || result.status.isInBlock) {
+          resolve(undefined);
+        }
+      });
+  });
+}
+
+const sleep = async (time) => new Promise((resolve) => setTimeout(resolve, time));
+
+module.exports = { getTestProvider, feedTestOraclePrices, testPairs, nextBlock, sleep };

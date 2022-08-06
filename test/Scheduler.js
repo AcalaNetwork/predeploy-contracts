@@ -1,8 +1,9 @@
 const { createTestPairs } = require("@polkadot/keyring/testingPairs");
 const { expect } = require("chai");
-const { BigNumber, Contract } = require("ethers");
-const { SCHEDULE, DOT, LDOT } = require("../contracts/utils/MandalaAddress");
-const { getTestProvider } = require("./utils/utils");
+const { Contract } = require("ethers");
+const { ethers } = require("hardhat");
+const { SCHEDULE, DOT } = require("../contracts/utils/MandalaAddress");
+const { getTestProvider, sleep, nextBlock } = require("./utils/utils");
 
 const testPairs = createTestPairs();
 
@@ -12,57 +13,86 @@ const ERC20_ABI =
   require("../artifacts/contracts/token/Token.sol/Token.json").abi;
 
 describe("Schedule", () => {
-  let instance;
+  let schedule;
   let provider;
   let deployer;
   let user;
-  let deployerAddress;
-  let userAddress;
-  let next_block;
+  let wallet;
+  let walletTo;
+  let instance;
+  let DOTInstance;
+  let erc20;
 
   beforeEach(async function () {
     [deployer, user] = await ethers.getSigners();
-    deployerAddress = await deployer.getAddress();
-    userAddress = await deployer.getAddress();
     provider = await getTestProvider();
+    [wallet, walletTo] = await provider.getWallets();
+    schedule = new Contract(SCHEDULE, SCHEDULER_ABI, wallet);
     instance = new Contract(SCHEDULE, SCHEDULER_ABI, deployer);
     DOTInstance = new Contract(DOT, ERC20_ABI, deployer);
-
-    next_block = async (block_number) => {
-      return new Promise((resolve) => {
-        provider.api.tx.system
-          .remark(block_number.toString(16))
-          .signAndSend(testPairs.alice.address, (result) => {
-            if (result.status.isFinalized || result.status.isInBlock) {
-              resolve(undefined);
-            }
-          });
-      });
-    };
+    erc20 = new Contract(DOT, ERC20_ABI, walletTo);
   });
 
   it("schedule call", async () => {
-    const tx = await DOTInstance.connect(deployer).transfer(
-      userAddress,
-      1_000_000_000
-    );
-    await instance
-      .connect(deployer)
-      .scheduleCall(DOT, 0, 300000, 10000, 2, ethers.utils.hexlify(tx.data));
-    const initialBalance = await DOTInstance.balanceOf(userAddress);
-    let current_block_number = await provider.api.query.system.number();
-    const target_block_number = current_block_number + 5;
+    const tx = await erc20.populateTransaction.transfer(walletTo.getAddress(), 1_000_000);
+    const txData = ethers.utils.hexlify(tx.data.toString());
+    //console.log(tx, txData);
 
-    while (current_block_number < target_block_number) {
-      await next_block(current_block_number);
-      current_block_number = await provider.api.query.system.number();
+    await schedule
+      .scheduleCall(DOT, 0, 300000, 10000, 1, txData);
+    const initialBalance = await DOTInstance.balanceOf(walletTo.getAddress());
+
+    for (let i = 0; i < 5; i++) {
+      await sleep(100);
+      await nextBlock(i, provider);
     }
 
-    const afterBalance = await DOTInstance.balanceOf(userAddress);
+    const afterBalance = await DOTInstance.balanceOf(walletTo.getAddress());
     expect(afterBalance).to.be.equal(initialBalance.add(1000000));
   });
 
-  it("cancel call", async () => {});
+  it("cancel call", async () => {
+    const tx = await erc20.populateTransaction.transfer(walletTo.getAddress(), 1_000_000);
+    const txData = ethers.utils.hexlify(tx.data.toString());
+    //console.log(tx, txData);
 
-  it("reschedule call", () => {});
+    let iface = new ethers.utils.Interface(SCHEDULER_ABI);
+
+    let current_block_number = Number(await provider.api.query.system.number());
+    await schedule.scheduleCall(DOT, 0, 300000, 10000, 2, ethers.utils.hexlify(txData));
+
+    let block_hash = await provider.api.rpc.chain.getBlockHash(current_block_number + 1);
+    const data = await provider.api.derive.tx.events(block_hash);
+
+    let event = data.events.filter((item) => provider.api.events.evm.Executed.is(item.event));
+    expect(event.length).above(0);
+
+    let decode_log = iface.parseLog((event[event.length - 1].event.data.toJSON())[2][0]);
+
+    await expect(instance.connect(wallet).cancelCall(ethers.utils.hexlify(decode_log.args.taskId)))
+      .to.emit(instance, 'CanceledCall')
+      .withArgs(await wallet.getAddress(), ethers.utils.hexlify(decode_log.args.taskId));
+  });
+
+  it("reschedule call", async () => {
+    const tx = await erc20.populateTransaction.transfer(walletTo.getAddress(), 1_000_000);
+    const txData = ethers.utils.hexlify(tx.data.toString());
+    //console.log(tx, txData);
+
+    let iface = new ethers.utils.Interface(SCHEDULER_ABI);
+
+    let current_block_number = Number(await provider.api.query.system.number());
+    await schedule.scheduleCall(DOT, 0, 300000, 10000, 2, txData);
+
+    let block_hash = await provider.api.rpc.chain.getBlockHash(current_block_number + 1);
+    const data = await provider.api.derive.tx.events(block_hash);
+
+    let event = data.events.filter((item) => provider.api.events.evm.Executed.is(item.event));
+    expect(event.length).above(0);
+
+    let decode_log = iface.parseLog((event[event.length - 1].event.data.toJSON())[2][0]);
+    await expect(instance.connect(wallet).rescheduleCall(5, ethers.utils.hexlify(decode_log.args.taskId)))
+      .to.emit(instance, 'RescheduledCall')
+      .withArgs(await wallet.getAddress(), ethers.utils.hexlify(decode_log.args.taskId))
+  });
 });
