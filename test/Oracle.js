@@ -5,7 +5,7 @@ const {
   RENBTC,
   DOT,
   AUSD,
-  LP_ACA_AUSD,
+  LP_KAR_KUSD,
   ORACLE,
 } = require("../contracts/utils/MandalaAddress");
 const { getTestProvider } = require("./utils/utils");
@@ -76,7 +76,7 @@ describe("Prices", () => {
       BigNumber.from(1).mul(BigNumber.from(10).pow(18)).toString()
     );
 
-    expect(await prices.getPrice(LP_ACA_AUSD)).to.equal(0);
+    expect(await prices.getPrice(LP_KAR_KUSD)).to.equal(0);
   });
 
   it("ignores invalid address as CurrencyId::erc20", async () => {

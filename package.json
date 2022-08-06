@@ -18,7 +18,8 @@
     "prepack": "scripts/prepack.sh",
     "generate-bytecode": "hardhat run generate/generate.js",
     "lint": "solhint contracts/**/*.sol",
-    "test-contracts": "hardhat test test/Scheduler.js --network mandala"
+    "fmt-test": "prettier --write test/",
+    "test-contracts": "hardhat test --network mandala"
   },
   "devDependencies": {
     "@acala-network/bodhi": "^2.4.13",

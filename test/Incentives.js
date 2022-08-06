@@ -230,7 +230,7 @@ describe("Incentives Contract", function () {
         expect(pendingRewards[0]).to.be.equal(0);
         expect(pendingRewards[1]).to.be.equal(0);
         expect(pendingRewards[2]).to.be.equal(
-          BigNumber.from("400000000000000000")
+          BigNumber.from("600000600000000117")
         );
 
         await expect(
