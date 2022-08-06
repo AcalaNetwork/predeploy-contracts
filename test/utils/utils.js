@@ -43,6 +43,13 @@ async function nextBlock(block_number, provider) {
   });
 }
 
-const sleep = async (time) => new Promise((resolve) => setTimeout(resolve, time));
+const sleep = async (time) =>
+  new Promise((resolve) => setTimeout(resolve, time));
 
-module.exports = { getTestProvider, feedTestOraclePrices, testPairs, nextBlock, sleep };
+module.exports = {
+  getTestProvider,
+  feedTestOraclePrices,
+  testPairs,
+  nextBlock,
+  sleep,
+};
