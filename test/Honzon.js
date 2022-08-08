@@ -86,17 +86,25 @@ describe("Honzon Contract", function () {
       });
     });
 
-    describe("getLiquidationRatio", function () {
+    describe("getCollateralParams", function () {
       it("token that is not enabled as collateral returns zero", async function () {
-        const response = await instance.getLiquidationRatio(AUSD);
+        const response = await instance.getCollateralParameters(AUSD);
 
-        expect(response).to.be.equal(0);
+        expect(response[0]).to.be.equal(0);
+        expect(response[1]).to.be.equal(0);
+        expect(response[2]).to.be.equal(0);
+        expect(response[3]).to.be.equal(0);
+        expect(response[4]).to.be.equal(0);
       });
 
       it("returns liquidation ratio", async function () {
-        const response = await instance.getLiquidationRatio(DOT);
+        const response = await instance.getCollateralParameters(DOT);
 
-        expect(response).to.be.equal(BigNumber.from("1500000000000000000"));
+        expect(response[0]).to.be.equal(BigNumber.from("10000000000000000000"));
+        expect(response[1]).to.be.equal(0);
+        expect(response[2]).to.be.equal(BigNumber.from("1500000000000000000"));
+        expect(response[3]).to.be.equal(BigNumber.from("100000000000000000"));
+        expect(response[4]).to.be.equal(BigNumber.from("1500000000000000000"));
       });
     });
 
