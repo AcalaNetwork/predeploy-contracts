@@ -118,7 +118,7 @@ describe("stable asset", () => {
       provider.api.tx.currencies.updateBalance(
         substrateAddress,
         { Token: "DOT" },
-        dollar.mul(1000)
+        dollar.mul(100_000)
       )
     );
     await send(updateBalanceDOT, testPairs.alice.address);
@@ -127,10 +127,19 @@ describe("stable asset", () => {
       provider.api.tx.currencies.updateBalance(
         substrateAddress,
         { Token: "LDOT" },
-        dollar.mul(1000)
+        dollar.mul(100_000)
       )
     );
     await send(updateBalanceLDOT, testPairs.alice.address);
+
+    const updateBalanceACA = provider.api.tx.sudo.sudo(
+      provider.api.tx.currencies.updateBalance(
+        substrateAddress,
+        { Token: "ACA" },
+        dollar.mul(100_000)
+      )
+    );
+    await send(updateBalanceACA, testPairs.alice.address);
 
     const assetRegistry = provider.api.tx.sudo.sudo(
       provider.api.tx.assetRegistry.registerStableAsset({

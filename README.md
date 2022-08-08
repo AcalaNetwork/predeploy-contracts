@@ -358,6 +358,3 @@ function stableAssetRedeemMulti(
     uint256 maxRedeemAmount
 ) external returns (bool);
 ```
-
-## DeFi Contracts (Coming Soon)
-These contracts will make Acala's DeFi primitives (stablecoin, staking derivative, and DeX) available in Acala EVM.
