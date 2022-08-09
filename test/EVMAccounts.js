@@ -5,12 +5,7 @@ const { EVM_ACCOUNTS } = require("../contracts/utils/MandalaAddress");
 const { getTestProvider } = require("./utils/utils");
 const { Keyring } = require("@polkadot/keyring");
 const { randomAsHex, blake2AsU8a } = require("@polkadot/util-crypto");
-const {
-  hexToU8a,
-  u8aConcat,
-  stringToU8a,
-  u8aToHex,
-} = require("@polkadot/util");
+const { u8aConcat, stringToU8a, u8aToHex } = require("@polkadot/util");
 
 const testPairs = createTestPairs();
 const EVMAccountsABI =
@@ -22,7 +17,6 @@ describe("EVM Accounts", () => {
   let wallet;
   let walletTo;
   let evmAccountsPredeployed;
-  let provider;
 
   beforeEach(async function () {
     provider = await getTestProvider();
@@ -33,6 +27,10 @@ describe("EVM Accounts", () => {
       EVMAccountsABI,
       deployer
     );
+  });
+
+  afterEach(async function () {
+    provider.api.disconnect();
   });
 
   it("evm accounts works", async () => {

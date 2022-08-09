@@ -22,6 +22,10 @@ describe("ACAToken", () => {
     walletToAddress = await walletTo.getAddress();
   });
 
+  afterEach(async function () {
+    provider.api.disconnect();
+  });
+
   it("get token name", async () => {
     const name = await token.name();
     expect(name).to.equal("Acala");

@@ -39,17 +39,19 @@ describe("Incentives Contract", function () {
   let instance;
   let deployer;
   let user;
-  let deployerAddress;
   let provider;
   let wallet;
 
   beforeEach(async function () {
     [deployer, user] = await ethers.getSigners();
     userAddress = await user.getAddress();
-    deployerAddress = await deployer.getAddress();
     provider = await getTestProvider();
     instance = new Contract(INCENTIVES, IncentivesContract.abi, deployer);
     [wallet] = await provider.getWallets();
+  });
+
+  afterEach(async function () {
+    provider.api.disconnect();
   });
 
   describe("Incentive Tests", function () {
@@ -230,7 +232,7 @@ describe("Incentives Contract", function () {
         expect(pendingRewards[0]).to.be.equal(0);
         expect(pendingRewards[1]).to.be.equal(0);
         expect(pendingRewards[2]).to.be.equal(
-          BigNumber.from("600000600000000117")
+          BigNumber.from("400000400000000078")
         );
 
         await expect(

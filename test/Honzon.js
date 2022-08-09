@@ -27,6 +27,10 @@ describe("Honzon Contract", function () {
     instance = new Contract(HONZON, HonzonContract.abi, deployer);
   });
 
+  afterEach(async function () {
+    provider.api.disconnect();
+  });
+
   describe("HonzonTests", function () {
     this.timeout(100000);
 
