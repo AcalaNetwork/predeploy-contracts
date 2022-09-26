@@ -32,27 +32,6 @@ contract Incentives is InterfaceIncentives {
     }
 
     /**
-     * @dev Fixed reward rate for dex reward pool per period
-     * returns (dex_reward_rate) as a FixedU128 representing a decimal value
-     */
-    function getDexRewardRate(address currencyId)
-    public
-    view
-    override
-    returns (uint256) {
-        (bool success, bytes memory returnData) = PRECOMPILE.staticcall(
-            abi.encodeWithSignature("getDexRewardRate(address)", currencyId)
-        );
-        assembly {
-            if eq(success, 0) {
-                revert(add(returnData, 0x20), returndatasize())
-            }
-        }
-
-        return abi.decode(returnData, (uint256));
-    }
-
-    /**
      * @dev Stake LP token to add shares to PoolId::Dex
      * Returns a boolean value indicating whether the operation succeeded.
      */

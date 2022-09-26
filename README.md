@@ -269,10 +269,6 @@ enum PoolId { LOANS, DEX }
 // Returns (reward_amount)
 function getIncentiveRewardAmount(PoolId pool, address poolCurrencyId, address rewardCurrencyId) external view returns (uint256);
 
-// Fixed reward rate for dex reward pool per period
-// Returns (dex_reward_rate) as a FixedU128 representing a decimal
-function getDexRewardRate(address currencyId) external view returns (uint256);
-
 // Stake LP token to add shares to PoolId::Dex
 // Returns a boolean value indicating whether the operation succeeded.
 function depositDexShare(address currencyId, uint256 amount) external returns (bool);
