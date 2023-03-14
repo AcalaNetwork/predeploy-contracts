@@ -3,7 +3,7 @@
 pragma solidity ^0.8.0;
 
 interface IXtokens {
-    // A Currency is defined by address and the amount to be transferred
+    // A Currency is defined by address and the amount to be transferred.
     struct Currency {
         address currencyId;
         uint256 amount;
@@ -65,7 +65,7 @@ interface IXtokens {
     // Transfer several `MultiAsset` specifying the item to be used as fee.
     function transferMultiAssets(
         bytes memory assets,
-        bytes memory fee,
+        uint32 feeItem,
         bytes memory dest,
         uint64 weight
     ) external returns (bool);

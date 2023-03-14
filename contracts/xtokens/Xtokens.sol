@@ -17,7 +17,9 @@ contract Xtokens is IXtokens {
      *
      * - `currencyId` cannot be the zero address.
      * - `amount` cannot be the zero.
-     * - `dest` SCALE Encode of MultiLocation, it cannot be empty.
+     * - `dest` SCALE Encode of VersionedMultiLocation, it cannot be empty.
+     *  https://github.com/paritytech/polkadot/blob/3fd99050/xcm/src/lib.rs#L405-L408
+     *  The supported versions depend on the xcm version of node.
      * - `weight` dest weight limit.
      */
     function transfer(address currencyId, uint256 amount, bytes memory dest, uint64 weight)
@@ -54,8 +56,12 @@ contract Xtokens is IXtokens {
      *
      * Requirements:
      *
-     * - `asset` SCALE Encode of MultiAsset, it cannot be empty.
-     * - `dest` SCALE Encode of MultiLocation, it cannot be empty.
+     * - `asset` SCALE Encode of VersionedMultiAsset, it cannot be empty.
+     *  https://github.com/paritytech/polkadot/blob/3fd99050/xcm/src/lib.rs#L421-L424
+     *  The supported versions depend on the xcm version of node.
+     * - `dest` SCALE Encode of VersionedMultiLocation, it cannot be empty.
+     *  https://github.com/paritytech/polkadot/blob/3fd99050/xcm/src/lib.rs#L405-L408
+     *  The supported versions depend on the xcm version of node.
      * - `weight` dest weight limit.
      */
     function transferMultiAsset(bytes memory asset, bytes memory dest, uint64 weight)
@@ -67,7 +73,7 @@ contract Xtokens is IXtokens {
 
         (bool success, bytes memory returnData) = PRECOMPILE.call(
             abi.encodeWithSignature(
-                "TransferMultiAsset(address,bytes,bytes,uint64)",
+                "transferMultiAsset(address,bytes,bytes,uint64)",
                 msg.sender, asset, dest, weight
             )
         );
@@ -94,7 +100,9 @@ contract Xtokens is IXtokens {
      * - `currencyId` cannot be the zero address.
      * - `amount` cannot be the zero.
      * - `fee` cannot be the zero.
-     * - `dest` SCALE Encode of MultiLocation, it cannot be empty.
+     * - `dest` SCALE Encode of VersionedMultiLocation, it cannot be empty.
+     *  https://github.com/paritytech/polkadot/blob/3fd99050/xcm/src/lib.rs#L405-L408
+     *  The supported versions depend on the xcm version of node.
      * - `weight` dest weight limit.
      */
     function transferWithFee(address currencyId, uint256 amount, uint256 fee, bytes memory dest, uint64 weight)
@@ -132,9 +140,15 @@ contract Xtokens is IXtokens {
      *
      * Requirements:
      *
-     * - `asset` SCALE Encode of MultiAsset, it cannot be empty.
-     * - `fee` SCALE Encode of MultiAsset, it cannot be empty.
-     * - `dest` SCALE Encode of MultiLocation, it cannot be empty.
+     * - `asset` SCALE Encode of VersionedMultiAsset, it cannot be empty.
+     *  https://github.com/paritytech/polkadot/blob/3fd99050/xcm/src/lib.rs#L421-L424
+     *  The supported versions depend on the xcm version of node.
+     * - `fee` SCALE Encode of VersionedMultiAsset, it cannot be empty.
+     *  https://github.com/paritytech/polkadot/blob/3fd99050/xcm/src/lib.rs#L421-L424
+     *  The supported versions depend on the xcm version of node.
+     * - `dest` SCALE Encode of VersionedMultiLocation, it cannot be empty.
+     *  https://github.com/paritytech/polkadot/blob/3fd99050/xcm/src/lib.rs#L405-L408
+     *  The supported versions depend on the xcm version of node.
      * - `weight` dest weight limit.
      */
     function transferMultiAssetWithFee(bytes memory asset, bytes memory fee, bytes memory dest, uint64 weight)
@@ -174,8 +188,10 @@ contract Xtokens is IXtokens {
      * - `currencies` currencies array, `(address, uint256)[]` e.g.(
         [[1000000000000000000000000000000000000001,1],[1000000000000000000000000000000000000001,2]]
         )
-     * - `feeItem` is index of the currencies tuple that we want to use for payment.
-     * - `dest` SCALE Encode of MultiLocation, it cannot be empty.
+     * - `feeItem` is index of the currencies that we want to use for payment.
+     * - `dest` SCALE Encode of VersionedMultiLocation, it cannot be empty.
+     *  https://github.com/paritytech/polkadot/blob/3fd99050/xcm/src/lib.rs#L405-L408
+     *  The supported versions depend on the xcm version of node.
      * - `weight` dest weight limit.
      */
     function transferMultiCurrencies(Currency[] memory currencies, uint32 feeItem, bytes memory dest, uint64 weight)
@@ -211,23 +227,26 @@ contract Xtokens is IXtokens {
      *
      * Requirements:
      *
-     * - `assets` SCALE Encode of MultiAssets, it cannot be empty.
-     * - `fee` SCALE Encode of MultiAsset, it cannot be empty.
-     * - `dest` SCALE Encode of MultiLocation, it cannot be empty.
+     * - `assets` SCALE Encode of VersionedMultiAssets, it cannot be empty.
+     *  https://github.com/paritytech/polkadot/blob/3fd99050/xcm/src/lib.rs#L429-L432
+     *  The supported versions depend on the xcm version of node.
+     * - `feeItem` is index of the assets that we want to use for payment.
+     * - `dest` SCALE Encode of VersionedMultiLocation, it cannot be empty.
+     *  https://github.com/paritytech/polkadot/blob/3fd99050/xcm/src/lib.rs#L405-L408
+     *  The supported versions depend on the xcm version of node.
      * - `weight` dest weight limit.
      */
-    function transferMultiAssets(bytes memory assets, bytes memory fee, bytes memory dest, uint64 weight)
+    function transferMultiAssets(bytes memory assets, uint32 feeItem, bytes memory dest, uint64 weight)
     public
     override
     returns (bool) {
         require(assets.length > 0, "Xtokens: assets is empty");
-        require(fee.length > 0, "Xtokens: fee is empty");
         require(dest.length > 0, "Xtokens: dest is empty");
 
         (bool success, bytes memory returnData) = PRECOMPILE.call(
             abi.encodeWithSignature(
-                "transferMultiAssets(address,bytes,bytes,bytes,uint64)",
-                msg.sender, assets, fee, dest, weight
+                "transferMultiAssets(address,bytes,uint32,bytes,uint64)",
+                msg.sender, assets, feeItem, dest, weight
             )
         );
         assembly {
