@@ -23,6 +23,7 @@
     "@nomiclabs/hardhat-ethers": "^2.0.5",
     "@nomiclabs/hardhat-waffle": "^2.0.3",
     "@openzeppelin/contracts": "4.7.3",
+    "@primitivefi/hardhat-dodoc": "^0.2.3",
     "ethereum-waffle": "^3.4.4",
     "handlebars": "^4.7.7",
     "hardhat": "^2.9.3",

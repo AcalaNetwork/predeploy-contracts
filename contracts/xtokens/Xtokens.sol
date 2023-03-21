@@ -4,24 +4,15 @@ pragma solidity ^0.8.0;
 
 import "./IXtokens.sol";
 
+/// @title Xtokens Predeploy Contract
+/// @author Acala Developers
+/// @notice You can use this predeploy contract to call xtokens pallet
+/// @dev This contracts will interact with xtokens pallet
 contract Xtokens is IXtokens {
+    /// @dev The Xtokens precompile address.
     address constant private PRECOMPILE = address(0x000000000000000000000000000000000000040B);
 
-    /**
-     * @dev Transfer local assets with given `currencyId` and `Amount`.
-     * Returns a boolean value indicating whether the operation succeeded.
-     *
-     * Emits an {TransferredMultiAssets} event.
-     *
-     * Requirements:
-     *
-     * - `currencyId` cannot be the zero address.
-     * - `amount` cannot be the zero.
-     * - `dest` SCALE Encode of VersionedMultiLocation, it cannot be empty.
-     *  https://github.com/paritytech/polkadot/blob/3fd99050/xcm/src/lib.rs#L405-L408
-     *  The supported versions depend on the xcm version of node.
-     * - `weight` dest weight limit.
-     */
+    /// @inheritdoc IXtokens
     function transfer(address currencyId, uint256 amount, bytes memory dest, uint64 weight)
     public
     override
@@ -48,22 +39,7 @@ contract Xtokens is IXtokens {
         return true;
     }
 
-    /**
-     * @dev Transfer `MultiAsset` assets.
-     * Returns a boolean value indicating whether the operation succeeded.
-     *
-     * Emits an {TransferredMultiAssets} event.
-     *
-     * Requirements:
-     *
-     * - `asset` SCALE Encode of VersionedMultiAsset, it cannot be empty.
-     *  https://github.com/paritytech/polkadot/blob/3fd99050/xcm/src/lib.rs#L421-L424
-     *  The supported versions depend on the xcm version of node.
-     * - `dest` SCALE Encode of VersionedMultiLocation, it cannot be empty.
-     *  https://github.com/paritytech/polkadot/blob/3fd99050/xcm/src/lib.rs#L405-L408
-     *  The supported versions depend on the xcm version of node.
-     * - `weight` dest weight limit.
-     */
+    /// @inheritdoc IXtokens
     function transferMultiAsset(bytes memory asset, bytes memory dest, uint64 weight)
     public
     override
@@ -89,22 +65,7 @@ contract Xtokens is IXtokens {
         return true;
     }
 
-    /**
-     * @dev Transfer native currencies specifying the fee and amount as separate.
-     * Returns a boolean value indicating whether the operation succeeded.
-     *
-     * Emits an {TransferredMultiAssets} event.
-     *
-     * Requirements:
-     *
-     * - `currencyId` cannot be the zero address.
-     * - `amount` cannot be the zero.
-     * - `fee` cannot be the zero.
-     * - `dest` SCALE Encode of VersionedMultiLocation, it cannot be empty.
-     *  https://github.com/paritytech/polkadot/blob/3fd99050/xcm/src/lib.rs#L405-L408
-     *  The supported versions depend on the xcm version of node.
-     * - `weight` dest weight limit.
-     */
+    /// @inheritdoc IXtokens
     function transferWithFee(address currencyId, uint256 amount, uint256 fee, bytes memory dest, uint64 weight)
     public
     override
@@ -132,25 +93,7 @@ contract Xtokens is IXtokens {
         return true;
     }
 
-    /**
-     * @dev Transfer `MultiAsset` specifying the fee and amount as separate.
-     * Returns a boolean value indicating whether the operation succeeded.
-     *
-     * Emits an {TransferredMultiAssets} event.
-     *
-     * Requirements:
-     *
-     * - `asset` SCALE Encode of VersionedMultiAsset, it cannot be empty.
-     *  https://github.com/paritytech/polkadot/blob/3fd99050/xcm/src/lib.rs#L421-L424
-     *  The supported versions depend on the xcm version of node.
-     * - `fee` SCALE Encode of VersionedMultiAsset, it cannot be empty.
-     *  https://github.com/paritytech/polkadot/blob/3fd99050/xcm/src/lib.rs#L421-L424
-     *  The supported versions depend on the xcm version of node.
-     * - `dest` SCALE Encode of VersionedMultiLocation, it cannot be empty.
-     *  https://github.com/paritytech/polkadot/blob/3fd99050/xcm/src/lib.rs#L405-L408
-     *  The supported versions depend on the xcm version of node.
-     * - `weight` dest weight limit.
-     */
+    /// @inheritdoc IXtokens
     function transferMultiAssetWithFee(bytes memory asset, bytes memory fee, bytes memory dest, uint64 weight)
     public
     override
@@ -177,23 +120,7 @@ contract Xtokens is IXtokens {
         return true;
     }
 
-    /**
-     * @dev Transfer several currencies specifying the item to be used as fee.
-     * Returns a boolean value indicating whether the operation succeeded.
-     *
-     * Emits an {TransferredMultiAssets} event.
-     *
-     * Requirements:
-     *
-     * - `currencies` currencies array, `(address, uint256)[]` e.g.(
-        [[1000000000000000000000000000000000000001,1],[1000000000000000000000000000000000000001,2]]
-        )
-     * - `feeItem` is index of the currencies that we want to use for payment.
-     * - `dest` SCALE Encode of VersionedMultiLocation, it cannot be empty.
-     *  https://github.com/paritytech/polkadot/blob/3fd99050/xcm/src/lib.rs#L405-L408
-     *  The supported versions depend on the xcm version of node.
-     * - `weight` dest weight limit.
-     */
+    /// @inheritdoc IXtokens
     function transferMultiCurrencies(Currency[] memory currencies, uint32 feeItem, bytes memory dest, uint64 weight)
     public
     override
@@ -219,23 +146,7 @@ contract Xtokens is IXtokens {
         return true;
     }
 
-    /**
-     * @dev Transfer several `MultiAssets` specifying the item to be used as fee.
-     * Returns a boolean value indicating whether the operation succeeded.
-     *
-     * Emits an {TransferredMultiAssets} event.
-     *
-     * Requirements:
-     *
-     * - `assets` SCALE Encode of VersionedMultiAssets, it cannot be empty.
-     *  https://github.com/paritytech/polkadot/blob/3fd99050/xcm/src/lib.rs#L429-L432
-     *  The supported versions depend on the xcm version of node.
-     * - `feeItem` is index of the assets that we want to use for payment.
-     * - `dest` SCALE Encode of VersionedMultiLocation, it cannot be empty.
-     *  https://github.com/paritytech/polkadot/blob/3fd99050/xcm/src/lib.rs#L405-L408
-     *  The supported versions depend on the xcm version of node.
-     * - `weight` dest weight limit.
-     */
+    /// @inheritdoc IXtokens
     function transferMultiAssets(bytes memory assets, uint32 feeItem, bytes memory dest, uint64 weight)
     public
     override

@@ -2,7 +2,12 @@
 
 pragma solidity ^0.8.0;
 
+/// @title MultiCurrency Predeploy Contract Library
+/// @author Acala Developers
+/// @notice You can use this predeploy contract to call currencies pallet
+/// @dev This contracts will interact with currencies pallet
 library MultiCurrency {
+    /// @dev The MultiCurrency precompile address.
     address constant private PRECOMPILE = address(0x0000000000000000000000000000000000000400);
 
     function name() internal view returns (string memory) {

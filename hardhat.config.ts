@@ -1,6 +1,7 @@
 import { HardhatUserConfig, task } from "hardhat/config";
-import '@nomiclabs/hardhat-ethers'
-import '@nomiclabs/hardhat-waffle'
+import '@nomiclabs/hardhat-ethers';
+import '@nomiclabs/hardhat-waffle';
+import '@primitivefi/hardhat-dodoc';
 
 // You need to export an object to set up your config
 // Go to https://hardhat.org/config/ to learn more
@@ -24,6 +25,9 @@ const config: HardhatUserConfig = {
       },
       chainId: 595
     },
+  },
+  dodoc: {
+    outputDir: './contracts/docs'
   }
 };
 

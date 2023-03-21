@@ -4,12 +4,15 @@ pragma solidity ^0.8.0;
 
 import "./IEVM.sol";
 
+/// @title EVM Predeploy Contract
+/// @author Acala Developers
+/// @notice You can use this predeploy contract to call evm pallet
+/// @dev This contracts will interact with evm pallet
 contract EVM is IEVM {
+    /// @dev The EVM precompile address.
     address constant private PRECOMPILE = address(0x0000000000000000000000000000000000000402);
 
-    /**
-     * @dev Returns the const of NewContractExtraBytes.
-     */
+    /// @inheritdoc IEVM
     function newContractExtraBytes() public view override returns (uint256) {
         (bool success, bytes memory returnData) = PRECOMPILE.staticcall(
             abi.encodeWithSignature("newContractExtraBytes()")
@@ -23,9 +26,7 @@ contract EVM is IEVM {
         return abi.decode(returnData, (uint256));
     }
 
-    /**
-     * @dev Returns the const of StorageDepositPerByte.
-     */
+    /// @inheritdoc IEVM
     function storageDepositPerByte() public view override returns (uint256) {
         (bool success, bytes memory returnData) = PRECOMPILE.staticcall(
             abi.encodeWithSignature("storageDepositPerByte()")
@@ -39,9 +40,7 @@ contract EVM is IEVM {
         return abi.decode(returnData, (uint256));
     }
 
-    /**
-     * @dev Returns the maintainer of the contract.
-     */
+    /// @inheritdoc IEVM
     function maintainerOf(address contractAddress)
         public
         view
@@ -60,9 +59,7 @@ contract EVM is IEVM {
         return abi.decode(returnData, (address));
     }
 
-    /**
-     * @dev Returns the const of DeveloperDeposit.
-     */
+    /// @inheritdoc IEVM
     function developerDeposit() public view override returns (uint256) {
         (bool success, bytes memory returnData) = PRECOMPILE.staticcall(
             abi.encodeWithSignature("developerDeposit()")
@@ -76,9 +73,7 @@ contract EVM is IEVM {
         return abi.decode(returnData, (uint256));
     }
 
-    /**
-     * @dev Returns the const of PublicationFee.
-     */
+    /// @inheritdoc IEVM
     function publicationFee() public view override returns (uint256) {
         (bool success, bytes memory returnData) = PRECOMPILE.staticcall(abi.encodeWithSignature("publicationFee()"));
         assembly {
@@ -90,10 +85,7 @@ contract EVM is IEVM {
         return abi.decode(returnData, (uint256));
     }
 
-    /**
-     * @dev Transfer the maintainer of the contract.
-     * Returns a boolean value indicating whether the operation succeeded.
-     */
+    /// @inheritdoc IEVM
     function transferMaintainer(
         address contractAddress,
         address newMaintainer
@@ -117,10 +109,7 @@ contract EVM is IEVM {
         return true;
     }
 
-    /**
-     * @dev Publishes contract from development mode to production.
-     * Returns a boolean value indicating whether the operation succeeded.
-     */
+    /// @inheritdoc IEVM
     function publishContract(
         address contractAddress
     ) public override returns (bool) {
@@ -139,9 +128,7 @@ contract EVM is IEVM {
         return true;
     }
 
-    /**
-     * @dev Returns whether the account is enabled for contract development
-     */
+    /// @inheritdoc IEVM
     function developerStatus(
         address account
     ) public view override returns (bool) {
@@ -157,10 +144,7 @@ contract EVM is IEVM {
         return abi.decode(returnData, (bool));
     }
 
-    /**
-     * @dev Enables account for development mode, taking a deposit
-     * Returns a boolean value indicating whether the operation succeeded.
-     */
+    /// @inheritdoc IEVM
     function developerEnable() public override returns (bool) {
         (bool success, bytes memory returnData) = PRECOMPILE.call(
             abi.encodeWithSignature("developerEnable(address)", msg.sender)
@@ -175,10 +159,7 @@ contract EVM is IEVM {
         return true;
     }
 
-    /**
-     * @dev Disables account for development mode, returns deposit
-     * Returns a boolean value indicating whether the operation succeeded.
-     */
+    /// @inheritdoc IEVM
     function developerDisable() public override returns (bool) {
         (bool success, bytes memory returnData) = PRECOMPILE.call(
             abi.encodeWithSignature("developerDisable(address)", msg.sender)

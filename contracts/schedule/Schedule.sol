@@ -4,13 +4,15 @@ pragma solidity ^0.8.0;
 
 import "./ISchedule.sol";
 
+/// @title Schedule Predeploy Contract
+/// @author Acala Developers
+/// @notice You can use this predeploy contract to call idle-schedule pallet
+/// @dev This contracts will interact with idle-schedule pallet
 contract Schedule is ISchedule {
+    /// @dev The Schedule precompile address.
     address constant private PRECOMPILE = address(0x0000000000000000000000000000000000000404);
 
-    /**
-     * @dev Schedule call the contract.
-     * Returns a bytes value equal to the taskId of the task created.
-     */
+    /// @inheritdoc ISchedule
     function scheduleCall(
         address contractAddress,
         uint256 value,
@@ -40,10 +42,7 @@ contract Schedule is ISchedule {
         return taskId;
     }
 
-    /**
-     * @dev Cancel schedule call the contract.
-     * Returns a boolean value indicating whether the operation succeeded.
-     */
+    /// @inheritdoc ISchedule
     function cancelCall(
         bytes memory taskId
     ) public override returns (bool) {
@@ -60,10 +59,7 @@ contract Schedule is ISchedule {
         return true;
     }
 
-    /**
-     * @dev Reschedule call the contract.
-     * Returns a boolean value indicating whether the operation succeeded.
-     */
+    /// @inheritdoc ISchedule
     function rescheduleCall(
         uint256 minDelay,
         bytes memory taskId
