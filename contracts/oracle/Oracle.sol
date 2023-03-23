@@ -4,13 +4,15 @@ pragma solidity ^0.8.0;
 
 import "./IOracle.sol";
 
+/// @title Oracle Predeploy Contract Interface
+/// @author Acala Developers
+/// @notice You can use this predeploy contract to call oracle pallet
+/// @dev The interface through which solidity contracts will interact with oracle pallet
 contract Oracle is IOracle {
+    /// @dev The Oracle precompile address.
     address constant private PRECOMPILE = address(0x0000000000000000000000000000000000000403);
 
-    /**
-     * @dev Get the price of the currency_id.
-     * Returns the (price, timestamp)
-     */
+    /// @inheritdoc IOracle
     function getPrice(address token)
     public
     view

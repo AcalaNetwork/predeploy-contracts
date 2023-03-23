@@ -4,15 +4,15 @@ pragma solidity ^0.8.0;
 
 import "./IStableAsset.sol";
 
+/// @title StableAsset Predeploy Contract
+/// @author Acala Developers
+/// @notice You can use this predeploy contract to call stable-asset pallet
+/// @dev This contracts will interact with stable-asset pallet
 contract StableAsset is IStableAsset {
+    /// @dev The StableAsset precompile address.
     address constant private PRECOMPILE = address(0x0000000000000000000000000000000000000406);
 
-    /**
-     * @dev Get stable asset pool tokens.
-     * @param poolId ID of the pool
-     * @return poolExists whether pool exists or not
-     * @return tokens stabel asset pool tokens
-     */
+    /// @inheritdoc IStableAsset
     function getStableAssetPoolTokens(uint32 poolId)
     public
     view
@@ -35,12 +35,7 @@ contract StableAsset is IStableAsset {
         }
     }
 
-    /**
-     * @dev Get stable asset pool total supply.
-     * @param poolId ID of the pool
-     * @return poolExists whether pool exists or not
-     * @return totalSupply total supply value
-     */
+    /// @inheritdoc IStableAsset
     function getStableAssetPoolTotalSupply(uint32 poolId)
     public
     view
@@ -62,12 +57,7 @@ contract StableAsset is IStableAsset {
         }
     }
 
-    /**
-     * @dev Get stable asset pool precision.
-     * @param poolId ID of the pool
-     * @return poolExists whether pool exists or not
-     * @return precision precision value
-     */
+    /// @inheritdoc IStableAsset
     function getStableAssetPoolPrecision(uint32 poolId)
     public
     view
@@ -89,12 +79,7 @@ contract StableAsset is IStableAsset {
         }
     }
 
-    /**
-     * @dev Get stable asset pool mint fee.
-     * @param poolId ID of the pool
-     * @return poolExists whether pool exists or not
-     * @return mintFee mint fee value
-     */
+    /// @inheritdoc IStableAsset
     function getStableAssetPoolMintFee(uint32 poolId)
     public
     view
@@ -116,12 +101,7 @@ contract StableAsset is IStableAsset {
         }
     }
 
-    /**
-     * @dev Get stable asset pool swap fee.
-     * @param poolId ID of the pool
-     * @return poolExists whether pool exists or not
-     * @return swapFee swap fee value
-     */
+    /// @inheritdoc IStableAsset
     function getStableAssetPoolSwapFee(uint32 poolId)
     public
     view
@@ -143,12 +123,7 @@ contract StableAsset is IStableAsset {
         }
     }
 
-    /**
-     * @dev Get stable asset pool redeem fee.
-     * @param poolId ID of the pool
-     * @return poolExists whether pool exists or not
-     * @return redeemFee redeem fee value
-     */
+    /// @inheritdoc IStableAsset
     function getStableAssetPoolRedeemFee(uint32 poolId)
     public
     view
@@ -170,16 +145,7 @@ contract StableAsset is IStableAsset {
         }
     }
 
-    /**
-     * @dev Stable asset swap tokens.
-     * @param poolId ID of the pool
-     * @param i array index of the input token in stableAsset tokens
-     * @param j array index of the output token in stableAsset tokens
-     * @param dx amount of input token
-     * @param minDY minimum amount of output token received
-     * @param assetLength length of array in stableAsset tokens
-     * @return succeed whether the operation succeeded
-     */
+    /// @inheritdoc IStableAsset
     function stableAssetSwap(uint32 poolId, uint32 i, uint32 j, uint256 dx, uint256 minDY, uint32 assetLength)
     public
     override
@@ -199,13 +165,7 @@ contract StableAsset is IStableAsset {
         return true;
     }
 
-    /**
-     * @dev Stable asset mint.
-     * @param poolId ID of the pool
-     * @param amounts amount of tokens to be put in the pool
-     * @param minMintAmount amount of minimum pool token received
-     * @return succeed whether the operation succeeded
-     */
+    /// @inheritdoc IStableAsset
     function stableAssetMint(uint32 poolId, uint256[] calldata amounts, uint256 minMintAmount)
     public
     override
@@ -225,13 +185,7 @@ contract StableAsset is IStableAsset {
         return true;
     }
 
-    /**
-     * @dev Stable asset redeem, redeems the token proportionally.
-     * @param poolId ID of the pool
-     * @param redeemAmount amount of pool token to be redeemed
-     * @param amounts minimum amounts of redeemed token received
-     * @return succeed whether the operation succeeded
-     */
+    /// @inheritdoc IStableAsset
     function stableAssetRedeem(uint32 poolId, uint256 redeemAmount, uint256[] calldata amounts)
     public
     override
@@ -251,15 +205,7 @@ contract StableAsset is IStableAsset {
         return true;
     }
 
-    /**
-     * @dev Stable asset redeem single. Redeems token into single token from pool.
-     * @param poolId ID of the pool
-     * @param redeemAmount amount of pool token to be redeemed
-     * @param i the array index of the input token in stable pool
-     * @param minRedeemAmount the minimum amount of token recieved
-     * @param assetLength the length of array of tokens in stable pool
-     * @return succeed whether the operation succeeded
-     */
+    /// @inheritdoc IStableAsset
     function stableAssetRedeemSingle(
         uint32 poolId,
         uint256 redeemAmount,
@@ -286,13 +232,7 @@ contract StableAsset is IStableAsset {
         return true;
     }
 
-    /**
-     * @dev Stable asset redeem multi. Redeems token into single token from pool.
-     * @param poolId ID of the pool
-     * @param amounts amount of underlying token to be recieved
-     * @param maxRedeemAmount the maximum amount of pool token to be input
-     * @return succeed whether the operation succeeded
-     */
+    /// @inheritdoc IStableAsset
     function stableAssetRedeemMulti(uint32 poolId, uint256[] calldata amounts, uint256 maxRedeemAmount)
     public
     override
@@ -312,5 +252,4 @@ contract StableAsset is IStableAsset {
         emit StableAssetRedeemedMulti(msg.sender, poolId, amounts, maxRedeemAmount);
         return true;
     }
-
 }

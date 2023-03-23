@@ -4,13 +4,15 @@ pragma solidity ^0.8.0;
 
 import "./IDEX.sol";
 
+/// @title IDEX Predeploy Contract
+/// @author Acala Developers
+/// @notice You can use this predeploy contract to call dex pallet
+/// @dev This contracts will interact with dex pallet
 contract DEX is IDEX {
+    /// @dev The DEX precompile address.
     address constant private PRECOMPILE = address(0x0000000000000000000000000000000000000405);
 
-    /**
-     * @dev Get liquidity pool of the currency_id_a and currency_id_b.
-     * Returns (liquidity_a, liquidity_b).
-     */
+    /// @inheritdoc IDEX
     function getLiquidityPool(address tokenA, address tokenB)
     public
     view
@@ -32,10 +34,7 @@ contract DEX is IDEX {
         return abi.decode(returnData, (uint256, uint256));
     }
 
-    /**
-     * @dev Get Liquidity token address.
-     * Returns (liquidity_token_address). Return address(0x0) if the liquidity token address is not mapped.
-     */
+    /// @inheritdoc IDEX
     function getLiquidityTokenAddress(address tokenA, address tokenB)
     public
     view
@@ -57,10 +56,7 @@ contract DEX is IDEX {
     }
 
 
-    /**
-     * @dev Get swap target amount.
-     * Returns (target_amount). Returns 0 if getting the target amount fails.
-     */
+    /// @inheritdoc IDEX
     function getSwapTargetAmount(address[] memory path, uint256 supplyAmount)
     public
     view
@@ -83,10 +79,7 @@ contract DEX is IDEX {
         return abi.decode(returnData, (uint256));
     }
 
-    /**
-     * @dev Get swap supply amount.
-     * Returns (supply_amount). Returns 0 if getting the supply amount fails.
-     */
+    /// @inheritdoc IDEX
     function getSwapSupplyAmount(address[] memory path, uint256 targetAmount)
     public
     view
@@ -109,10 +102,7 @@ contract DEX is IDEX {
         return abi.decode(returnData, (uint256));
     }
 
-    /**
-     * @dev Swap with exact supply.
-     * Returns a boolean value indicating whether the operation succeeded.
-     */
+    /// @inheritdoc IDEX
     function swapWithExactSupply(address[] memory path, uint256 supplyAmount, uint256 minTargetAmount)
     public
     override
@@ -138,10 +128,7 @@ contract DEX is IDEX {
         return true;
     }
 
-    /**
-     * @dev Swap with exact target.
-     * Returns a boolean value indicating whether the operation succeeded.
-     */
+    /// @inheritdoc IDEX
     function swapWithExactTarget(address[] memory path, uint256 targetAmount, uint256 maxSupplyAmount)
     public
     override
@@ -167,10 +154,7 @@ contract DEX is IDEX {
         return true;
     }
 
-    /**
-     * @dev Add liquidity to the trading pair.
-     * Returns a boolean value indicating whether the operation succeeded.
-     */
+    /// @inheritdoc IDEX
     function addLiquidity(
         address tokenA,
         address tokenB,
@@ -202,10 +186,7 @@ contract DEX is IDEX {
         return true;
     }
 
-    /**
-     * @dev Remove liquidity from the trading pair.
-     * Returns a boolean value indicating whether the operation succeeded.
-     */
+    /// @inheritdoc IDEX
     function removeLiquidity(
         address tokenA,
         address tokenB,

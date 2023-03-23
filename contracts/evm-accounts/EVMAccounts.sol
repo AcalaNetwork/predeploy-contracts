@@ -4,13 +4,15 @@ pragma solidity ^0.8.0;
 
 import "./IEVMAccounts.sol";
 
+/// @title EVMAccounts Predeploy Contract
+/// @author Acala Developers
+/// @notice You can use this predeploy contract to call evm-accounts pallet
+/// @dev This contracts will interact with evm-accounts pallet
 contract EVMAccounts is IEVMAccounts {
+    /// @dev The EVMAccounts precompile address.
     address constant private PRECOMPILE = address(0x0000000000000000000000000000000000000408);
 
-    /**
-     * @dev Get the AccountId used to generate the given EvmAddress.
-     * Returns (accountId).
-     */
+    /// @inheritdoc IEVMAccounts
     function getAccountId(address evmAddress) public view override returns (bytes32) {
         (bool success, bytes memory returnData) = PRECOMPILE.staticcall(
             abi.encodeWithSignature("getAccountId(address)", evmAddress)
@@ -24,10 +26,7 @@ contract EVMAccounts is IEVMAccounts {
         return abi.decode(returnData, (bytes32));
     }
 
-    /**
-     * @dev Get the EvmAddress associated with a given AccountId or the underlying EvmAddress of the AccountId.
-     * Returns (evmAddress). Return address(0x0) if the AccountId is not mapped.
-     */
+    /// @inheritdoc IEVMAccounts
     function getEvmAddress(bytes32 accountId) public view override returns (address) {
         (bool success, bytes memory returnData) = PRECOMPILE.staticcall(
             abi.encodeWithSignature("getEvmAddress(bytes32)", accountId)
@@ -41,10 +40,7 @@ contract EVMAccounts is IEVMAccounts {
         return abi.decode(returnData, (address));
     }
 
-    /**
-     * @dev Claim account mapping between AccountId and a generated EvmAddress based off of the AccountId.
-     * Returns a boolean value indicating whether the operation succeeded.
-     */
+    /// @inheritdoc IEVMAccounts
     function claimDefaultEvmAddress(bytes32 accountId) public override returns (bool) {
         (bool success, bytes memory returnData) = PRECOMPILE.call(
             abi.encodeWithSignature("claimDefaultEvmAddress(bytes32)", accountId)
