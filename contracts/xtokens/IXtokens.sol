@@ -38,7 +38,7 @@ interface IXtokens {
         address currencyId,
         uint256 amount,
         bytes memory dest,
-        uint64 weight
+        bytes memory weight
     ) external returns (bool);
 
     /// @notice Transfer `MultiAsset` assets.
@@ -50,7 +50,7 @@ interface IXtokens {
     function transferMultiAsset(
         bytes memory asset,
         bytes memory dest,
-        uint64 weight
+        bytes memory weight
     ) external returns (bool);
 
     /// @notice Transfer native currencies specifying the fee and amount as separate.
@@ -66,7 +66,7 @@ interface IXtokens {
         uint256 amount,
         uint256 fee,
         bytes memory dest,
-        uint64 weight
+        bytes memory weight
     ) external returns (bool);
 
     /// @notice Transfer `MultiAsset` specifying the fee and amount as separate.
@@ -80,7 +80,7 @@ interface IXtokens {
         bytes memory asset,
         bytes memory fee,
         bytes memory dest,
-        uint64 weight
+        bytes memory weight
     ) external returns (bool);
 
     /// @notice Transfer several currencies specifying the item to be used as fee.
@@ -94,7 +94,7 @@ interface IXtokens {
         Currency[] memory currencies,
         uint32 feeItem,
         bytes memory dest,
-        uint64 weight
+        bytes memory weight
     ) external returns (bool);
 
     /// @notice Transfer several `MultiAsset` specifying the item to be used as fee.
@@ -108,6 +108,6 @@ interface IXtokens {
         bytes memory assets,
         uint32 feeItem,
         bytes memory dest,
-        uint64 weight
+        bytes memory weight
     ) external returns (bool);
 }

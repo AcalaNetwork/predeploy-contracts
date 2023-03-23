@@ -13,7 +13,7 @@ contract Xtokens is IXtokens {
     address constant private PRECOMPILE = address(0x000000000000000000000000000000000000040B);
 
     /// @inheritdoc IXtokens
-    function transfer(address currencyId, uint256 amount, bytes memory dest, uint64 weight)
+    function transfer(address currencyId, uint256 amount, bytes memory dest, bytes memory weight)
     public
     override
     returns (bool) {
@@ -23,7 +23,7 @@ contract Xtokens is IXtokens {
 
         (bool success, bytes memory returnData) = PRECOMPILE.call(
             abi.encodeWithSignature(
-                "transfer(address,address,uint256,bytes,uint64)",
+                "transfer(address,address,uint256,bytes,bytes)",
                 msg.sender, currencyId, amount, dest, weight
             )
         );
@@ -40,7 +40,7 @@ contract Xtokens is IXtokens {
     }
 
     /// @inheritdoc IXtokens
-    function transferMultiAsset(bytes memory asset, bytes memory dest, uint64 weight)
+    function transferMultiAsset(bytes memory asset, bytes memory dest, bytes memory weight)
     public
     override
     returns (bool) {
@@ -49,7 +49,7 @@ contract Xtokens is IXtokens {
 
         (bool success, bytes memory returnData) = PRECOMPILE.call(
             abi.encodeWithSignature(
-                "transferMultiAsset(address,bytes,bytes,uint64)",
+                "transferMultiAsset(address,bytes,bytes,bytes)",
                 msg.sender, asset, dest, weight
             )
         );
@@ -66,7 +66,7 @@ contract Xtokens is IXtokens {
     }
 
     /// @inheritdoc IXtokens
-    function transferWithFee(address currencyId, uint256 amount, uint256 fee, bytes memory dest, uint64 weight)
+    function transferWithFee(address currencyId, uint256 amount, uint256 fee, bytes memory dest, bytes memory weight)
     public
     override
     returns (bool) {
@@ -77,7 +77,7 @@ contract Xtokens is IXtokens {
 
         (bool success, bytes memory returnData) = PRECOMPILE.call(
             abi.encodeWithSignature(
-                "transfer(address,address,uint256,uint256,bytes,uint64)",
+                "transfer(address,address,uint256,uint256,bytes,bytes)",
                 msg.sender, currencyId, amount, fee, dest, weight
             )
         );
@@ -94,7 +94,7 @@ contract Xtokens is IXtokens {
     }
 
     /// @inheritdoc IXtokens
-    function transferMultiAssetWithFee(bytes memory asset, bytes memory fee, bytes memory dest, uint64 weight)
+    function transferMultiAssetWithFee(bytes memory asset, bytes memory fee, bytes memory dest, bytes memory weight)
     public
     override
     returns (bool) {
@@ -104,7 +104,7 @@ contract Xtokens is IXtokens {
 
         (bool success, bytes memory returnData) = PRECOMPILE.call(
             abi.encodeWithSignature(
-                "transferMultiassetWithFee(address,bytes,bytes,bytes,uint64)",
+                "transferMultiassetWithFee(address,bytes,bytes,bytes,bytes)",
                 msg.sender, asset, fee, dest, weight
             )
         );
@@ -121,7 +121,7 @@ contract Xtokens is IXtokens {
     }
 
     /// @inheritdoc IXtokens
-    function transferMultiCurrencies(Currency[] memory currencies, uint32 feeItem, bytes memory dest, uint64 weight)
+    function transferMultiCurrencies(Currency[] memory currencies, uint32 feeItem, bytes memory dest, bytes memory weight)
     public
     override
     returns (bool) {
@@ -130,7 +130,7 @@ contract Xtokens is IXtokens {
 
         (bool success, bytes memory returnData) = PRECOMPILE.call(
             abi.encodeWithSignature(
-                "transferMultiCurrencies(address,(address,uint256)[],uint32,bytes,uint64)",
+                "transferMultiCurrencies(address,(address,uint256)[],uint32,bytes,bytes)",
                 msg.sender, currencies, feeItem, dest, weight
             )
         );
@@ -147,7 +147,7 @@ contract Xtokens is IXtokens {
     }
 
     /// @inheritdoc IXtokens
-    function transferMultiAssets(bytes memory assets, uint32 feeItem, bytes memory dest, uint64 weight)
+    function transferMultiAssets(bytes memory assets, uint32 feeItem, bytes memory dest, bytes memory weight)
     public
     override
     returns (bool) {
@@ -156,7 +156,7 @@ contract Xtokens is IXtokens {
 
         (bool success, bytes memory returnData) = PRECOMPILE.call(
             abi.encodeWithSignature(
-                "transferMultiAssets(address,bytes,uint32,bytes,uint64)",
+                "transferMultiAssets(address,bytes,uint32,bytes,bytes)",
                 msg.sender, assets, feeItem, dest, weight
             )
         );

@@ -13,7 +13,7 @@ You can use this predeploy contract to call xtokens pallet
 ### transfer
 
 ```solidity
-function transfer(address currencyId, uint256 amount, bytes dest, uint64 weight) external nonpayable returns (bool)
+function transfer(address currencyId, uint256 amount, bytes dest, bytes weight) external nonpayable returns (bool)
 ```
 
 Transfer local assets with given `currencyId` and `Amount`.
@@ -27,7 +27,7 @@ Transfer local assets with given `currencyId` and `Amount`.
 | currencyId | address | The ERC20 address of the currency we want to transfer, it cannot be the zero address. |
 | amount | uint256 | The amount of tokens we want to transfer, it cannot be the zero. |
 | dest | bytes | The dest to which we want to send the tokens. SCALE Encode of VersionedMultiLocation, it cannot be empty. The supported versions depend on the xcm version of node. https://github.com/paritytech/polkadot/blob/3fd99050/xcm/src/lib.rs#L405-L408 |
-| weight | uint64 | The dest weight limit. |
+| weight | bytes | The dest weight limit. |
 
 #### Returns
 
@@ -38,7 +38,7 @@ Transfer local assets with given `currencyId` and `Amount`.
 ### transferMultiAsset
 
 ```solidity
-function transferMultiAsset(bytes asset, bytes dest, uint64 weight) external nonpayable returns (bool)
+function transferMultiAsset(bytes asset, bytes dest, bytes weight) external nonpayable returns (bool)
 ```
 
 Transfer `MultiAsset` assets.
@@ -51,7 +51,7 @@ Transfer `MultiAsset` assets.
 |---|---|---|
 | asset | bytes | The asset we want to transfer. SCALE Encode of VersionedMultiAsset, it cannot be empty. The supported versions depend on the xcm version of node. https://github.com/paritytech/polkadot/blob/3fd99050/xcm/src/lib.rs#L421-L424 |
 | dest | bytes | The dest to which we want to send the tokens. SCALE Encode of VersionedMultiLocation, it cannot be empty. The supported versions depend on the xcm version of node. https://github.com/paritytech/polkadot/blob/3fd99050/xcm/src/lib.rs#L405-L408 |
-| weight | uint64 | The dest weight limit. |
+| weight | bytes | The dest weight limit. |
 
 #### Returns
 
@@ -62,7 +62,7 @@ Transfer `MultiAsset` assets.
 ### transferMultiAssetWithFee
 
 ```solidity
-function transferMultiAssetWithFee(bytes asset, bytes fee, bytes dest, uint64 weight) external nonpayable returns (bool)
+function transferMultiAssetWithFee(bytes asset, bytes fee, bytes dest, bytes weight) external nonpayable returns (bool)
 ```
 
 Transfer `MultiAsset` specifying the fee and amount as separate.
@@ -76,7 +76,7 @@ Transfer `MultiAsset` specifying the fee and amount as separate.
 | asset | bytes | The asset we want to transfer. SCALE Encode of VersionedMultiAsset, it cannot be empty. The supported versions depend on the xcm version of node. https://github.com/paritytech/polkadot/blob/3fd99050/xcm/src/lib.rs#L421-L424 |
 | fee | bytes | The fee we want to pay. SCALE Encode of VersionedMultiAsset, it cannot be empty. The supported versions depend on the xcm version of node. https://github.com/paritytech/polkadot/blob/3fd99050/xcm/src/lib.rs#L421-L424 |
 | dest | bytes | The dest to which we want to send the tokens. SCALE Encode of VersionedMultiLocation, it cannot be empty. The supported versions depend on the xcm version of node. https://github.com/paritytech/polkadot/blob/3fd99050/xcm/src/lib.rs#L405-L408 |
-| weight | uint64 | The dest weight limit. |
+| weight | bytes | The dest weight limit. |
 
 #### Returns
 
@@ -87,7 +87,7 @@ Transfer `MultiAsset` specifying the fee and amount as separate.
 ### transferMultiAssets
 
 ```solidity
-function transferMultiAssets(bytes assets, uint32 feeItem, bytes dest, uint64 weight) external nonpayable returns (bool)
+function transferMultiAssets(bytes assets, uint32 feeItem, bytes dest, bytes weight) external nonpayable returns (bool)
 ```
 
 Transfer several `MultiAsset` specifying the item to be used as fee.
@@ -101,7 +101,7 @@ Transfer several `MultiAsset` specifying the item to be used as fee.
 | assets | bytes | The assets we want to transfer. SCALE Encode of VersionedMultiAssets, it cannot be empty. The supported versions depend on the xcm version of node. https://github.com/paritytech/polkadot/blob/3fd99050/xcm/src/lib.rs#L429-L432 |
 | feeItem | uint32 | The index of the assets that we want to use for payment. |
 | dest | bytes | The dest to which we want to send the tokens. SCALE Encode of VersionedMultiLocation, it cannot be empty. The supported versions depend on the xcm version of node. https://github.com/paritytech/polkadot/blob/3fd99050/xcm/src/lib.rs#L405-L408 |
-| weight | uint64 | The dest weight limit. |
+| weight | bytes | The dest weight limit. |
 
 #### Returns
 
@@ -112,7 +112,7 @@ Transfer several `MultiAsset` specifying the item to be used as fee.
 ### transferMultiCurrencies
 
 ```solidity
-function transferMultiCurrencies(IXtokens.Currency[] currencies, uint32 feeItem, bytes dest, uint64 weight) external nonpayable returns (bool)
+function transferMultiCurrencies(IXtokens.Currency[] currencies, uint32 feeItem, bytes dest, bytes weight) external nonpayable returns (bool)
 ```
 
 
@@ -126,7 +126,7 @@ function transferMultiCurrencies(IXtokens.Currency[] currencies, uint32 feeItem,
 | currencies | IXtokens.Currency[] | undefined |
 | feeItem | uint32 | undefined |
 | dest | bytes | undefined |
-| weight | uint64 | undefined |
+| weight | bytes | undefined |
 
 #### Returns
 
@@ -137,7 +137,7 @@ function transferMultiCurrencies(IXtokens.Currency[] currencies, uint32 feeItem,
 ### transferWithFee
 
 ```solidity
-function transferWithFee(address currencyId, uint256 amount, uint256 fee, bytes dest, uint64 weight) external nonpayable returns (bool)
+function transferWithFee(address currencyId, uint256 amount, uint256 fee, bytes dest, bytes weight) external nonpayable returns (bool)
 ```
 
 Transfer native currencies specifying the fee and amount as separate.
@@ -152,7 +152,7 @@ Transfer native currencies specifying the fee and amount as separate.
 | amount | uint256 | The amount of tokens we want to transfer, it cannot be the zero. |
 | fee | uint256 | The fee of tokens we want to pay, it cannot be the zero. |
 | dest | bytes | The dest to which we want to send the tokens. SCALE Encode of VersionedMultiLocation, it cannot be empty. The supported versions depend on the xcm version of node. https://github.com/paritytech/polkadot/blob/3fd99050/xcm/src/lib.rs#L405-L408 |
-| weight | uint64 | The dest weight limit. |
+| weight | bytes | The dest weight limit. |
 
 #### Returns
 
