@@ -2,7 +2,7 @@
 
 pragma solidity ^0.8.0;
 
-contract ADDRESS {
+library ADDRESS {
 	address public constant KAR = 0x0000000000000000000100000000000000000080;
 	address public constant KUSD = 0x0000000000000000000100000000000000000081;
 	address public constant KSM = 0x0000000000000000000100000000000000000082;

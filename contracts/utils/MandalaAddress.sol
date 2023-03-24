@@ -2,7 +2,7 @@
 
 pragma solidity ^0.8.0;
 
-contract ADDRESS {
+library ADDRESS {
 	address public constant ACA = 0x0000000000000000000100000000000000000000;
 	address public constant AUSD = 0x0000000000000000000100000000000000000001;
 	address public constant DOT = 0x0000000000000000000100000000000000000002;
