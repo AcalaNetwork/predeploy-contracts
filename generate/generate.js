@@ -81,34 +81,35 @@ const generate = async () => {
   // const { bytecode: nft } = require(`../build/contracts/NFT.json`);
   // bytecodes.push(['NFT', ethers.utils.getAddress('0x00000000000000000000000000000000000008XX'), nft]);
 
-  // merge tokenList into bytecodes
-  const acalaBytecodes = acalaTokenList.concat(bytecodes);
-  const karuraBytecodes = karuraTokenList.concat(bytecodes);
-  const mandalaBytecodes = mandalaTokenList.concat(bytecodes);
-
   await writeFile(bytecodesFile, JSON.stringify(acalaTokenList.concat(karuraTokenList).concat(bytecodes), null, 2), 'utf8');
 
   // generate address constant for sol
-  let tmpl = fs.readFileSync(path.resolve(__dirname, '../resources', 'address.sol.hbs'), 'utf8');
+  let tmpl = fs.readFileSync(path.resolve(__dirname, '../resources', 'tokens.sol.hbs'), 'utf8');
   let template = Handlebars.compile(tmpl);
-  await writeFile(path.join(addressDir, 'AcalaAddress.sol'), template(acalaBytecodes), 'utf8');
-  await writeFile(path.join(addressDir, 'KaruraAddress.sol'), template(karuraBytecodes), 'utf8');
-  await writeFile(path.join(addressDir, 'MandalaAddress.sol'), template(mandalaBytecodes), 'utf8');
+  await writeFile(path.join(addressDir, 'AcalaTokens.sol'), template(acalaTokenList), 'utf8');
+  await writeFile(path.join(addressDir, 'KaruraTokens.sol'), template(karuraTokenList), 'utf8');
+  await writeFile(path.join(addressDir, 'MandalaTokens.sol'), template(mandalaTokenList), 'utf8');
+
+  tmpl = fs.readFileSync(path.resolve(__dirname, '../resources', 'predeploy.sol.hbs'), 'utf8');
+  template = Handlebars.compile(tmpl);
+  await writeFile(path.join(addressDir, 'Predeploy.sol'), template(bytecodes), 'utf8');
 
   // generate address constant for js
   tmpl = fs.readFileSync(path.resolve(__dirname, '../resources', 'address.js.hbs'), 'utf8');
   template = Handlebars.compile(tmpl);
-  await writeFile(path.join(addressDir, 'AcalaAddress.js'), template(acalaBytecodes), 'utf8');
-  await writeFile(path.join(addressDir, 'KaruraAddress.js'), template(karuraBytecodes), 'utf8');
-  await writeFile(path.join(addressDir, 'MandalaAddress.js'), template(mandalaBytecodes), 'utf8');
+  await writeFile(path.join(addressDir, 'AcalaTokens.js'), template(acalaTokenList), 'utf8');
+  await writeFile(path.join(addressDir, 'KaruraTokens.js'), template(karuraTokenList), 'utf8');
+  await writeFile(path.join(addressDir, 'MandalaTokens.js'), template(mandalaTokenList), 'utf8');
+  await writeFile(path.join(addressDir, 'Predeploy.js'), template(bytecodes), 'utf8');
 
   // recompile Address.sol
   await exec('yarn build');
 
   // generate Address.d.ts
-  await exec('tsc contracts/utils/AcalaAddress.js --declaration --allowJs --emitDeclarationOnly');
-  await exec('tsc contracts/utils/KaruraAddress.js --declaration --allowJs --emitDeclarationOnly');
-  await exec('tsc contracts/utils/MandalaAddress.js --declaration --allowJs --emitDeclarationOnly');
+  await exec('tsc contracts/utils/AcalaTokens.js --declaration --allowJs --emitDeclarationOnly');
+  await exec('tsc contracts/utils/KaruraTokens.js --declaration --allowJs --emitDeclarationOnly');
+  await exec('tsc contracts/utils/MandalaTokens.js --declaration --allowJs --emitDeclarationOnly');
+  await exec('tsc contracts/utils/Predeploy.js --declaration --allowJs --emitDeclarationOnly');
 };
 
 const main = async () => {
