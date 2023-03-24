@@ -27,7 +27,7 @@ Transfer local assets with given `currencyId` and `Amount`.
 | currencyId | address | The ERC20 address of the currency we want to transfer, it cannot be the zero address. |
 | amount | uint256 | The amount of tokens we want to transfer, it cannot be the zero. |
 | dest | bytes | The dest to which we want to send the tokens. SCALE Encode of VersionedMultiLocation, it cannot be empty. The supported versions depend on the xcm version of node. https://github.com/paritytech/polkadot/blob/3fd99050/xcm/src/lib.rs#L405-L408 |
-| weight | bytes | The dest weight limit. |
+| weight | bytes | The dest weight limit. SCALE Encode of WeightLimit, it cannot be empty. https://github.com/paritytech/polkadot/blob/3fd99050/xcm/src/v3/mod.rs#L302-L308 |
 
 #### Returns
 
@@ -51,7 +51,7 @@ Transfer `MultiAsset` assets.
 |---|---|---|
 | asset | bytes | The asset we want to transfer. SCALE Encode of VersionedMultiAsset, it cannot be empty. The supported versions depend on the xcm version of node. https://github.com/paritytech/polkadot/blob/3fd99050/xcm/src/lib.rs#L421-L424 |
 | dest | bytes | The dest to which we want to send the tokens. SCALE Encode of VersionedMultiLocation, it cannot be empty. The supported versions depend on the xcm version of node. https://github.com/paritytech/polkadot/blob/3fd99050/xcm/src/lib.rs#L405-L408 |
-| weight | bytes | The dest weight limit. |
+| weight | bytes | The dest weight limit. SCALE Encode of WeightLimit, it cannot be empty. https://github.com/paritytech/polkadot/blob/3fd99050/xcm/src/v3/mod.rs#L302-L308 |
 
 #### Returns
 
@@ -76,7 +76,7 @@ Transfer `MultiAsset` specifying the fee and amount as separate.
 | asset | bytes | The asset we want to transfer. SCALE Encode of VersionedMultiAsset, it cannot be empty. The supported versions depend on the xcm version of node. https://github.com/paritytech/polkadot/blob/3fd99050/xcm/src/lib.rs#L421-L424 |
 | fee | bytes | The fee we want to pay. SCALE Encode of VersionedMultiAsset, it cannot be empty. The supported versions depend on the xcm version of node. https://github.com/paritytech/polkadot/blob/3fd99050/xcm/src/lib.rs#L421-L424 |
 | dest | bytes | The dest to which we want to send the tokens. SCALE Encode of VersionedMultiLocation, it cannot be empty. The supported versions depend on the xcm version of node. https://github.com/paritytech/polkadot/blob/3fd99050/xcm/src/lib.rs#L405-L408 |
-| weight | bytes | The dest weight limit. |
+| weight | bytes | The dest weight limit. SCALE Encode of WeightLimit, it cannot be empty. https://github.com/paritytech/polkadot/blob/3fd99050/xcm/src/v3/mod.rs#L302-L308 |
 
 #### Returns
 
@@ -101,7 +101,7 @@ Transfer several `MultiAsset` specifying the item to be used as fee.
 | assets | bytes | The assets we want to transfer. SCALE Encode of VersionedMultiAssets, it cannot be empty. The supported versions depend on the xcm version of node. https://github.com/paritytech/polkadot/blob/3fd99050/xcm/src/lib.rs#L429-L432 |
 | feeItem | uint32 | The index of the assets that we want to use for payment. |
 | dest | bytes | The dest to which we want to send the tokens. SCALE Encode of VersionedMultiLocation, it cannot be empty. The supported versions depend on the xcm version of node. https://github.com/paritytech/polkadot/blob/3fd99050/xcm/src/lib.rs#L405-L408 |
-| weight | bytes | The dest weight limit. |
+| weight | bytes | The dest weight limit. SCALE Encode of WeightLimit, it cannot be empty. https://github.com/paritytech/polkadot/blob/3fd99050/xcm/src/v3/mod.rs#L302-L308 |
 
 #### Returns
 
@@ -152,7 +152,7 @@ Transfer native currencies specifying the fee and amount as separate.
 | amount | uint256 | The amount of tokens we want to transfer, it cannot be the zero. |
 | fee | uint256 | The fee of tokens we want to pay, it cannot be the zero. |
 | dest | bytes | The dest to which we want to send the tokens. SCALE Encode of VersionedMultiLocation, it cannot be empty. The supported versions depend on the xcm version of node. https://github.com/paritytech/polkadot/blob/3fd99050/xcm/src/lib.rs#L405-L408 |
-| weight | bytes | The dest weight limit. |
+| weight | bytes | The dest weight limit. SCALE Encode of WeightLimit, it cannot be empty. https://github.com/paritytech/polkadot/blob/3fd99050/xcm/src/v3/mod.rs#L302-L308 |
 
 #### Returns
 

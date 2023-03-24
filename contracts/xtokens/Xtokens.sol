@@ -20,6 +20,7 @@ contract Xtokens is IXtokens {
         require(currencyId != address(0), "Xtokens: currencyId is zero address");
         require(amount > 0, "Xtokens: amount is zero");
         require(dest.length > 0, "Xtokens: dest is empty");
+        require(weight.length > 0, "Xtokens: weight is empty");
 
         (bool success, bytes memory returnData) = PRECOMPILE.call(
             abi.encodeWithSignature(
@@ -46,6 +47,7 @@ contract Xtokens is IXtokens {
     returns (bool) {
         require(asset.length > 0, "Xtokens: asset is empty");
         require(dest.length > 0, "Xtokens: dest is empty");
+        require(weight.length > 0, "Xtokens: weight is empty");
 
         (bool success, bytes memory returnData) = PRECOMPILE.call(
             abi.encodeWithSignature(
@@ -74,6 +76,7 @@ contract Xtokens is IXtokens {
         require(amount > 0, "Xtokens: amount is zero");
         require(fee > 0, "Xtokens: fee is zero");
         require(dest.length > 0, "Xtokens: dest is empty");
+        require(weight.length > 0, "Xtokens: weight is empty");
 
         (bool success, bytes memory returnData) = PRECOMPILE.call(
             abi.encodeWithSignature(
@@ -101,6 +104,7 @@ contract Xtokens is IXtokens {
         require(asset.length > 0, "Xtokens: asset is empty");
         require(fee.length > 0, "Xtokens: fee is empty");
         require(dest.length > 0, "Xtokens: dest is empty");
+        require(weight.length > 0, "Xtokens: weight is empty");
 
         (bool success, bytes memory returnData) = PRECOMPILE.call(
             abi.encodeWithSignature(
@@ -127,6 +131,7 @@ contract Xtokens is IXtokens {
     returns (bool) {
         require(currencies.length > 0, "Xtokens: currencies is empty");
         require(dest.length > 0, "Xtokens: dest is empty");
+        require(weight.length > 0, "Xtokens: weight is empty");
 
         (bool success, bytes memory returnData) = PRECOMPILE.call(
             abi.encodeWithSignature(
@@ -153,6 +158,7 @@ contract Xtokens is IXtokens {
     returns (bool) {
         require(assets.length > 0, "Xtokens: assets is empty");
         require(dest.length > 0, "Xtokens: dest is empty");
+        require(weight.length > 0, "Xtokens: weight is empty");
 
         (bool success, bytes memory returnData) = PRECOMPILE.call(
             abi.encodeWithSignature(

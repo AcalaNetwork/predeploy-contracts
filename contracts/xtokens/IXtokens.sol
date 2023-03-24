@@ -32,7 +32,7 @@ interface IXtokens {
     /// @param currencyId The ERC20 address of the currency we want to transfer, it cannot be the zero address.
     /// @param amount The amount of tokens we want to transfer, it cannot be the zero.
     /// @param dest The dest to which we want to send the tokens. SCALE Encode of VersionedMultiLocation, it cannot be empty. The supported versions depend on the xcm version of node. https://github.com/paritytech/polkadot/blob/3fd99050/xcm/src/lib.rs#L405-L408
-    /// @param weight The dest weight limit.
+    /// @param weight The dest weight limit. SCALE Encode of WeightLimit, it cannot be empty. https://github.com/paritytech/polkadot/blob/3fd99050/xcm/src/v3/mod.rs#L302-L308
     /// @return Returns a boolean value indicating whether the operation succeeded.
     function transfer(
         address currencyId,
@@ -45,7 +45,7 @@ interface IXtokens {
     /// @dev It'll emit an {TransferredMultiAssets} event.
     /// @param asset The asset we want to transfer. SCALE Encode of VersionedMultiAsset, it cannot be empty. The supported versions depend on the xcm version of node. https://github.com/paritytech/polkadot/blob/3fd99050/xcm/src/lib.rs#L421-L424
     /// @param dest The dest to which we want to send the tokens. SCALE Encode of VersionedMultiLocation, it cannot be empty. The supported versions depend on the xcm version of node. https://github.com/paritytech/polkadot/blob/3fd99050/xcm/src/lib.rs#L405-L408
-    /// @param weight The dest weight limit.
+    /// @param weight The dest weight limit. SCALE Encode of WeightLimit, it cannot be empty. https://github.com/paritytech/polkadot/blob/3fd99050/xcm/src/v3/mod.rs#L302-L308
     /// @return Returns a boolean value indicating whether the operation succeeded.
     function transferMultiAsset(
         bytes memory asset,
@@ -59,7 +59,7 @@ interface IXtokens {
     /// @param amount The amount of tokens we want to transfer, it cannot be the zero.
     /// @param fee The fee of tokens we want to pay, it cannot be the zero.
     /// @param dest The dest to which we want to send the tokens. SCALE Encode of VersionedMultiLocation, it cannot be empty. The supported versions depend on the xcm version of node. https://github.com/paritytech/polkadot/blob/3fd99050/xcm/src/lib.rs#L405-L408
-    /// @param weight The dest weight limit.
+    /// @param weight The dest weight limit. SCALE Encode of WeightLimit, it cannot be empty. https://github.com/paritytech/polkadot/blob/3fd99050/xcm/src/v3/mod.rs#L302-L308
     /// @return Returns a boolean value indicating whether the operation succeeded.
     function transferWithFee(
         address currencyId,
@@ -74,7 +74,7 @@ interface IXtokens {
     /// @param asset The asset we want to transfer. SCALE Encode of VersionedMultiAsset, it cannot be empty. The supported versions depend on the xcm version of node. https://github.com/paritytech/polkadot/blob/3fd99050/xcm/src/lib.rs#L421-L424
     /// @param fee The fee we want to pay. SCALE Encode of VersionedMultiAsset, it cannot be empty. The supported versions depend on the xcm version of node. https://github.com/paritytech/polkadot/blob/3fd99050/xcm/src/lib.rs#L421-L424
     /// @param dest The dest to which we want to send the tokens. SCALE Encode of VersionedMultiLocation, it cannot be empty. The supported versions depend on the xcm version of node. https://github.com/paritytech/polkadot/blob/3fd99050/xcm/src/lib.rs#L405-L408
-    /// @param weight The dest weight limit.
+    /// @param weight The dest weight limit. SCALE Encode of WeightLimit, it cannot be empty. https://github.com/paritytech/polkadot/blob/3fd99050/xcm/src/v3/mod.rs#L302-L308
     /// @return Returns a boolean value indicating whether the operation succeeded.
     function transferMultiAssetWithFee(
         bytes memory asset,
@@ -88,7 +88,7 @@ interface IXtokens {
     /// @param currencies currencies array, `(address, uint256)[]` e.g.([[1000000000000000000000000000000000000001,1],[1000000000000000000000000000000000000001,2]])
     /// @param feeItem The amount of tokens we want to transfer, it cannot be the zero.
     /// @param dest The index of the currencies that we want to use for payment.
-    /// @param weight The dest weight limit.
+    /// @param weight The dest weight limit. SCALE Encode of WeightLimit, it cannot be empty. https://github.com/paritytech/polkadot/blob/3fd99050/xcm/src/v3/mod.rs#L302-L308
     /// @return Returns a boolean value indicating whether the operation succeeded.
     function transferMultiCurrencies(
         Currency[] memory currencies,
@@ -102,7 +102,7 @@ interface IXtokens {
     /// @param assets The assets we want to transfer. SCALE Encode of VersionedMultiAssets, it cannot be empty. The supported versions depend on the xcm version of node. https://github.com/paritytech/polkadot/blob/3fd99050/xcm/src/lib.rs#L429-L432
     /// @param feeItem The index of the assets that we want to use for payment.
     /// @param dest The dest to which we want to send the tokens. SCALE Encode of VersionedMultiLocation, it cannot be empty. The supported versions depend on the xcm version of node. https://github.com/paritytech/polkadot/blob/3fd99050/xcm/src/lib.rs#L405-L408
-    /// @param weight The dest weight limit.
+    /// @param weight The dest weight limit. SCALE Encode of WeightLimit, it cannot be empty. https://github.com/paritytech/polkadot/blob/3fd99050/xcm/src/v3/mod.rs#L302-L308
     /// @return Returns a boolean value indicating whether the operation succeeded.
     function transferMultiAssets(
         bytes memory assets,

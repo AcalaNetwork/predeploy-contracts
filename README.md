@@ -30,52 +30,8 @@ All of the tokens and predeployed system contracts have generated code in `./con
 ## ERC20 Contracts
 These ERC20 contracts make native and cross-chain tokens available inside Acala EVM.
 - Mirrored Token contract address: `ADDRESS.ACA`, `ADDRESS.AUSD`...(`./contracts/utils/AcalaAddress.sol` or `./contracts/utils/KaruraAddress.sol`)
-```
-// Returns the currencyId of the token.
-function currencyId() public view returns (uint256);
-
-// Returns the name of the token.
-function name() public view returns (string memory);
-
-// Returns the symbol of the token, usually a shorter version of the name.
-function symbol() public view returns (string memory);
-
-// Returns the number of decimals used to get its user representation.
-function decimals() public view returns (uint8);
-
-// Returns the amount of tokens in existence.
-function totalSupply() public view returns (uint256);
-
-// Returns the amount of tokens owned by `account`.
-function balanceOf(address account) public view returns (uint256);
-
-// Moves `amount` tokens from the caller's account to `recipient`.
-// Returns a boolean value indicating whether the operation succeeded.
-// Emits a {Transfer} event.
-function transfer(address recipient, uint256 amount) public returns (bool);
-
-// Returns the remaining number of tokens that `spender` will be allowed to spend on behalf of `owner` through {transferFrom}.
-// This is zero by default.
-function allowance(address owner, address spender) public view returns (uint256);
-
-// Sets `amount` as the allowance of `spender` over the caller's tokens.
-// Returns a boolean value indicating whether the operation succeeded.
-function approve(address spender, uint256 amount) public returns (bool);
-
-// Moves `amount` tokens from `sender` to `recipient` using the allowance mechanism. `amount` is then deducted from the caller's allowance.
-// Returns a boolean value indicating whether the operation succeeded.
-function transferFrom(address sender, address recipient, uint256 amount) public returns (bool);
-
-// Atomically increases the allowance granted to `spender` by the caller.
-// This is an alternative to {approve} that can be used as a mitigation for problems described in {IERC20-approve}.
-// Emits an {Approval} event indicating the updated allowance.
-function increaseAllowance(address spender, uint256 addedValue) public returns (bool);
-
-// Atomically decreases the allowance granted to `spender` by the caller.
-// This is an alternative to {approve} that can be used as a mitigation for problems described in {IERC20-approve}.
-// Emits an {Approval} event indicating the updated allowance.
-function decreaseAllowance(address spender, uint256 subtractedValue) public returns (bool);
-```
+- Docs [contracts/docs/token/Token.md](./contracts/docs/token/Token.md)
+- NPM docs [docs/token/Token.md](./docs/token/Token.md)
 
 
 ## Other System Contracts:
@@ -83,277 +39,53 @@ These contracts make other chain-native functionalities available in Acala EVM.
 
 ### EVM
 - EVM contract address: `ADDRESS.EVM`
-```
-// Returns the const of NewContractExtraBytes.
-function newContractExtraBytes() public view returns (uint256);
-
-// Returns the const of StorageDepositPerByte.
-function storageDepositPerByte() public view returns (uint256);
-
-// Returns the maintainer of the contract.
-function maintainerOf(address contract_address) public view returns (address);
-
-// Returns the const of DeveloperDeposit.
-function developerDeposit() public view returns (uint256);
-
-// Returns the const of PublicationFee.
-function publicationFee() public view returns (uint256);
-
-// Transfer the maintainer of the contract.
-// Returns a boolean value indicating whether the operation succeeded.
-function transferMaintainer(address contract_address, address new_maintainer) public returns (bool);
-
-// Publish contract
-// Returns a boolean value indicating whether the operation succeeded.
-function publishContract(address contract_address) external returns (bool);
-
-// Returns if the account is enabled for developer mode
-function developerStatus(address account) external view returns (bool);
-
-// Enables account for development mode, taking a deposit
-// Returns a boolean value indicating whether the operation succeeded.
-function developerEnable() external returns (bool);
-
-// Disables account for development mode, returns deposit
-// Returns a boolean value indicating whether the operation succeeded.
-function developerDisable() external returns (bool);
-```
+- Docs [contracts/docs/evm/EVM.md](./contracts/docs/evm/EVM.md)
+- NPM docs [docs/evm/EVM.md](./docs/evm/EVM.md)
 
 ### Oracle Price Feed
 - Oracle contract address: `ADDRESS.ORACLE`
-```
-// Get the price of the currency_id.
-// Returns the (price, timestamp)
-function getPrice(address token) public view returns (uint256, uint256);
-```
+- Docs [contracts/docs/oracle/Oracle.md](./contracts/docs/oracle/Oracle.md)
+- NPM docs [docs/oracle/Oracle.md](./docs/oracle/Oracle.md)
 
 ### On-chain Automatic Scheduler
 - ScheduleCall contract address: `ADDRESS.SCHEDULE`
-```
-// Schedule call the contract.
-// Returns a bytes value equal to the task_id of the task created.
-function scheduleCall(address contract_address, uint256 value, uint256 gas_limit, uint256 storage_limit, uint256 min_delay, bytes memory input_data) public returns (bytes memory);
-
-// Cancel schedule call the contract.
-// Returns a boolean value indicating whether the operation succeeded.
-function cancelCall(bytes memory task_id) public returns (bool);
-
-// Reschedule call the contract.
-// Returns a boolean value indicating whether the operation succeeded.
-function rescheduleCall(uint256 min_delay, bytes memory task_id) public returns (bool);
-```
+- Docs [contracts/docs/schdule/Schdule.md](./contracts/docs/schdule/Schdule.md)
+- NPM docs [docs/schdule/Schdule.md](./docs/schdule/Schdule.md)
 
 ### DEX
 - DEX contract address: `ADDRESS.DEX`
-```
-// Get liquidity of the currency_id_a and currency_id_b.
-// Returns (liquidity_a, liquidity_b).
-function getLiquidity(address tokenA, address tokenB) public view returns (uint256, uint256)
-
-// Get Liquidity token address.
-// Returns (liquidity_token_address). Return address(0x0) if the liquidity token address is not mapped.
-function getLiquidityTokenAddress(address tokenA, address tokenB) external view returns (address);
-
-// Get swap target amount.
-// Returns (target_amount). Returns 0 if getting the target amount fails.
-function getSwapTargetAmount(address[] calldata path, uint256 supplyAmount) external view returns (uint256);
-
-// Get swap supply amount.
-// Returns (supply_amount). Returns 0 if getting the supply amount fails.
-function getSwapSupplyAmount(address[] calldata path, uint256 targetAmount) external view returns (uint256);
-
-// Swap with exact supply.
-// Returns a boolean value indicating whether the operation succeeded.
-function swapWithExactSupply(address[] calldata path, uint256 supplyAmount, uint256 minTargetAmount) external returns (bool);
-
-// Swap with exact target.
-// Returns a boolean value indicating whether the operation succeeded.
-function swapWithExactTarget(address[] calldata path, uint256 targetAmount, uint256 maxSupplyAmount) external returns (bool);
-
-// Add liquidity to the trading pair.
-// Returns a boolean value indicating whether the operation succeeded.
-function addLiquidity(address tokenA, address tokenB, uint256 maxAmountA, uint256 maxAmountB) external returns (bool);
-
-// Remove liquidity from the trading pair.
-// Returns a boolean value indicating whether the operation succeeded.
-function removeLiquidity(address tokenA, address tokenB, uint256 removeShare) external returns (bool);
-```
+- Docs [contracts/docs/dex/DEX.md](./contracts/docs/dex/DEX.md)
+- NPM docs [docs/dex/DEX.md](./docs/dex/DEX.md)
 
 ### Homa Liquid Staking Protocol
 - Homa contract address: `ADDRESS.HOMA`
-```
-// Mint liquid currency with staking currency.
-// Returns a boolean value indicating whether the operation succeeded.
-function mint(uint256 mintAmount) external returns (bool);
-
-// Request to redeem liquid curency for staking currency
-// Returns a boolean value indicating whether the operation succeeded.
-function requestRedeem(uint256 redeemAmount, bool fastMatch) external returns (bool);
-
-// Get exchange rate
-// returns (exchange_rate) is a FixedU128 representing a decimal
-function getExchangeRate() external view returns (uint256);
-
-// Get estimated reward rate
-// returns (reward_rate) is a FixedU128 representing a decimal value
-function getEstimatedRewardRate() external view returns (uint256);
-
-// Get commission rate
-// returns (commission_rate) is a FixedU128 representing a decimal
-function getCommissionRate() external view returns (uint256);
-
-// Get fast match fee rate
-// returns (fast_match_fee) is a FixedU128 representing a decimal
-function getFastMatchFee() external view returns (uint256);
-```
+- Docs [contracts/docs/homa/Homa.md](./contracts/docs/homa/Homa.md)
+- NPM docs [docs/homa/Homa.md](./docs/homa/Homa.md)
 
 ### EVM Accounts
 - EVMAccounts contract address: `ADDRESS.EVM_ACCOUNTS`
-```
-event ClaimAccount(address indexed sender, bytes32 indexed accountId, address indexed evmAddress);
-
-// Get the AccountId used to generate the given EvmAddress.
-// Returns (accountId).
-function getAccountId(address evmAddress) external view returns (bytes32);
-
-// Returns the EvmAddress associated with a given AccountId or the underlying EvmAddress of the AccountId.
-// Returns (evmAddress). Return address(0x0) if the AccountId is not mapped.
-function getEvmAddress(bytes32 accountId) external view returns (address);
-
-// Claim account mapping between AccountId and a generated EvmAddress based off of the AccountId.
-// Returns a boolean value indicating whether the operation succeeded.
-function claimDefaultEvmAddress(bytes32 accountId) external returns (bool);
-```
+- Docs [contracts/docs/evm-accounts/EVMAccounts.md](./contracts/docs/evm-accounts/EVMAccounts.md)
+- NPM docs [docs/evm-accounts/EVMAccounts.md](./docs/evm-accounts/EVMAccounts.md)
 
 ### Honzon Protocol
 - Honzon contract address: `ADDRESS.HONZON`
-```
-// Adjust CDP position
-// Returns a boolean value indicating whether the operation succeeded.
-function adjustLoan(address currencyId, int128 collateralAdjustment, int128 debitAdjustment) external returns (bool);
-
-// Close CDP position with DEX
-// Returns a boolean value indicating whether the operation succeeded.
-function closeLoanByDex(address currencyId, uint256 maxCollateralAmount) external returns (bool);
-
-// Get an open CDP position
-// returns (collateral_amount, debit_amount)
-function getPosition(address who, address currencyId) external view returns (uint256, uint256);
-
-// Get collateral parameters for a currencyId
-// returns (params) which is an array with 5 entries in the order that follows:
-//
-// - [0] `maximum_total_debit_value`: Hardcap of total debit value generated from this collateral.
-// - [1] `interest_rate_per_sec`: A FixedU128 representing a decimal value. Interest rate of CDP loan per second
-// - [2] `liquidation_ratio`: A FixedU128 representing a decimal value. Liquidation ratio for this collateral type
-// - [3] `liquidation_penalty`: A FixedU128 representing a decimal value. Penalty added on for getting liquidated
-// - [4] `required_collateral_ratio`: A FixedU128 representing a decimal value. Cannot adjust
-// the position of CDP so that the current collateral ratio is lower than the required collateral ratio.
-function getCollateralParameters(address currencyId) external view returns (uint256[] memory);
-
-// Get current collateral ratio for a particular CDP position
-// returns (current_collateral_ratio) is a FixedU128 representing a decimal value
-function getCurrentCollateralRatio(address who, address currencyId) external view returns (uint256);
-
-// Get exchange rate of debit units to debit value for a currency_id
-// returns (exchange_rate) is a FixedU128 representing a decimal value
-function getDebitExchangeRate(address currencyId) external view returns (uint256);
-```
+- Docs [contracts/docs/honzon/Honzon.md](./contracts/docs/honzon/Honzon.md)
+- NPM docs [docs/honzon/Honzon.md](./docs/honzon/Honzon.md)
 
 ### Incentives
 - Incentives contract address: `ADDRESS.INCENTIVES`
-```
-enum PoolId { LOANS, DEX }
-
-// Gets reward amount in `rewardCurrency` added per period
-// Returns (reward_amount)
-function getIncentiveRewardAmount(PoolId pool, address poolCurrencyId, address rewardCurrencyId) external view returns (uint256);
-
-// Stake LP token to add shares to PoolId::Dex
-// Returns a boolean value indicating whether the operation succeeded.
-function depositDexShare(address currencyId, uint256 amount) external returns (bool);
-
-// Unstake LP token to remove shares from PoolId::Dex
-// Returns a boolean value indicating whether the operation succeeded.
-function withdrawDexShare(address currencyId, uint256 amount) external returns (bool);
-
-// Claim all avalible multi currencies rewards for specific PoolId
-// Returns a boolean value indicating whether the operation succeeded.
-function claimRewards(PoolId pool, address poolCurrencyId) external returns (bool);
-
-// Gets deduction rate for claiming reward early
-// returns (claim_reward_deduction_rate) as a FixedU128 representing a decimal value
-function getClaimRewardDeductionRate(PoolId pool, address poolCurrencyId) external view returns (uint256);
-
-// Gets the pending rewards for a pool, actual reward could be deducted.
-// returns (balances), an array of reward balances corresponding to currencyIds
-function getPendingRewards(address[] calldata currencyIds, PoolId pool, address poolCurrencyId, address who) external view returns (uint256[] memory);
-```
+- Docs [contracts/docs/incentives/Incentives.md](./contracts/docs/incentives/Incentives.md)
+- NPM docs [docs/incentives/Incentives.md](./docs/incentives/Incentives.md)
 
 ### StableAsset
 - StableAsset contract address: `ADDRESS.STABLE_ASSET`
-```
-// Get stable asset pool tokens.
-// Returns a boolean value indicating whether the pool exists and the corresponding value.
-function getStableAssetPoolTokens(uint32 poolId) external view returns (bool, address[] memory);
+- Docs [contracts/docs/stable-asset/StableAsset.md](./contracts/docs/stable-asset/StableAsset.md)
+- NPM docs [docs/stable-asset/StableAsset.md](./docs/stable-asset/StableAsset.md)
 
-// Get stable asset pool total supply.
-// Returns a boolean value indicating whether the pool exists and the corresponding value.
-function getStableAssetPoolTotalSupply(uint32 poolId) external view returns (bool, uint256);
-
-// Get stable asset pool precision.
-// Returns a boolean value indicating whether the pool exists and the corresponding value.
-function getStableAssetPoolPrecision(uint32 poolId) external view returns (bool, uint256);
-
-// Get stable asset pool mint fee.
-// Returns a boolean value indicating whether the pool exists and the corresponding value.
-function getStableAssetPoolMintFee(uint32 poolId) external view returns (bool, uint256);
-
-// Get stable asset pool swap fee.
-// Returns a boolean value indicating whether the pool exists and the corresponding value.
-function getStableAssetPoolSwapFee(uint32 poolId) external view returns (bool, uint256);
-
-// Get stable asset pool redeem fee.
-// Returns a boolean value indicating whether the pool exists and the corresponding value.
-function getStableAssetPoolRedeemFee(uint32 poolId) external view returns (bool, uint256);
-
-// Stable asset swap tokens.
-// Returns a boolean value indicating whether the operation succeeded.
-function stableAssetSwap(
-    uint32 poolId,
-    uint32 i,
-    uint32 j,
-    uint256 dx,
-    uint256 minDY,
-    uint32 assetLength
-) external returns (bool);
-
-// Stable asset mint.
-// Returns a boolean value indicating whether the operation succeeded.
-function stableAssetMint(uint32 poolId, uint256[] calldata amounts, uint256 minMintAmount) external returns (bool);
-
-// Stable asset redeem.
-// Returns a boolean value indicating whether the operation succeeded.
-function stableAssetRedeem(uint32 poolId, uint256 redeemAmount, uint256[] calldata amounts) external returns (bool);
-
-// Stable asset redeem single.
-// Returns a boolean value indicating whether the operation succeeded.
-function stableAssetRedeemSingle(
-    uint32 poolId,
-    uint256 redeemAmount,
-    uint32 i,
-    uint256 minRedeemAmount,
-    uint32 assetLength
-) external returns (bool);
-
-// Stable asset redeem multi.
-// Returns a boolean value indicating whether the operation succeeded.
-function stableAssetRedeemMulti(
-    uint32 poolId,
-    uint256[] calldata amounts,
-    uint256 maxRedeemAmount
-) external returns (bool);
-```
+### Xtokens
+- Xtokens contract address: `ADDRESS.XTOKENS`
+- Docs [contracts/docs/xtokens/Xtokens.md](./contracts/docs/xtokens/Xtokens.md)
+- NPM docs [docs/xtokens/Xtokens.md](./docs/xtokens/Xtokens.md)
 
 ## DeFi Contracts (Coming Soon)
 These contracts will make Acala's DeFi primitives (stablecoin, staking derivative, and DeX) available in Acala EVM.
