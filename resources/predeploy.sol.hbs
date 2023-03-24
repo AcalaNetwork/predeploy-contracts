@@ -2,8 +2,6 @@
 
 pragma solidity ^0.8.0;
 
-library Predeploy {
-	{{#each this}}
-	address public constant {{this.[0]}} = {{this.[1]}};
-	{{/each}}
-}
+{{#each this}}
+address constant {{this.[0]}} = {{this.[1]}};
+{{/each}}
