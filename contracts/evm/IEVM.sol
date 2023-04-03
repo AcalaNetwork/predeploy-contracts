@@ -52,7 +52,7 @@ interface IEVM {
 
     /// @notice Transfer the maintainer of the contract.
     /// @dev It'll emit an {TransferredMaintainer} event.
-    /// @param contractAddress The contract address of the transfer maintainer
+    /// @param contractAddress The contract address of the transfer maintainer.
     /// It cannot be the zero address. The caller must be the contract's maintainer.
     /// @param newMaintainer The address of the new maintainer.
     /// @return Returns a boolean value indicating whether the operation succeeded.
