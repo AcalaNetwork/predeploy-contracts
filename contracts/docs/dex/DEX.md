@@ -221,11 +221,11 @@ Added liquidity event.
 
 | Name | Type | Description |
 |---|---|---|
-| sender `indexed` | address | undefined |
-| tokenA `indexed` | address | undefined |
-| tokenB `indexed` | address | undefined |
-| maxAmountA  | uint256 | undefined |
-| maxAmountB  | uint256 | undefined |
+| sender `indexed` | address | The sender of the transaction. |
+| tokenA `indexed` | address | The ERC20 address of the currency_id_a. |
+| tokenB `indexed` | address | The ERC20 address of the currency_id_b. |
+| maxAmountA  | uint256 | The maximum amount of currency_id_a is allowed to inject to liquidity pool. |
+| maxAmountB  | uint256 | The maximum amount of currency_id_b is allowed to inject to liquidity pool. |
 
 ### RemovedLiquidity
 
@@ -241,10 +241,10 @@ Removed liquidity event.
 
 | Name | Type | Description |
 |---|---|---|
-| sender `indexed` | address | undefined |
-| tokenA `indexed` | address | undefined |
-| tokenB `indexed` | address | undefined |
-| removeShare  | uint256 | undefined |
+| sender `indexed` | address | The sender of the transaction. |
+| tokenA `indexed` | address | The ERC20 address of the currency_id_a. |
+| tokenB `indexed` | address | The ERC20 address of the currency_id_b. |
+| removeShare  | uint256 | The liquidity amount has been removed. |
 
 ### Swaped
 
@@ -260,10 +260,10 @@ Swaped event with DEX.
 
 | Name | Type | Description |
 |---|---|---|
-| sender `indexed` | address | undefined |
-| path  | address[] | undefined |
-| supplyAmount  | uint256 | undefined |
-| targetAmount  | uint256 | undefined |
+| sender `indexed` | address | The sender of the transaction. |
+| path  | address[] | The trading path of the swap transaction. |
+| supplyAmount  | uint256 | The exact supply amount. |
+| targetAmount  | uint256 | The exact target amount. |
 
 
 

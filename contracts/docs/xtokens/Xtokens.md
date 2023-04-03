@@ -178,10 +178,10 @@ Transferred MultiAssets event.
 
 | Name | Type | Description |
 |---|---|---|
-| sender `indexed` | address | undefined |
-| assets  | bytes | undefined |
-| fee  | bytes | undefined |
-| dest  | bytes | undefined |
+| sender `indexed` | address | The sender who transferred the assets. |
+| assets  | bytes | The transferred assets. SCALE Encode of MultiAssets. |
+| fee  | bytes | The transfer fee. SCALE Encode of MultiAsset. |
+| dest  | bytes | The dest of transferred assets. SCALE Encode of MultiLocation. |
 
 
 

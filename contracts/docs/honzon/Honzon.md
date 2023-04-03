@@ -166,10 +166,10 @@ Adjusted Loan event.
 
 | Name | Type | Description |
 |---|---|---|
-| sender `indexed` | address | undefined |
-| currencyId `indexed` | address | undefined |
-| collateralAdjustment  | int128 | undefined |
-| debitAdjustment  | int128 | undefined |
+| sender `indexed` | address | The sender of the transaction. |
+| currencyId `indexed` | address | The collateral currency id. |
+| collateralAdjustment  | int128 | The signed amount, positive means to deposit collateral currency into CDP, negative means withdraw collateral currency from CDP. |
+| debitAdjustment  | int128 | The signed amount, positive means to issue some amount of stablecoin to caller according to the debit adjustment, negative means caller will payback some amount of stablecoin to CDP according to to the debit adjustment. |
 
 ### ClosedLoanByDex
 
@@ -185,8 +185,8 @@ Closed loan by DEX event.
 
 | Name | Type | Description |
 |---|---|---|
-| sender `indexed` | address | undefined |
-| currencyId `indexed` | address | undefined |
+| sender `indexed` | address | The sender of the transaction. |
+| currencyId `indexed` | address | The collateral currency id. |
 
 
 

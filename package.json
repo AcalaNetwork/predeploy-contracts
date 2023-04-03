@@ -13,22 +13,25 @@
   "scripts": {
     "clean": "hardhat clean",
     "build": "hardhat compile",
-    "test": "hardhat run --network hardhat scripts/deploy.ts",
+    "test": "hardhat test --typecheck",
     "test-mandala": "hardhat run --network mandala scripts/deploy.ts",
     "prepack": "scripts/prepack.sh",
     "generate-bytecode": "hardhat run generate/generate.js",
     "lint": "solhint contracts/**/*.sol"
   },
   "devDependencies": {
-    "@nomiclabs/hardhat-ethers": "^2.0.5",
-    "@nomiclabs/hardhat-waffle": "^2.0.3",
+    "@nomiclabs/hardhat-ethers": "^2.2.2",
+    "@nomiclabs/hardhat-waffle": "^2.0.5",
     "@openzeppelin/contracts": "4.7.3",
     "@primitivefi/hardhat-dodoc": "^0.2.3",
+    "@typechain/ethers-v5": "^10.2.0",
+    "@typechain/hardhat": "^6.1.5",
     "ethereum-waffle": "^3.4.4",
     "handlebars": "^4.7.7",
-    "hardhat": "^2.9.3",
-    "solhint": "^3.3.7",
+    "hardhat": "^2.13.0",
+    "solhint": "^3.4.1",
     "ts-node": "^10.7.0",
+    "typechain": "^8.1.1",
     "typescript": "^4.6.3"
   }
 }

@@ -169,9 +169,9 @@ The Claimed rewards event.
 
 | Name | Type | Description |
 |---|---|---|
-| sender `indexed` | address | undefined |
-| pool `indexed` | enum InterfaceIncentives.PoolId | undefined |
-| poolCurrencyId `indexed` | address | undefined |
+| sender `indexed` | address | The sender of the transaction. |
+| pool `indexed` | enum InterfaceIncentives.PoolId | The pool type. |
+| poolCurrencyId `indexed` | address | The LP token currency id. |
 
 ### DepositedShare
 
@@ -187,9 +187,9 @@ The deposited share event.
 
 | Name | Type | Description |
 |---|---|---|
-| sender `indexed` | address | undefined |
-| currencyId `indexed` | address | undefined |
-| amount  | uint256 | undefined |
+| sender `indexed` | address | The sender of the transaction. |
+| currencyId `indexed` | address | The LP token currency id. |
+| amount  | uint256 | The amount to stake. |
 
 ### WithdrewShare
 
@@ -205,9 +205,9 @@ The withdrew share event.
 
 | Name | Type | Description |
 |---|---|---|
-| sender `indexed` | address | undefined |
-| currencyId `indexed` | address | undefined |
-| amount  | uint256 | undefined |
+| sender `indexed` | address | The sender of the transaction. |
+| currencyId `indexed` | address | The LP token currency id. |
+| amount  | uint256 | The amount to unstake. |
 
 
 

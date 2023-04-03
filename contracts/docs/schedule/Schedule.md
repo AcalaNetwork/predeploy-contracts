@@ -100,8 +100,8 @@ The canceled call event.
 
 | Name | Type | Description |
 |---|---|---|
-| sender `indexed` | address | undefined |
-| taskId  | bytes | undefined |
+| sender `indexed` | address | The sender of the transaction. |
+| taskId  | bytes | The scheduled task id. |
 
 ### RescheduledCall
 
@@ -117,8 +117,8 @@ The rescheduled call event.
 
 | Name | Type | Description |
 |---|---|---|
-| sender `indexed` | address | undefined |
-| taskId  | bytes | undefined |
+| sender `indexed` | address | The sender of the transaction. |
+| taskId  | bytes | The scheduled task id. |
 
 ### ScheduledCall
 
@@ -134,9 +134,9 @@ The scheduled call event.
 
 | Name | Type | Description |
 |---|---|---|
-| sender `indexed` | address | undefined |
-| contractAddress `indexed` | address | undefined |
-| taskId  | bytes | undefined |
+| sender `indexed` | address | The sender of the transaction. |
+| contractAddress `indexed` | address | The scheduled contract address. |
+| taskId  | bytes | The scheduled task id. |
 
 
 

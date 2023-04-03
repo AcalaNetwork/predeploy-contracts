@@ -291,10 +291,10 @@ The stable asset minted event.
 
 | Name | Type | Description |
 |---|---|---|
-| sender `indexed` | address | undefined |
-| poolId `indexed` | uint32 | undefined |
-| amounts  | uint256[] | undefined |
-| minMintAmount  | uint256 | undefined |
+| sender `indexed` | address | The sender of the transaction. |
+| poolId `indexed` | uint32 | The ID of the pool. |
+| amounts  | uint256[] | amount of tokens to be put in the pool. |
+| minMintAmount  | uint256 | amount of minimum pool token received. |
 
 ### StableAssetRedeemed
 
@@ -310,10 +310,10 @@ The scheduled call event.
 
 | Name | Type | Description |
 |---|---|---|
-| sender `indexed` | address | undefined |
-| poolId `indexed` | uint32 | undefined |
-| redeemAmount  | uint256 | undefined |
-| amounts  | uint256[] | undefined |
+| sender `indexed` | address | The sender of the transaction. |
+| poolId `indexed` | uint32 | The ID of the pool. |
+| redeemAmount  | uint256 | The amount of pool token to be redeemed. |
+| amounts  | uint256[] | The minimum amounts of redeemed token received. |
 
 ### StableAssetRedeemedMulti
 
@@ -329,10 +329,10 @@ The scheduled call event.
 
 | Name | Type | Description |
 |---|---|---|
-| sender `indexed` | address | undefined |
-| poolId `indexed` | uint32 | undefined |
-| amounts  | uint256[] | undefined |
-| maxRedeemAmount  | uint256 | undefined |
+| sender `indexed` | address | The sender of the transaction. |
+| poolId `indexed` | uint32 | The ID of the pool. |
+| amounts  | uint256[] | The amount of underlying token to be recieved. |
+| maxRedeemAmount  | uint256 | The maximum amount of pool token to be input. |
 
 ### StableAssetRedeemedSingle
 
@@ -348,12 +348,12 @@ The scheduled call event.
 
 | Name | Type | Description |
 |---|---|---|
-| sender `indexed` | address | undefined |
-| poolId `indexed` | uint32 | undefined |
-| redeemAmount  | uint256 | undefined |
-| i  | uint32 | undefined |
-| minRedeemAmount  | uint256 | undefined |
-| assetLength  | uint32 | undefined |
+| sender `indexed` | address | The sender of the transaction. |
+| poolId `indexed` | uint32 | The ID of the pool. |
+| redeemAmount  | uint256 | The amount of pool token to be redeemed. |
+| i  | uint32 | The the array index of the input token in stable pool. |
+| minRedeemAmount  | uint256 | The minimum amount of token recieved. |
+| assetLength  | uint32 | The length of array of tokens in stable pool. |
 
 ### StableAssetSwapped
 
@@ -369,13 +369,13 @@ The stable asset swapped event.
 
 | Name | Type | Description |
 |---|---|---|
-| sender `indexed` | address | undefined |
-| poolId `indexed` | uint32 | undefined |
-| i  | uint32 | undefined |
-| j  | uint32 | undefined |
-| dx  | uint256 | undefined |
-| minDY  | uint256 | undefined |
-| assetLength  | uint32 | undefined |
+| sender `indexed` | address | The sender of the transaction. |
+| poolId `indexed` | uint32 | The ID of the pool. |
+| i  | uint32 | The array index of the input token in stableAsset tokens. |
+| j  | uint32 | The array index of the output token in stableAsset tokens. |
+| dx  | uint256 | The amount of input token. |
+| minDY  | uint256 | The minimum amount of output token received. |
+| assetLength  | uint32 | The length of array in stableAsset tokens. |
 
 
 
