@@ -192,7 +192,7 @@ Transfer the maintainer of the contract.
 
 | Name | Type | Description |
 |---|---|---|
-| contractAddress | address | The contract address of the transfer maintainer, it cannot be the zero address. The caller must be the contract&#39;s maintainer. |
+| contractAddress | address | The contract address of the transfer maintainer It cannot be the zero address. The caller must be the contract&#39;s maintainer. |
 | newMaintainer | address | The address of the new maintainer. |
 
 #### Returns

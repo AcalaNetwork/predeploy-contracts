@@ -31,7 +31,7 @@ Get the remaining number of tokens that `spender` will be allowed to spend.
 
 | Name | Type | Description |
 |---|---|---|
-| _0 | uint256 | Returns the remaining number of tokens that `spender` will be allowed to spend on behalf of `owner` through {transferFrom}. This is zero by default. |
+| _0 | uint256 | Returns the remaining number of tokens. The `spender` will be allowed to spend on behalf of `owner` through {transferFrom}. This is zero by default. |
 
 ### approve
 

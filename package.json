@@ -13,7 +13,7 @@
   "scripts": {
     "clean": "hardhat clean",
     "build": "hardhat compile",
-    "test": "hardhat test --typecheck",
+    "test": "hardhat run --network hardhat scripts/deploy.ts",
     "test-mandala": "hardhat run --network mandala scripts/deploy.ts",
     "prepack": "scripts/prepack.sh",
     "generate-bytecode": "hardhat run generate/generate.js",

@@ -11,7 +11,11 @@ interface IEVMAccounts {
     /// @param sender The sender of the transaction.
     /// @param accountId The substrate account.
     /// @param evmAddress The mapped EVM accounts.
-    event ClaimAccount(address indexed sender, bytes32 indexed accountId, address indexed evmAddress);
+    event ClaimAccount(
+        address indexed sender,
+        bytes32 indexed accountId,
+        address indexed evmAddress
+    );
 
     /// @notice Get the AccountId used to generate the given EvmAddress.
     /// @param evmAddress The EVM address.

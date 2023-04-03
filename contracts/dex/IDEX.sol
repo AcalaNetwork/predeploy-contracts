@@ -12,7 +12,12 @@ interface IDEX {
     /// @param path The trading path of the swap transaction.
     /// @param supplyAmount The exact supply amount.
     /// @param targetAmount The exact target amount.
-    event Swaped(address indexed sender, address[] path, uint256 supplyAmount, uint256 targetAmount);
+    event Swaped(
+        address indexed sender,
+        address[] path,
+        uint256 supplyAmount,
+        uint256 targetAmount
+    );
 
     /// @notice Added liquidity event.
     /// @param sender The sender of the transaction.
@@ -33,31 +38,48 @@ interface IDEX {
     /// @param tokenA The ERC20 address of the currency_id_a.
     /// @param tokenB The ERC20 address of the currency_id_b.
     /// @param removeShare The liquidity amount has been removed.
-    event RemovedLiquidity(address indexed sender, address indexed tokenA, address indexed tokenB, uint256 removeShare);
+    event RemovedLiquidity(
+        address indexed sender,
+        address indexed tokenA,
+        address indexed tokenB,
+        uint256 removeShare
+    );
 
     /// @notice Get liquidity pool of the currency_id_a and currency_id_b.
     /// @param tokenA The ERC20 address of the currency_id_a.
     /// @param tokenB The ERC20 address of the currency_id_b.
     /// @return Returns (liquidity_a, liquidity_b).
-    function getLiquidityPool(address tokenA, address tokenB) external view returns (uint256, uint256);
+    function getLiquidityPool(
+        address tokenA,
+        address tokenB
+    ) external view returns (uint256, uint256);
 
     /// @notice Get liquidity token address.
     /// @param tokenA The ERC20 address of the currency_id_a.
     /// @param tokenB The ERC20 address of the currency_id_b.
     /// @return Returns (liquidity_token_address). Return address(0x0) if the liquidity token address is not mapped.
-    function getLiquidityTokenAddress(address tokenA, address tokenB) external view returns (address);
+    function getLiquidityTokenAddress(
+        address tokenA,
+        address tokenB
+    ) external view returns (address);
 
     /// @notice Get swap target amount.
     /// @param path The trading path of the transaction.
     /// @param supplyAmount The exact supply amount.
     /// @return Returns (target_amount). Returns 0 if getting the target amount fails.
-    function getSwapTargetAmount(address[] calldata path, uint256 supplyAmount) external view returns (uint256);
+    function getSwapTargetAmount(
+        address[] calldata path,
+        uint256 supplyAmount
+    ) external view returns (uint256);
 
     /// @notice Get swap supply amount.
     /// @param path The trading path of the transaction.
     /// @param targetAmount The exact target amount.
     /// @return Returns (supply_amount). Returns 0 if getting the supply amount fails.
-    function getSwapSupplyAmount(address[] calldata path, uint256 targetAmount) external view returns (uint256);
+    function getSwapSupplyAmount(
+        address[] calldata path,
+        uint256 targetAmount
+    ) external view returns (uint256);
 
     /// @notice Swap with exact supply.
     /// @dev It'll emit an {Swaped} event.

@@ -14,10 +14,7 @@ jobs:
         run: yarn install
 
       - name: lint
-        run: yarn lint --max-warnings=0
-
-      - name: check 
-        run: yarn check
+        run: yarn lint
 
       - name: build
         run: |

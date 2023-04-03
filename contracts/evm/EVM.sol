@@ -2,7 +2,7 @@
 
 pragma solidity ^0.8.0;
 
-import "./IEVM.sol";
+import {IEVM} from "./IEVM.sol";
 
 /// @title EVM Predeploy Contract
 /// @author Acala Developers
@@ -10,7 +10,8 @@ import "./IEVM.sol";
 /// @dev This contracts will interact with evm pallet
 contract EVM is IEVM {
     /// @dev The EVM precompile address.
-    address constant private PRECOMPILE = address(0x0000000000000000000000000000000000000402);
+    address private constant PRECOMPILE =
+        address(0x0000000000000000000000000000000000000402);
 
     /// @inheritdoc IEVM
     function newContractExtraBytes() public view override returns (uint256) {
@@ -41,12 +42,9 @@ contract EVM is IEVM {
     }
 
     /// @inheritdoc IEVM
-    function maintainerOf(address contractAddress)
-        public
-        view
-        override
-        returns (address)
-    {
+    function maintainerOf(
+        address contractAddress
+    ) public view override returns (address) {
         (bool success, bytes memory returnData) = PRECOMPILE.staticcall(
             abi.encodeWithSignature("maintainerOf(address)", contractAddress)
         );
@@ -75,7 +73,9 @@ contract EVM is IEVM {
 
     /// @inheritdoc IEVM
     function publicationFee() public view override returns (uint256) {
-        (bool success, bytes memory returnData) = PRECOMPILE.staticcall(abi.encodeWithSignature("publicationFee()"));
+        (bool success, bytes memory returnData) = PRECOMPILE.staticcall(
+            abi.encodeWithSignature("publicationFee()")
+        );
         assembly {
             if eq(success, 0) {
                 revert(add(returnData, 0x20), returndatasize())
@@ -90,13 +90,21 @@ contract EVM is IEVM {
         address contractAddress,
         address newMaintainer
     ) public override returns (bool) {
-        require(contractAddress != address(0), "EVM: the contractAddress is the zero address");
-        require(newMaintainer != address(0), "EVM: the newMaintainer is the zero address");
+        require(
+            contractAddress != address(0),
+            "EVM: the contractAddress is the zero address"
+        );
+        require(
+            newMaintainer != address(0),
+            "EVM: the newMaintainer is the zero address"
+        );
 
         (bool success, bytes memory returnData) = PRECOMPILE.call(
             abi.encodeWithSignature(
                 "transferMaintainer(address,address,address)",
-                msg.sender, contractAddress, newMaintainer
+                msg.sender,
+                contractAddress,
+                newMaintainer
             )
         );
         assembly {
@@ -113,10 +121,17 @@ contract EVM is IEVM {
     function publishContract(
         address contractAddress
     ) public override returns (bool) {
-        require(contractAddress != address(0), "EVM: the contractAddress is the zero address");
+        require(
+            contractAddress != address(0),
+            "EVM: the contractAddress is the zero address"
+        );
 
         (bool success, bytes memory returnData) = PRECOMPILE.call(
-            abi.encodeWithSignature("publishContract(address,address)", msg.sender, contractAddress)
+            abi.encodeWithSignature(
+                "publishContract(address,address)",
+                msg.sender,
+                contractAddress
+            )
         );
         assembly {
             if eq(success, 0) {

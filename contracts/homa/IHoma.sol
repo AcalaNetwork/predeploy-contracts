@@ -16,7 +16,11 @@ interface IHoma {
     /// @param sender The sender of the transaction.
     /// @param amount The requested amount.
     /// @param fastMatch Allow the request to be fast matched.
-    event RequestedRedeem(address indexed sender, uint256 amount, bool fastMatch);
+    event RequestedRedeem(
+        address indexed sender,
+        uint256 amount,
+        bool fastMatch
+    );
 
     /// @notice Mint liquid currency with staking currency.
     /// @dev It'll emit an {Minted} event.
@@ -29,14 +33,19 @@ interface IHoma {
     /// @param redeemAmount The amount of liquid currency to be requested  redeemed into Staking currency.
     /// @param fastMatch Allow the request to be fast matched, fast match will take a fixed rate as fee.
     /// @return Returns a boolean value indicating whether the operation succeeded.
-    function requestRedeem(uint256 redeemAmount, bool fastMatch) external returns (bool);
+    function requestRedeem(
+        uint256 redeemAmount,
+        bool fastMatch
+    ) external returns (bool);
 
     /// @notice Get exchange rate.
-    /// @return returns (exchange_rate), value is FixedU128 with a range of [0.000000000000000000, 340282366920938463463.374607431768211455]
+    /// @return returns (exchange_rate), value is FixedU128 with a range of
+    /// [0.000000000000000000, 340282366920938463463.374607431768211455]
     function getExchangeRate() external view returns (uint256);
 
     /// @notice Get estimated reward rate.
-    /// @return returns (reward_rate), value is FixedU128 with a range of [0.000000000000000000, 340282366920938463463.374607431768211455].
+    /// @return returns (reward_rate), value is FixedU128 with a range of
+    /// [0.000000000000000000, 340282366920938463463.374607431768211455].
     function getEstimatedRewardRate() external view returns (uint256);
 
     /// @notice Get commission rate.

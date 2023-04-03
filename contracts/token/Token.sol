@@ -5,10 +5,10 @@
 
 pragma solidity ^0.8.0;
 
-import "@openzeppelin/contracts/utils/math/SafeMath.sol";
-import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+import {SafeMath} from "@openzeppelin/contracts/utils/math/SafeMath.sol";
+import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
-import "./MultiCurrency.sol";
+import {MultiCurrency} from "./MultiCurrency.sol";
 
 /// @title MultiCurrency Predeploy Contract
 /// @author Acala Developers
@@ -17,7 +17,7 @@ import "./MultiCurrency.sol";
 contract Token is IERC20 {
     using SafeMath for uint256;
 
-    mapping (address => mapping (address => uint256)) private _allowances;
+    mapping(address => mapping(address => uint256)) private _allowances;
 
     /// @notice Get the name of the token.
     /// @return Returns the name of the token.
@@ -55,7 +55,10 @@ contract Token is IERC20 {
     /// @param to The dest address, it cannot be the zero address.
     /// @param amount The transfer amount.
     /// @return Returns a boolean value indicating whether the operation succeeded.
-    function transfer(address to, uint256 amount) public override returns (bool) {
+    function transfer(
+        address to,
+        uint256 amount
+    ) public override returns (bool) {
         address owner = msg.sender;
         _transfer(owner, to, amount);
         return true;
@@ -64,29 +67,44 @@ contract Token is IERC20 {
     /// @notice Get the remaining number of tokens that `spender` will be allowed to spend.
     /// @param owner The owner address.
     /// @param spender The spender address.
-    /// @return Returns the remaining number of tokens that `spender` will be allowed to spend on behalf of `owner` through {transferFrom}. This is zero by default.
-    function allowance(address owner, address spender) public view override returns (uint256) {
+    /// @return Returns the remaining number of tokens.
+    /// The `spender` will be allowed to spend on behalf of `owner` through {transferFrom}. This is zero by default.
+    function allowance(
+        address owner,
+        address spender
+    ) public view override returns (uint256) {
         return _allowances[owner][spender];
     }
 
     /// @notice Sets `amount` as the allowance of `spender` over the caller's tokens.
-    /// @dev It'll emit an {Approval} event. If `amount` is the maximum `uint256`, the allowance is not updated on `transferFrom`. This is semantically equivalent to an infinite approval.
+    /// @dev It'll emit an {Approval} event.
+    /// If `amount` is the maximum `uint256`, the allowance is not updated on `transferFrom`.
+    /// This is semantically equivalent to an infinite approval.
     /// @param spender Approve the spender.
     /// @param amount The approve amount.
     /// @return Returns a boolean value indicating whether the operation succeeded.
-    function approve(address spender, uint256 amount) public override returns (bool) {
+    function approve(
+        address spender,
+        uint256 amount
+    ) public override returns (bool) {
         address owner = msg.sender;
         _approve(owner, spender, amount);
         return true;
     }
 
-    /// @notice Moves `amount` tokens from `from` to `to` using the allowance mechanism. `amount` is then deducted from the caller's allowance.
+    /// @notice Moves `amount` tokens from `from` to `to` using the allowance mechanism.
+    /// `amount` is then deducted from the caller's allowance.
     /// @dev It'll emit an {Transfer} event.
-    /// @param from Transfer amount from the address. The caller must have allowance for ``from``'s tokens of at least `amount`. It cannot be the zero address.
+    /// @param from Transfer amount from the address.
+    /// The caller must have allowance for ``from``'s tokens of at least `amount`. It cannot be the zero address.
     /// @param to Transfer amount to the address. It cannot be the zero address.
     /// @param amount The transfer amount.
     /// @return Returns a boolean value indicating whether the operation succeeded.
-    function transferFrom(address from, address to, uint256 amount) public override returns (bool) {
+    function transferFrom(
+        address from,
+        address to,
+        uint256 amount
+    ) public override returns (bool) {
         address spender = msg.sender;
         _spendAllowance(from, spender, amount);
         _transfer(from, to, amount);
@@ -99,7 +117,10 @@ contract Token is IERC20 {
     /// @param spender It cannot be the zero address.
     /// @param addedValue The added value.
     /// @return Returns a boolean value indicating whether the operation succeeded.
-    function increaseAllowance(address spender, uint256 addedValue) public returns (bool) {
+    function increaseAllowance(
+        address spender,
+        uint256 addedValue
+    ) public returns (bool) {
         address owner = msg.sender;
         _approve(owner, spender, _allowances[owner][spender] + addedValue);
         return true;
@@ -111,10 +132,16 @@ contract Token is IERC20 {
     /// @param spender must have allowance for the caller of at least `subtractedValue`. It cannot be the zero address.
     /// @param subtractedValue The subtracted value.
     /// @return Returns a boolean value indicating whether the operation succeeded.
-    function decreaseAllowance(address spender, uint256 subtractedValue) public returns (bool) {
+    function decreaseAllowance(
+        address spender,
+        uint256 subtractedValue
+    ) public returns (bool) {
         address owner = msg.sender;
         uint256 currentAllowance = _allowances[owner][spender];
-        require(currentAllowance >= subtractedValue, "ERC20: decreased allowance below zero");
+        require(
+            currentAllowance >= subtractedValue,
+            "ERC20: decreased allowance below zero"
+        );
         unchecked {
             _approve(owner, spender, currentAllowance - subtractedValue);
         }
@@ -162,7 +189,10 @@ contract Token is IERC20 {
     ) internal {
         uint256 currentAllowance = allowance(owner, spender);
         if (currentAllowance != type(uint256).max) {
-            require(currentAllowance >= amount, "ERC20: insufficient allowance");
+            require(
+                currentAllowance >= amount,
+                "ERC20: insufficient allowance"
+            );
             unchecked {
                 _approve(owner, spender, currentAllowance - amount);
             }

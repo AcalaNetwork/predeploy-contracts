@@ -30,14 +30,24 @@ interface IStableAsset {
     /// @param poolId The ID of the pool.
     /// @param amounts amount of tokens to be put in the pool.
     /// @param minMintAmount amount of minimum pool token received.
-    event StableAssetMinted(address indexed sender, uint32 indexed poolId, uint256[] amounts, uint256 minMintAmount);
+    event StableAssetMinted(
+        address indexed sender,
+        uint32 indexed poolId,
+        uint256[] amounts,
+        uint256 minMintAmount
+    );
 
     /// @notice The scheduled call event.
     /// @param sender The sender of the transaction.
     /// @param poolId The ID of the pool.
     /// @param redeemAmount The amount of pool token to be redeemed.
     /// @param amounts The minimum amounts of redeemed token received.
-    event StableAssetRedeemed(address indexed sender, uint32 indexed poolId, uint256 redeemAmount, uint256[] amounts);
+    event StableAssetRedeemed(
+        address indexed sender,
+        uint32 indexed poolId,
+        uint256 redeemAmount,
+        uint256[] amounts
+    );
 
     /// @notice The scheduled call event.
     /// @param sender The sender of the transaction.
@@ -71,37 +81,49 @@ interface IStableAsset {
     /// @param poolId The ID of the pool.
     /// @return poolExists whether pool exists or not.
     /// @return tokens stabel asset pool tokens.
-    function getStableAssetPoolTokens(uint32 poolId) external view returns (bool, address[] memory);
+    function getStableAssetPoolTokens(
+        uint32 poolId
+    ) external view returns (bool, address[] memory);
 
     /// @notice Get stable asset pool total supply.
     /// @param poolId The ID of the pool.
     /// @return poolExists whether pool exists or not.
     /// @return totalSupply total supply value.
-    function getStableAssetPoolTotalSupply(uint32 poolId) external view returns (bool, uint256);
+    function getStableAssetPoolTotalSupply(
+        uint32 poolId
+    ) external view returns (bool, uint256);
 
     /// @notice Get stable asset pool precision.
     /// @param poolId The ID of the pool.
     /// @return poolExists whether pool exists or not.
     /// @return precision precision value.
-    function getStableAssetPoolPrecision(uint32 poolId) external view returns (bool, uint256);
+    function getStableAssetPoolPrecision(
+        uint32 poolId
+    ) external view returns (bool, uint256);
 
     /// @notice Get stable asset pool mint fee.
     /// @param poolId The ID of the pool.
     /// @return poolExists whether pool exists or not.
     /// @return mintFee mint fee value.
-    function getStableAssetPoolMintFee(uint32 poolId) external view returns (bool, uint256);
+    function getStableAssetPoolMintFee(
+        uint32 poolId
+    ) external view returns (bool, uint256);
 
     /// @notice Get stable asset pool swap fee.
     /// @param poolId The ID of the pool.
     /// @return poolExists whether pool exists or not.
     /// @return swapFee swap fee value.
-    function getStableAssetPoolSwapFee(uint32 poolId) external view returns (bool, uint256);
+    function getStableAssetPoolSwapFee(
+        uint32 poolId
+    ) external view returns (bool, uint256);
 
     /// @notice Get stable asset pool redeem fee.
     /// @param poolId The ID of the pool.
     /// @return poolExists whether pool exists or not.
     /// @return redeemFee redeem fee value.
-    function getStableAssetPoolRedeemFee(uint32 poolId) external view returns (bool, uint256);
+    function getStableAssetPoolRedeemFee(
+        uint32 poolId
+    ) external view returns (bool, uint256);
 
     /// @notice Stable asset swap tokens.
     /// @dev It'll emit an {StableAssetSwapped} event.
@@ -127,7 +149,11 @@ interface IStableAsset {
     /// @param amounts amount of tokens to be put in the pool.
     /// @param minMintAmount amount of minimum pool token received.
     /// @return Returns a boolean value indicating whether the operation succeeded.
-    function stableAssetMint(uint32 poolId, uint256[] calldata amounts, uint256 minMintAmount) external returns (bool);
+    function stableAssetMint(
+        uint32 poolId,
+        uint256[] calldata amounts,
+        uint256 minMintAmount
+    ) external returns (bool);
 
     /// @notice Stable asset redeem, redeems the token proportionally.
     /// @dev It'll emit an {StableAssetRedeemed} event.
@@ -135,7 +161,11 @@ interface IStableAsset {
     /// @param redeemAmount The amount of pool token to be redeemed.
     /// @param amounts The minimum amounts of redeemed token received.
     /// @return Returns a boolean value indicating whether the operation succeeded.
-    function stableAssetRedeem(uint32 poolId, uint256 redeemAmount, uint256[] calldata amounts) external returns (bool);
+    function stableAssetRedeem(
+        uint32 poolId,
+        uint256 redeemAmount,
+        uint256[] calldata amounts
+    ) external returns (bool);
 
     /// @notice Stable asset redeem single, Redeems token into single token from pool.
     /// @dev It'll emit an {StableAssetRedeemedSingle} event.

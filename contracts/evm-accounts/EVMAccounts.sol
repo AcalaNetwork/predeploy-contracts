@@ -2,7 +2,7 @@
 
 pragma solidity ^0.8.0;
 
-import "./IEVMAccounts.sol";
+import {IEVMAccounts} from "./IEVMAccounts.sol";
 
 /// @title EVMAccounts Predeploy Contract
 /// @author Acala Developers
@@ -10,10 +10,13 @@ import "./IEVMAccounts.sol";
 /// @dev This contracts will interact with evm-accounts pallet
 contract EVMAccounts is IEVMAccounts {
     /// @dev The EVMAccounts precompile address.
-    address constant private PRECOMPILE = address(0x0000000000000000000000000000000000000408);
+    address private constant PRECOMPILE =
+        address(0x0000000000000000000000000000000000000408);
 
     /// @inheritdoc IEVMAccounts
-    function getAccountId(address evmAddress) public view override returns (bytes32) {
+    function getAccountId(
+        address evmAddress
+    ) public view override returns (bytes32) {
         (bool success, bytes memory returnData) = PRECOMPILE.staticcall(
             abi.encodeWithSignature("getAccountId(address)", evmAddress)
         );
@@ -27,7 +30,9 @@ contract EVMAccounts is IEVMAccounts {
     }
 
     /// @inheritdoc IEVMAccounts
-    function getEvmAddress(bytes32 accountId) public view override returns (address) {
+    function getEvmAddress(
+        bytes32 accountId
+    ) public view override returns (address) {
         (bool success, bytes memory returnData) = PRECOMPILE.staticcall(
             abi.encodeWithSignature("getEvmAddress(bytes32)", accountId)
         );
@@ -41,9 +46,14 @@ contract EVMAccounts is IEVMAccounts {
     }
 
     /// @inheritdoc IEVMAccounts
-    function claimDefaultEvmAddress(bytes32 accountId) public override returns (bool) {
+    function claimDefaultEvmAddress(
+        bytes32 accountId
+    ) public override returns (bool) {
         (bool success, bytes memory returnData) = PRECOMPILE.call(
-            abi.encodeWithSignature("claimDefaultEvmAddress(bytes32)", accountId)
+            abi.encodeWithSignature(
+                "claimDefaultEvmAddress(bytes32)",
+                accountId
+            )
         );
         assembly {
             if eq(success, 0) {

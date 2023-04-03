@@ -10,7 +10,10 @@ interface IEVM {
     /// @notice Transferred maintainer event.
     /// @param contractAddress The contract address of the transferred maintainer.
     /// @param newMaintainer The new maintainer.
-    event TransferredMaintainer(address indexed contractAddress, address indexed newMaintainer);
+    event TransferredMaintainer(
+        address indexed contractAddress,
+        address indexed newMaintainer
+    );
 
     /// @notice Contract published event.
     /// @param contractAddress The published contract address.
@@ -35,7 +38,9 @@ interface IEVM {
     /// @notice Get the maintainer of the contract.
     /// @param contractAddress The contract address.
     /// @return Returns the maintainer of the contract.
-    function maintainerOf(address contractAddress) external view returns (address);
+    function maintainerOf(
+        address contractAddress
+    ) external view returns (address);
 
     /// @notice Get deposit for the developer.
     /// @return Returns the const of DeveloperDeposit.
@@ -47,10 +52,14 @@ interface IEVM {
 
     /// @notice Transfer the maintainer of the contract.
     /// @dev It'll emit an {TransferredMaintainer} event.
-    /// @param contractAddress The contract address of the transfer maintainer, it cannot be the zero address. The caller must be the contract's maintainer.
+    /// @param contractAddress The contract address of the transfer maintainer
+    /// It cannot be the zero address. The caller must be the contract's maintainer.
     /// @param newMaintainer The address of the new maintainer.
     /// @return Returns a boolean value indicating whether the operation succeeded.
-    function transferMaintainer(address contractAddress, address newMaintainer) external returns (bool);
+    function transferMaintainer(
+        address contractAddress,
+        address newMaintainer
+    ) external returns (bool);
 
     /// @notice Publish contract.
     /// @dev It'll emit an {ContractPublished} event.

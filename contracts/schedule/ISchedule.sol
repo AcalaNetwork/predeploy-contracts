@@ -11,7 +11,11 @@ interface ISchedule {
     /// @param sender The sender of the transaction.
     /// @param contractAddress The scheduled contract address.
     /// @param taskId The scheduled task id.
-    event ScheduledCall(address indexed sender, address indexed contractAddress, bytes taskId);
+    event ScheduledCall(
+        address indexed sender,
+        address indexed contractAddress,
+        bytes taskId
+    );
 
     /// @notice The canceled call event.
     /// @param sender The sender of the transaction.
@@ -28,7 +32,8 @@ interface ISchedule {
     /// @param contractAddress The contract address to be called in future.
     /// @param value How much native token to send alone with the call.
     /// @param gasLimit The gas limit for the call. Corresponding fee will be reserved upfront and refunded after call.
-    /// @param storageLimit The storage limit for the call. Corresponding fee will be reserved upfront and refunded after call.
+    /// @param storageLimit The storage limit for the call.
+    /// Corresponding fee will be reserved upfront and refunded after call.
     /// @param minDelay Minimum number of blocks before the scheduled call will be called.
     /// @param inputData The input data to the call.
     /// @return Returns a bytes value equal to the taskId of the task created.
@@ -39,19 +44,13 @@ interface ISchedule {
         uint256 storageLimit,
         uint256 minDelay,
         bytes calldata inputData
-    )
-    external
-    returns (bytes memory); // Returns a bytes value equal to the taskId of the task created.
+    ) external returns (bytes memory);
 
     /// @notice Cancel schedule call the contract.
     /// @dev It'll emit an {CanceledCall} event.
     /// @param taskId The task id of the scheduler. Get it from the `ScheduledCall` event.
     /// @return Returns a boolean value indicating whether the operation succeeded.
-    function cancelCall(
-        bytes calldata taskId
-    )
-    external
-    returns (bool); // Returns a boolean value indicating whether the operation succeeded.
+    function cancelCall(bytes calldata taskId) external returns (bool);
 
     /// @notice Reschedule call the contract.
     /// @dev It'll emit an {RescheduledCall} event.
@@ -61,7 +60,5 @@ interface ISchedule {
     function rescheduleCall(
         uint256 minDelay,
         bytes calldata taskId
-    )
-    external
-    returns (bool);
+    ) external returns (bool);
 }

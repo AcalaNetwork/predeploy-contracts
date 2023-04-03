@@ -2,7 +2,7 @@
 
 pragma solidity ^0.8.0;
 
-import "./IOracle.sol";
+import {IOracle} from "./IOracle.sol";
 
 /// @title Oracle Predeploy Contract Interface
 /// @author Acala Developers
@@ -10,15 +10,11 @@ import "./IOracle.sol";
 /// @dev The interface through which solidity contracts will interact with oracle pallet
 contract Oracle is IOracle {
     /// @dev The Oracle precompile address.
-    address constant private PRECOMPILE = address(0x0000000000000000000000000000000000000403);
+    address private constant PRECOMPILE =
+        address(0x0000000000000000000000000000000000000403);
 
     /// @inheritdoc IOracle
-    function getPrice(address token)
-    public
-    view
-    override
-    returns (uint256)
-    {
+    function getPrice(address token) public view override returns (uint256) {
         require(token != address(0), "Oracle: token is zero address");
 
         (bool success, bytes memory returnData) = PRECOMPILE.staticcall(
