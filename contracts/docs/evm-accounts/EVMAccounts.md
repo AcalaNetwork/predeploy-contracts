@@ -94,9 +94,9 @@ Mapping between Substrate accounts and EVM accounts claim account event.
 
 | Name | Type | Description |
 |---|---|---|
-| sender `indexed` | address | undefined |
-| accountId `indexed` | bytes32 | undefined |
-| evmAddress `indexed` | address | undefined |
+| sender `indexed` | address | The sender of the transaction. |
+| accountId `indexed` | bytes32 | The substrate account. |
+| evmAddress `indexed` | address | The mapped EVM accounts. |
 
 
 

@@ -141,8 +141,8 @@ Minted liquid currency event.
 
 | Name | Type | Description |
 |---|---|---|
-| sender `indexed` | address | undefined |
-| amount  | uint256 | undefined |
+| sender `indexed` | address | The sender of the transaction. |
+| amount  | uint256 | The minted amount. |
 
 ### RequestedRedeem
 
@@ -158,9 +158,9 @@ Requested redeem event.
 
 | Name | Type | Description |
 |---|---|---|
-| sender `indexed` | address | undefined |
-| amount  | uint256 | undefined |
-| fastMatch  | bool | undefined |
+| sender `indexed` | address | The sender of the transaction. |
+| amount  | uint256 | The requested amount. |
+| fastMatch  | bool | Allow the request to be fast matched. |
 
 
 

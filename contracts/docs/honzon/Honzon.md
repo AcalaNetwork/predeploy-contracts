@@ -77,7 +77,7 @@ Get collateral parameters for a currencyId
 
 | Name | Type | Description |
 |---|---|---|
-| _0 | uint256[] | Returns (params) which is an array with 5 entries in the order that follows: - [0] `maximum_total_debit_value`: Hardcap of total debit value generated from this collateral. - [1] `interest_rate_per_sec`: A FixedU128 representing a decimal value. Interest rate of CDP loan per second - [2] `liquidation_ratio`: A FixedU128 representing a decimal value. Liquidation ratio for this collateral type - [3] `liquidation_penalty`: A FixedU128 representing a decimal value. Penalty added on for getting liquidated - [4] `required_collateral_ratio`: A FixedU128 representing a decimal value. Cannot adjust the position of CDP so that the current collateral ratio is lower than the required collateral ratio. |
+| _0 | uint256[] | Returns (params) which is an array with 5 entries in the order that follows: - [0] `maximum_total_debit_value`: Hardcap of total debit value generated from this collateral. - [1] `interest_rate_per_sec`: A FixedU128 representing a decimal value. Interest rate of CDP loan per second - [2] `liquidation_ratio`: A FixedU128 representing a decimal value. Liquidation ratio for this collateral type - [3] `liquidation_penalty`: A FixedU128 representing a decimal value. Penalty added on for getting liquidated - [4] `required_collateral_ratio`: A FixedU128 representing a decimal value. It cannot adjust the position of CDP so that the current collateral ratio is lower than the required collateral ratio. |
 
 ### getCurrentCollateralRatio
 
@@ -166,10 +166,10 @@ Adjusted Loan event.
 
 | Name | Type | Description |
 |---|---|---|
-| sender `indexed` | address | undefined |
-| currencyId `indexed` | address | undefined |
-| collateralAdjustment  | int128 | undefined |
-| debitAdjustment  | int128 | undefined |
+| sender `indexed` | address | The sender of the transaction. |
+| currencyId `indexed` | address | The collateral currency id. |
+| collateralAdjustment  | int128 | The signed amount, positive means to deposit collateral currency into CDP, negative means withdraw collateral currency from CDP. |
+| debitAdjustment  | int128 | The signed amount, positive means to issue some amount of stablecoin to caller according to the debit adjustment, negative means caller will payback some amount of stablecoin to CDP according to to the debit adjustment. |
 
 ### ClosedLoanByDex
 
@@ -185,8 +185,8 @@ Closed loan by DEX event.
 
 | Name | Type | Description |
 |---|---|---|
-| sender `indexed` | address | undefined |
-| currencyId `indexed` | address | undefined |
+| sender `indexed` | address | The sender of the transaction. |
+| currencyId `indexed` | address | The collateral currency id. |
 
 
 

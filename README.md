@@ -31,7 +31,6 @@ All of the tokens and predeployed system contracts have generated code in `./con
 These ERC20 contracts make native and cross-chain tokens available inside Acala EVM.
 - Mirrored Token contract address: `ADDRESS.ACA`, `ADDRESS.AUSD`...(`./contracts/utils/AcalaAddress.sol` or `./contracts/utils/KaruraAddress.sol`)
 - Docs [contracts/docs/token/Token.md](./contracts/docs/token/Token.md)
-- NPM docs [docs/token/Token.md](./docs/token/Token.md)
 
 
 ## Other System Contracts:
@@ -40,52 +39,42 @@ These contracts make other chain-native functionalities available in Acala EVM.
 ### EVM
 - EVM contract address: `ADDRESS.EVM`
 - Docs [contracts/docs/evm/EVM.md](./contracts/docs/evm/EVM.md)
-- NPM docs [docs/evm/EVM.md](./docs/evm/EVM.md)
 
 ### Oracle Price Feed
 - Oracle contract address: `ADDRESS.ORACLE`
 - Docs [contracts/docs/oracle/Oracle.md](./contracts/docs/oracle/Oracle.md)
-- NPM docs [docs/oracle/Oracle.md](./docs/oracle/Oracle.md)
 
 ### On-chain Automatic Scheduler
 - ScheduleCall contract address: `ADDRESS.SCHEDULE`
 - Docs [contracts/docs/schdule/Schdule.md](./contracts/docs/schdule/Schdule.md)
-- NPM docs [docs/schdule/Schdule.md](./docs/schdule/Schdule.md)
 
 ### DEX
 - DEX contract address: `ADDRESS.DEX`
 - Docs [contracts/docs/dex/DEX.md](./contracts/docs/dex/DEX.md)
-- NPM docs [docs/dex/DEX.md](./docs/dex/DEX.md)
 
 ### Homa Liquid Staking Protocol
 - Homa contract address: `ADDRESS.HOMA`
 - Docs [contracts/docs/homa/Homa.md](./contracts/docs/homa/Homa.md)
-- NPM docs [docs/homa/Homa.md](./docs/homa/Homa.md)
 
 ### EVM Accounts
 - EVMAccounts contract address: `ADDRESS.EVM_ACCOUNTS`
 - Docs [contracts/docs/evm-accounts/EVMAccounts.md](./contracts/docs/evm-accounts/EVMAccounts.md)
-- NPM docs [docs/evm-accounts/EVMAccounts.md](./docs/evm-accounts/EVMAccounts.md)
 
 ### Honzon Protocol
 - Honzon contract address: `ADDRESS.HONZON`
 - Docs [contracts/docs/honzon/Honzon.md](./contracts/docs/honzon/Honzon.md)
-- NPM docs [docs/honzon/Honzon.md](./docs/honzon/Honzon.md)
 
 ### Incentives
 - Incentives contract address: `ADDRESS.INCENTIVES`
 - Docs [contracts/docs/incentives/Incentives.md](./contracts/docs/incentives/Incentives.md)
-- NPM docs [docs/incentives/Incentives.md](./docs/incentives/Incentives.md)
 
 ### StableAsset
 - StableAsset contract address: `ADDRESS.STABLE_ASSET`
 - Docs [contracts/docs/stable-asset/StableAsset.md](./contracts/docs/stable-asset/StableAsset.md)
-- NPM docs [docs/stable-asset/StableAsset.md](./docs/stable-asset/StableAsset.md)
 
 ### Xtokens
 - Xtokens contract address: `ADDRESS.XTOKENS`
 - Docs [contracts/docs/xtokens/Xtokens.md](./contracts/docs/xtokens/Xtokens.md)
-- NPM docs [docs/xtokens/Xtokens.md](./docs/xtokens/Xtokens.md)
 
 ## DeFi Contracts (Coming Soon)
 These contracts will make Acala's DeFi primitives (stablecoin, staking derivative, and DeX) available in Acala EVM.

@@ -31,7 +31,7 @@ Get the remaining number of tokens that `spender` will be allowed to spend.
 
 | Name | Type | Description |
 |---|---|---|
-| _0 | uint256 | Returns the remaining number of tokens that `spender` will be allowed to spend on behalf of `owner` through {transferFrom}. This is zero by default. |
+| _0 | uint256 | Returns the remaining number of tokens. The `spender` will be allowed to spend on behalf of `owner` through {transferFrom}. This is zero by default. |
 
 ### approve
 
@@ -251,7 +251,7 @@ event Approval(address indexed owner, address indexed spender, uint256 value)
 
 
 
-
+*Emitted when the allowance of a `spender` for an `owner` is set by a call to {approve}. `value` is the new allowance.*
 
 #### Parameters
 
@@ -269,7 +269,7 @@ event Transfer(address indexed from, address indexed to, uint256 value)
 
 
 
-
+*Emitted when `value` tokens are moved from one account (`from`) to another (`to`). Note that `value` may be zero.*
 
 #### Parameters
 

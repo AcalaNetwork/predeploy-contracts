@@ -8,10 +8,13 @@ pragma solidity ^0.8.0;
 /// @dev This contracts will interact with currencies pallet
 library MultiCurrency {
     /// @dev The MultiCurrency precompile address.
-    address constant private PRECOMPILE = address(0x0000000000000000000000000000000000000400);
+    address private constant PRECOMPILE =
+        address(0x0000000000000000000000000000000000000400);
 
     function name() internal view returns (string memory) {
-        (bool success, bytes memory returnData) = PRECOMPILE.staticcall(abi.encodeWithSignature("name()"));
+        (bool success, bytes memory returnData) = PRECOMPILE.staticcall(
+            abi.encodeWithSignature("name()")
+        );
         assembly {
             if eq(success, 0) {
                 revert(add(returnData, 0x20), returndatasize())
@@ -22,7 +25,9 @@ library MultiCurrency {
     }
 
     function symbol() internal view returns (string memory) {
-        (bool success, bytes memory returnData) = PRECOMPILE.staticcall(abi.encodeWithSignature("symbol()"));
+        (bool success, bytes memory returnData) = PRECOMPILE.staticcall(
+            abi.encodeWithSignature("symbol()")
+        );
         assembly {
             if eq(success, 0) {
                 revert(add(returnData, 0x20), returndatasize())
@@ -33,7 +38,9 @@ library MultiCurrency {
     }
 
     function decimals() internal view returns (uint8) {
-        (bool success, bytes memory returnData) = PRECOMPILE.staticcall(abi.encodeWithSignature("decimals()"));
+        (bool success, bytes memory returnData) = PRECOMPILE.staticcall(
+            abi.encodeWithSignature("decimals()")
+        );
         assembly {
             if eq(success, 0) {
                 revert(add(returnData, 0x20), returndatasize())
@@ -44,7 +51,9 @@ library MultiCurrency {
     }
 
     function totalSupply() internal view returns (uint256) {
-        (bool success, bytes memory returnData) = PRECOMPILE.staticcall(abi.encodeWithSignature("totalSupply()"));
+        (bool success, bytes memory returnData) = PRECOMPILE.staticcall(
+            abi.encodeWithSignature("totalSupply()")
+        );
         assembly {
             if eq(success, 0) {
                 revert(add(returnData, 0x20), returndatasize())
@@ -67,9 +76,18 @@ library MultiCurrency {
         return abi.decode(returnData, (uint256));
     }
 
-    function transfer(address sender, address recipient, uint256 amount) internal {
+    function transfer(
+        address sender,
+        address recipient,
+        uint256 amount
+    ) internal {
         (bool success, bytes memory returnData) = PRECOMPILE.call(
-            abi.encodeWithSignature("transfer(address,address,uint256)", sender, recipient, amount)
+            abi.encodeWithSignature(
+                "transfer(address,address,uint256)",
+                sender,
+                recipient,
+                amount
+            )
         );
         assembly {
             if eq(success, 0) {

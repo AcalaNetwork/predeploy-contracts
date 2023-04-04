@@ -2,7 +2,7 @@
 
 pragma solidity ^0.8.0;
 
-import "./IStableAsset.sol";
+import {IStableAsset} from "./IStableAsset.sol";
 
 /// @title StableAsset Predeploy Contract
 /// @author Acala Developers
@@ -10,14 +10,13 @@ import "./IStableAsset.sol";
 /// @dev This contracts will interact with stable-asset pallet
 contract StableAsset is IStableAsset {
     /// @dev The StableAsset precompile address.
-    address constant private PRECOMPILE = address(0x0000000000000000000000000000000000000406);
+    address private constant PRECOMPILE =
+        address(0x0000000000000000000000000000000000000406);
 
     /// @inheritdoc IStableAsset
-    function getStableAssetPoolTokens(uint32 poolId)
-    public
-    view
-    override
-    returns (bool, address[] memory) {
+    function getStableAssetPoolTokens(
+        uint32 poolId
+    ) public view override returns (bool, address[] memory) {
         (bool success, bytes memory returnData) = PRECOMPILE.staticcall(
             abi.encodeWithSignature("getStableAssetPoolTokens(uint32)", poolId)
         );
@@ -36,13 +35,14 @@ contract StableAsset is IStableAsset {
     }
 
     /// @inheritdoc IStableAsset
-    function getStableAssetPoolTotalSupply(uint32 poolId)
-    public
-    view
-    override
-    returns (bool, uint256) {
+    function getStableAssetPoolTotalSupply(
+        uint32 poolId
+    ) public view override returns (bool, uint256) {
         (bool success, bytes memory returnData) = PRECOMPILE.staticcall(
-            abi.encodeWithSignature("getStableAssetPoolTotalSupply(uint32)", poolId)
+            abi.encodeWithSignature(
+                "getStableAssetPoolTotalSupply(uint32)",
+                poolId
+            )
         );
         assembly {
             if eq(success, 0) {
@@ -58,13 +58,14 @@ contract StableAsset is IStableAsset {
     }
 
     /// @inheritdoc IStableAsset
-    function getStableAssetPoolPrecision(uint32 poolId)
-    public
-    view
-    override
-    returns (bool, uint256) {
+    function getStableAssetPoolPrecision(
+        uint32 poolId
+    ) public view override returns (bool, uint256) {
         (bool success, bytes memory returnData) = PRECOMPILE.staticcall(
-            abi.encodeWithSignature("getStableAssetPoolPrecision(uint32)", poolId)
+            abi.encodeWithSignature(
+                "getStableAssetPoolPrecision(uint32)",
+                poolId
+            )
         );
         assembly {
             if eq(success, 0) {
@@ -80,11 +81,9 @@ contract StableAsset is IStableAsset {
     }
 
     /// @inheritdoc IStableAsset
-    function getStableAssetPoolMintFee(uint32 poolId)
-    public
-    view
-    override
-    returns (bool, uint256) {
+    function getStableAssetPoolMintFee(
+        uint32 poolId
+    ) public view override returns (bool, uint256) {
         (bool success, bytes memory returnData) = PRECOMPILE.staticcall(
             abi.encodeWithSignature("getStableAssetPoolMintFee(uint32)", poolId)
         );
@@ -102,11 +101,9 @@ contract StableAsset is IStableAsset {
     }
 
     /// @inheritdoc IStableAsset
-    function getStableAssetPoolSwapFee(uint32 poolId)
-    public
-    view
-    override
-    returns (bool, uint256) {
+    function getStableAssetPoolSwapFee(
+        uint32 poolId
+    ) public view override returns (bool, uint256) {
         (bool success, bytes memory returnData) = PRECOMPILE.staticcall(
             abi.encodeWithSignature("getStableAssetPoolSwapFee(uint32)", poolId)
         );
@@ -124,13 +121,14 @@ contract StableAsset is IStableAsset {
     }
 
     /// @inheritdoc IStableAsset
-    function getStableAssetPoolRedeemFee(uint32 poolId)
-    public
-    view
-    override
-    returns (bool, uint256) {
+    function getStableAssetPoolRedeemFee(
+        uint32 poolId
+    ) public view override returns (bool, uint256) {
         (bool success, bytes memory returnData) = PRECOMPILE.staticcall(
-            abi.encodeWithSignature("getStableAssetPoolRedeemFee(uint32)", poolId)
+            abi.encodeWithSignature(
+                "getStableAssetPoolRedeemFee(uint32)",
+                poolId
+            )
         );
         assembly {
             if eq(success, 0) {
@@ -146,14 +144,24 @@ contract StableAsset is IStableAsset {
     }
 
     /// @inheritdoc IStableAsset
-    function stableAssetSwap(uint32 poolId, uint32 i, uint32 j, uint256 dx, uint256 minDY, uint32 assetLength)
-    public
-    override
-    returns (bool) {
+    function stableAssetSwap(
+        uint32 poolId,
+        uint32 i,
+        uint32 j,
+        uint256 dx,
+        uint256 minDY,
+        uint32 assetLength
+    ) public override returns (bool) {
         (bool success, bytes memory returnData) = PRECOMPILE.call(
             abi.encodeWithSignature(
                 "stableAssetSwap(address,uint32,uint32,uint32,uint256,uint256,uint32)",
-                msg.sender, poolId, i, j, dx, minDY, assetLength
+                msg.sender,
+                poolId,
+                i,
+                j,
+                dx,
+                minDY,
+                assetLength
             )
         );
         assembly {
@@ -161,19 +169,31 @@ contract StableAsset is IStableAsset {
                 revert(add(returnData, 0x20), returndatasize())
             }
         }
-        emit StableAssetSwapped(msg.sender, poolId, i, j, dx, minDY, assetLength);
+        emit StableAssetSwapped(
+            msg.sender,
+            poolId,
+            i,
+            j,
+            dx,
+            minDY,
+            assetLength
+        );
         return true;
     }
 
     /// @inheritdoc IStableAsset
-    function stableAssetMint(uint32 poolId, uint256[] calldata amounts, uint256 minMintAmount)
-    public
-    override
-    returns (bool) {
+    function stableAssetMint(
+        uint32 poolId,
+        uint256[] calldata amounts,
+        uint256 minMintAmount
+    ) public override returns (bool) {
         (bool success, bytes memory returnData) = PRECOMPILE.call(
             abi.encodeWithSignature(
                 "stableAssetMint(address,uint32,uint256[],uint256)",
-                msg.sender, poolId, amounts, minMintAmount
+                msg.sender,
+                poolId,
+                amounts,
+                minMintAmount
             )
         );
         assembly {
@@ -186,14 +206,18 @@ contract StableAsset is IStableAsset {
     }
 
     /// @inheritdoc IStableAsset
-    function stableAssetRedeem(uint32 poolId, uint256 redeemAmount, uint256[] calldata amounts)
-    public
-    override
-    returns (bool) {
+    function stableAssetRedeem(
+        uint32 poolId,
+        uint256 redeemAmount,
+        uint256[] calldata amounts
+    ) public override returns (bool) {
         (bool success, bytes memory returnData) = PRECOMPILE.call(
             abi.encodeWithSignature(
                 "stableAssetRedeem(address,uint32,uint256,uint256[])",
-                msg.sender, poolId, redeemAmount, amounts
+                msg.sender,
+                poolId,
+                redeemAmount,
+                amounts
             )
         );
         assembly {
@@ -212,14 +236,16 @@ contract StableAsset is IStableAsset {
         uint32 i,
         uint256 minRedeemAmount,
         uint32 assetLength
-    )
-    public
-    override
-    returns (bool) {
+    ) public override returns (bool) {
         (bool success, bytes memory returnData) = PRECOMPILE.call(
             abi.encodeWithSignature(
                 "stableAssetRedeemSingle(address,uint32,uint256,uint32,uint256,uint32)",
-                msg.sender, poolId, redeemAmount, i, minRedeemAmount, assetLength
+                msg.sender,
+                poolId,
+                redeemAmount,
+                i,
+                minRedeemAmount,
+                assetLength
             )
         );
         assembly {
@@ -228,19 +254,30 @@ contract StableAsset is IStableAsset {
             }
         }
 
-        emit StableAssetRedeemedSingle(msg.sender, poolId, redeemAmount, i, minRedeemAmount, assetLength);
+        emit StableAssetRedeemedSingle(
+            msg.sender,
+            poolId,
+            redeemAmount,
+            i,
+            minRedeemAmount,
+            assetLength
+        );
         return true;
     }
 
     /// @inheritdoc IStableAsset
-    function stableAssetRedeemMulti(uint32 poolId, uint256[] calldata amounts, uint256 maxRedeemAmount)
-    public
-    override
-    returns (bool) {
+    function stableAssetRedeemMulti(
+        uint32 poolId,
+        uint256[] calldata amounts,
+        uint256 maxRedeemAmount
+    ) public override returns (bool) {
         (bool success, bytes memory returnData) = PRECOMPILE.call(
             abi.encodeWithSignature(
                 "stableAssetRedeemMulti(address,uint32,uint256[],uint256)",
-                msg.sender, poolId, amounts, maxRedeemAmount
+                msg.sender,
+                poolId,
+                amounts,
+                maxRedeemAmount
             )
         );
         assembly {
@@ -249,7 +286,12 @@ contract StableAsset is IStableAsset {
             }
         }
 
-        emit StableAssetRedeemedMulti(msg.sender, poolId, amounts, maxRedeemAmount);
+        emit StableAssetRedeemedMulti(
+            msg.sender,
+            poolId,
+            amounts,
+            maxRedeemAmount
+        );
         return true;
     }
 }

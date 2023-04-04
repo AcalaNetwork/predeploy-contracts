@@ -192,7 +192,7 @@ Transfer the maintainer of the contract.
 
 | Name | Type | Description |
 |---|---|---|
-| contractAddress | address | The contract address of the transfer maintainer, it cannot be the zero address. The caller must be the contract&#39;s maintainer. |
+| contractAddress | address | The contract address of the transfer maintainer It cannot be the zero address. The caller must be the contract&#39;s maintainer. |
 | newMaintainer | address | The address of the new maintainer. |
 
 #### Returns
@@ -219,7 +219,7 @@ Contract published event.
 
 | Name | Type | Description |
 |---|---|---|
-| contractAddress `indexed` | address | undefined |
+| contractAddress `indexed` | address | The published contract address. |
 
 ### DeveloperDisabled
 
@@ -235,7 +235,7 @@ Disabled developer event.
 
 | Name | Type | Description |
 |---|---|---|
-| accountAddress `indexed` | address | undefined |
+| accountAddress `indexed` | address | The disabled developer account address. |
 
 ### DeveloperEnabled
 
@@ -251,7 +251,7 @@ Enabled developer event.
 
 | Name | Type | Description |
 |---|---|---|
-| accountAddress `indexed` | address | undefined |
+| accountAddress `indexed` | address | The enabled developer account address. |
 
 ### TransferredMaintainer
 
@@ -267,8 +267,8 @@ Transferred maintainer event.
 
 | Name | Type | Description |
 |---|---|---|
-| contractAddress `indexed` | address | undefined |
-| newMaintainer `indexed` | address | undefined |
+| contractAddress `indexed` | address | The contract address of the transferred maintainer. |
+| newMaintainer `indexed` | address | The new maintainer. |
 
 
 

@@ -2,7 +2,7 @@
 
 pragma solidity ^0.8.0;
 
-import "./ISchedule.sol";
+import {ISchedule} from "./ISchedule.sol";
 
 /// @title Schedule Predeploy Contract
 /// @author Acala Developers
@@ -10,7 +10,8 @@ import "./ISchedule.sol";
 /// @dev This contracts will interact with idle-schedule pallet
 contract Schedule is ISchedule {
     /// @dev The Schedule precompile address.
-    address constant private PRECOMPILE = address(0x0000000000000000000000000000000000000404);
+    address private constant PRECOMPILE =
+        address(0x0000000000000000000000000000000000000404);
 
     /// @inheritdoc ISchedule
     function scheduleCall(
@@ -21,13 +22,22 @@ contract Schedule is ISchedule {
         uint256 minDelay,
         bytes memory inputData
     ) public override returns (bytes memory) {
-        require(contractAddress != address(0), "ScheduleCall: the contractAddress is the zero address");
+        require(
+            contractAddress != address(0),
+            "ScheduleCall: the contractAddress is the zero address"
+        );
         require(inputData.length > 0, "ScheduleCall: input is null");
 
         (bool success, bytes memory returnData) = PRECOMPILE.call(
             abi.encodeWithSignature(
                 "scheduleCall(address,address,uint256,uint256,uint256,bytes)",
-                msg.sender, contractAddress, value, gasLimit, storageLimit, minDelay, inputData
+                msg.sender,
+                contractAddress,
+                value,
+                gasLimit,
+                storageLimit,
+                minDelay,
+                inputData
             )
         );
         assembly {
@@ -36,18 +46,20 @@ contract Schedule is ISchedule {
             }
         }
 
-        (bytes memory taskId) = abi.decode(returnData, (bytes));
+        bytes memory taskId = abi.decode(returnData, (bytes));
 
         emit ScheduledCall(msg.sender, contractAddress, taskId);
         return taskId;
     }
 
     /// @inheritdoc ISchedule
-    function cancelCall(
-        bytes memory taskId
-    ) public override returns (bool) {
+    function cancelCall(bytes memory taskId) public override returns (bool) {
         (bool success, bytes memory returnData) = PRECOMPILE.call(
-            abi.encodeWithSignature("cancelCall(address,bytes)", msg.sender, taskId)
+            abi.encodeWithSignature(
+                "cancelCall(address,bytes)",
+                msg.sender,
+                taskId
+            )
         );
         assembly {
             if eq(success, 0) {
@@ -65,7 +77,12 @@ contract Schedule is ISchedule {
         bytes memory taskId
     ) public override returns (bool) {
         (bool success, bytes memory returnData) = PRECOMPILE.call(
-            abi.encodeWithSignature("rescheduleCall(address,uint256,bytes)", msg.sender, minDelay, taskId)
+            abi.encodeWithSignature(
+                "rescheduleCall(address,uint256,bytes)",
+                msg.sender,
+                minDelay,
+                taskId
+            )
         );
         assembly {
             if eq(success, 0) {
