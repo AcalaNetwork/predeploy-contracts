@@ -9,6 +9,6 @@ pragma solidity ^0.8.0;
 interface IOracle {
     /// @notice Get the price of the currency_id.
     /// @param token The ERC20 address of currency_id.
-    /// @return Returns the (price, timestamp).
+    /// @return Returns the price.
     function getPrice(address token) external view returns (uint256);
 }
