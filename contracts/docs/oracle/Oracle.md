@@ -30,7 +30,7 @@ Get the price of the currency_id.
 
 | Name | Type | Description |
 |---|---|---|
-| _0 | uint256 | Returns the (price, timestamp). |
+| _0 | uint256 | Returns the price. |
 
 
 
