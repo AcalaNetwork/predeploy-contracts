@@ -78,3 +78,9 @@ These contracts make other chain-native functionalities available in Acala EVM.
 
 ## DeFi Contracts (Coming Soon)
 These contracts will make Acala's DeFi primitives (stablecoin, staking derivative, and DeX) available in Acala EVM.
+
+## Verify
+```
+npx hardhat run scripts/deploy.ts --network karuraTestnet
+npx hardhat verify --network karuraTestnet 0xc5d131D410B15890dAF6F517475C6FB9D0c758DA
+```

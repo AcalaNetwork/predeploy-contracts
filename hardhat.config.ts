@@ -33,7 +33,7 @@ const config: HardhatUserConfig = {
     karuraTestnet: {
       url: 'https://eth-rpc-karura-testnet.aca-staging.network',
       accounts: {
-        mnemonic: process.env.MNEMONIC || '',
+        mnemonic: process.env.MNEMONIC,
       },
       chainId: 596,
       timeout: 120000,
@@ -41,7 +41,7 @@ const config: HardhatUserConfig = {
     acalaTestnet: {
       url: 'https://eth-rpc-acala-testnet.aca-staging.network',
       accounts: {
-        mnemonic: process.env.MNEMONIC || '',
+        mnemonic: process.env.MNEMONIC,
       },
       chainId: 597,
       timeout: 120000,
@@ -49,7 +49,7 @@ const config: HardhatUserConfig = {
     karura: {
       url: 'https://eth-rpc-karura.aca-api.network',
       accounts: {
-        mnemonic: process.env.MNEMONIC || '',
+        mnemonic: process.env.MNEMONIC,
       },
       chainId: 686,
       timeout: 120000,
@@ -57,14 +57,19 @@ const config: HardhatUserConfig = {
     acala: {
       url: 'https://eth-rpc-acala.aca-api.network',
       accounts: {
-        mnemonic: process.env.MNEMONIC || '',
+        mnemonic: process.env.MNEMONIC,
       },
       chainId: 787,
       timeout: 120000,
-    },
+    }
   },
   etherscan: {
-    apiKey: process.env.ETHERSCAN_API_KEY || '',
+    apiKey: {
+      karuraTestnet: 'no-api-key-needed',
+      acalaTestnet: 'no-api-key-needed',
+      karura: 'no-api-key-needed',
+      acala: 'no-api-key-needed',
+    },
     customChains: [
       {
         network: "karuraTestnet",
@@ -72,6 +77,30 @@ const config: HardhatUserConfig = {
         urls: {
           apiURL: "https://blockscout.karura-testnet.aca-staging.network/api",
           browserURL: "https://blockscout.karura-testnet.aca-staging.network",
+        },
+      },
+      {
+        network: "acalaTestnet",
+        chainId: 597,
+        urls: {
+          apiURL: "https://blockscout.acala-dev.aca-dev.network/api",
+          browserURL: "https://blockscout.acala-dev.aca-dev.network",
+        },
+      },
+      {
+        network: "karura",
+        chainId: 686,
+        urls: {
+          apiURL: "https://blockscout.karura.network/api",
+          browserURL: "https://blockscout.karura.network",
+        },
+      },
+      {
+        network: "acala",
+        chainId: 787,
+        urls: {
+          apiURL: "https://blockscout.acala.network/api",
+          browserURL: "https://blockscout.acala.network",
         },
       }
     ],
