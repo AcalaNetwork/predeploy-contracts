@@ -33,7 +33,7 @@ const config: HardhatUserConfig = {
     karuraTestnet: {
       url: 'https://eth-rpc-karura-testnet.aca-staging.network',
       accounts: {
-        mnemonic: process.env.MNEMONIC,
+        mnemonic: process.env.MNEMONIC || '',
       },
       chainId: 596,
       timeout: 120000,
@@ -41,7 +41,7 @@ const config: HardhatUserConfig = {
     acalaTestnet: {
       url: 'https://eth-rpc-acala-testnet.aca-staging.network',
       accounts: {
-        mnemonic: process.env.MNEMONIC,
+        mnemonic: process.env.MNEMONIC || '',
       },
       chainId: 597,
       timeout: 120000,
@@ -49,7 +49,7 @@ const config: HardhatUserConfig = {
     karura: {
       url: 'https://eth-rpc-karura.aca-api.network',
       accounts: {
-        mnemonic: process.env.MNEMONIC,
+        mnemonic: process.env.MNEMONIC || '',
       },
       chainId: 686,
       timeout: 120000,
@@ -57,7 +57,7 @@ const config: HardhatUserConfig = {
     acala: {
       url: 'https://eth-rpc-acala.aca-api.network',
       accounts: {
-        mnemonic: process.env.MNEMONIC,
+        mnemonic: process.env.MNEMONIC || '',
       },
       chainId: 787,
       timeout: 120000,
