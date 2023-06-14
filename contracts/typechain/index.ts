@@ -48,6 +48,8 @@ export type { StableAsset } from "./contracts/stable-asset/StableAsset";
 export { StableAsset__factory } from "./factories/contracts/stable-asset/StableAsset__factory";
 export type { Token } from "./contracts/token/Token";
 export { Token__factory } from "./factories/contracts/token/Token__factory";
+export type { ADDRESS } from "./contracts/utils/AcalaAddress.sol/ADDRESS";
+export { ADDRESS__factory } from "./factories/contracts/utils/AcalaAddress.sol/ADDRESS__factory";
 export type { IXtokens } from "./contracts/xtokens/IXtokens";
 export { IXtokens__factory } from "./factories/contracts/xtokens/IXtokens__factory";
 export type { Xtokens } from "./contracts/xtokens/Xtokens";

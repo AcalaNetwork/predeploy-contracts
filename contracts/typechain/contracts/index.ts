@@ -23,5 +23,7 @@ import type * as stableAsset from "./stable-asset";
 export type { stableAsset };
 import type * as token from "./token";
 export type { token };
+import type * as utils from "./utils";
+export type { utils };
 import type * as xtokens from "./xtokens";
 export type { xtokens };
