@@ -6,6 +6,7 @@ on:
       - master
       - solc-0.6
       - solc-0.7
+      - fix-env
 
 jobs:
   publish:
@@ -17,7 +18,7 @@ jobs:
           node-version: '18.x'
           registry-url: 'https://registry.npmjs.org'
       - run: |
-          echo npmAuthToken: "\${NPM_TOKEN}" >> ./.yarnrc.yml
+          echo npmAuthToken: "\${NPM_AUTH_TOKEN}" >> ./.yarnrc.yml
       - name: Publish Solidity Package
         env:
           NPM_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
