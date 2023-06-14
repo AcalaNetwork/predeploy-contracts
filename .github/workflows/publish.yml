@@ -32,7 +32,7 @@ jobs:
           if [ $(yarn npm info '@acala-network/contracts' --json | jq -er ".versions|any(. == $version)") == false ]
           then
               # publish
-              yarn workspaces '@acala-network/contracts' npm publish --access=public
+              yarn workspace '@acala-network/contracts' npm publish --access=public
           fi
       - run: |
           git checkout ./.yarnrc.yml
