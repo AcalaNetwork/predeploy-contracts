@@ -25,12 +25,9 @@ jobs:
           yarn
           # compile
           yarn run generate-bytecode
-          cd contracts
-          version=$(cat package.json| jq .version)
+          version=$(cat contracts/package.json| jq .version)
           if [ $(yarn npm info '@acala-network/contracts' --json | jq -er ".versions|any(. == $version)") == false ]
           then
-              # prepare
-              yarn run prepare
               # publish
-              yarn npm publish --verbose --new-version=$version --access=public
+              yarn npm publish --access=public
           fi
