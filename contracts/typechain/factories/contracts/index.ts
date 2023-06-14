@@ -12,4 +12,5 @@ export * as oracle from "./oracle";
 export * as schedule from "./schedule";
 export * as stableAsset from "./stable-asset";
 export * as token from "./token";
+export * as utils from "./utils";
 export * as xtokens from "./xtokens";
