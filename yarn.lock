@@ -5,6 +5,12 @@ __metadata:
   version: 6
   cacheKey: 8
 
+"@acala-network/contracts@workspace:contracts":
+  version: 0.0.0-use.local
+  resolution: "@acala-network/contracts@workspace:contracts"
+  languageName: unknown
+  linkType: soft
+
 "@babel/code-frame@npm:^7.0.0":
   version: 7.16.7
   resolution: "@babel/code-frame@npm:7.16.7"

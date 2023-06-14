@@ -10,6 +10,9 @@
     "/build/contracts/*.json",
     "!/contracts/mocks/**/*"
   ],
+  "workspaces": [
+    "contracts"
+  ],
   "scripts": {
     "clean": "hardhat clean",
     "build": "hardhat compile",
