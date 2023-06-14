@@ -6,7 +6,6 @@ on:
       - master
       - solc-0.6
       - solc-0.7
-      - fix-env
 
 jobs:
   publish:
