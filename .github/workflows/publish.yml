@@ -26,11 +26,11 @@ jobs:
           # compile
           yarn run generate-bytecode
           cd contracts
-          version=$(yarn versions --json | jq -er '.data."@acala-network/contracts"')
-          if [ $(yarn info '@acala-network/contracts' versions --json | jq -er ".data|any(. == \"$version\")") == false ]
+          version=$(cat contracts/package.json| jq .version)
+          if [ $(yarn npm info '@acala-network/contracts' --json | jq -er ".versions|any(. == \"$version\")") == false ]
           then
               # prepare
               yarn run prepare
               # publish
-              yarn publish --verbose --new-version=$version --access=public
+              yarn npm publish --verbose --new-version=$version --access=public
           fi
