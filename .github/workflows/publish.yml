@@ -20,7 +20,7 @@ jobs:
           echo npmAuthToken: "\${NPM_TOKEN}" >> ./.yarnrc.yml
       - name: Publish Solidity Package
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NPM_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
           set -x
           # install dependencies
