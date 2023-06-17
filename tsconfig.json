@@ -4,10 +4,9 @@
     "module": "commonjs",
     "strict": true,
     "esModuleInterop": true,
-    "outDir": "dist",
     "declaration": true,
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "skipLibCheck": true
   },
-  "include": ["./scripts", "./test", "./contracts/typechain"],
-  "files": ["./hardhat.config.ts"]
+  "include": ["./contracts/typechain"],
 }
