@@ -31,7 +31,7 @@ jobs:
           if [ $(yarn npm info '@acala-network/contracts' --json | jq -er ".versions|any(. == $version)") == false ]
           then
               # publish
-              yarn tsc && yarn workspace '@acala-network/contracts' npm publish --access=public
+              yarn tsc -p tsconfig-cjs.json && yarn workspace '@acala-network/contracts' npm publish --access=public
           fi
       - run: |
           git checkout ./.yarnrc.yml
