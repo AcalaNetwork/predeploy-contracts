@@ -78,7 +78,7 @@ const generate = async () => {
 
   // add LiquidCrowdloan bytecodes
   const { bytecode: liquidCrowdloan } = await hre.artifacts.readArtifact("LiquidCrowdloan");
-  bytecodes.push(['LIQUID_CROWDLOAN', ethers.utils.getAddress('0x0000000000000000000000000000000000000809'), liquidCrowdloan]);
+  bytecodes.push(['LIQUID_CROWDLOAN', ethers.utils.getAddress('0x000000000000000000000000000000000000080a'), liquidCrowdloan]);
 
   // Maybe each nft will deploy a contract, like the mirrored token.
   // add NFT bytecodes
