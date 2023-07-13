@@ -9,6 +9,7 @@ artifacts
 build/
 contracts/README.md
 contracts/build/
+contracts/typechain/
 
 .yarn/*
 !.yarn/releases
