@@ -239,6 +239,29 @@ Moves `amount` tokens from `from` to `to` using the allowance mechanism. `amount
 |---|---|---|
 | _0 | bool | Returns a boolean value indicating whether the operation succeeded. |
 
+### transferToAccountId32
+
+```solidity
+function transferToAccountId32(bytes32 dest, uint256 amount) external nonpayable returns (bool)
+```
+
+Moves `amount` tokens from the caller&#39;s account to `dest`, which is AccountId32 type account.
+
+*It&#39;ll emit an {TransferToAccountId32} event. The caller must have a balance of at least `amount`.*
+
+#### Parameters
+
+| Name | Type | Description |
+|---|---|---|
+| dest | bytes32 | The dest AccountId32 type account, it cannot be the zero AccountId32. |
+| amount | uint256 | The transfer amount. |
+
+#### Returns
+
+| Name | Type | Description |
+|---|---|---|
+| _0 | bool | Returns a boolean value indicating whether the operation succeeded. |
+
 
 
 ## Events
@@ -278,6 +301,24 @@ event Transfer(address indexed from, address indexed to, uint256 value)
 | from `indexed` | address | undefined |
 | to `indexed` | address | undefined |
 | value  | uint256 | undefined |
+
+### TransferToAccountId32
+
+```solidity
+event TransferToAccountId32(address sender, bytes32 dest, uint256 amount)
+```
+
+Transfer event to AccountId32 type account.
+
+*This is Transfer event which transfer AccountId32 type account.*
+
+#### Parameters
+
+| Name | Type | Description |
+|---|---|---|
+| sender  | address | The sender of the transaction. |
+| dest  | bytes32 | The dest AccountId32 type account. |
+| amount  | uint256 | The transfer amount. |
 
 
 

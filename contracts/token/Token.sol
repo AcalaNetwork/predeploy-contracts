@@ -19,6 +19,13 @@ contract Token is IERC20 {
 
     mapping(address => mapping(address => uint256)) private _allowances;
 
+    /// @notice Transfer event to AccountId32 type account.
+    /// @param sender The sender of the transaction.
+    /// @param dest The dest AccountId32 type account.
+    /// @param amount The transfer amount.
+    /// @dev This is Transfer event which transfer AccountId32 type account.
+    event TransferToAccountId32(address sender, bytes32 dest, uint256 amount);
+
     /// @notice Get the name of the token.
     /// @return Returns the name of the token.
     function name() public view returns (string memory) {
@@ -55,10 +62,7 @@ contract Token is IERC20 {
     /// @param to The dest address, it cannot be the zero address.
     /// @param amount The transfer amount.
     /// @return Returns a boolean value indicating whether the operation succeeded.
-    function transfer(
-        address to,
-        uint256 amount
-    ) public override returns (bool) {
+    function transfer(address to, uint256 amount) public override returns (bool) {
         address owner = msg.sender;
         _transfer(owner, to, amount);
         return true;
@@ -69,10 +73,7 @@ contract Token is IERC20 {
     /// @param spender The spender address.
     /// @return Returns the remaining number of tokens.
     /// The `spender` will be allowed to spend on behalf of `owner` through {transferFrom}. This is zero by default.
-    function allowance(
-        address owner,
-        address spender
-    ) public view override returns (uint256) {
+    function allowance(address owner, address spender) public view override returns (uint256) {
         return _allowances[owner][spender];
     }
 
@@ -83,10 +84,7 @@ contract Token is IERC20 {
     /// @param spender Approve the spender.
     /// @param amount The approve amount.
     /// @return Returns a boolean value indicating whether the operation succeeded.
-    function approve(
-        address spender,
-        uint256 amount
-    ) public override returns (bool) {
+    function approve(address spender, uint256 amount) public override returns (bool) {
         address owner = msg.sender;
         _approve(owner, spender, amount);
         return true;
@@ -100,11 +98,7 @@ contract Token is IERC20 {
     /// @param to Transfer amount to the address. It cannot be the zero address.
     /// @param amount The transfer amount.
     /// @return Returns a boolean value indicating whether the operation succeeded.
-    function transferFrom(
-        address from,
-        address to,
-        uint256 amount
-    ) public override returns (bool) {
+    function transferFrom(address from, address to, uint256 amount) public override returns (bool) {
         address spender = msg.sender;
         _spendAllowance(from, spender, amount);
         _transfer(from, to, amount);
@@ -117,10 +111,7 @@ contract Token is IERC20 {
     /// @param spender It cannot be the zero address.
     /// @param addedValue The added value.
     /// @return Returns a boolean value indicating whether the operation succeeded.
-    function increaseAllowance(
-        address spender,
-        uint256 addedValue
-    ) public returns (bool) {
+    function increaseAllowance(address spender, uint256 addedValue) public returns (bool) {
         address owner = msg.sender;
         _approve(owner, spender, _allowances[owner][spender] + addedValue);
         return true;
@@ -132,19 +123,32 @@ contract Token is IERC20 {
     /// @param spender must have allowance for the caller of at least `subtractedValue`. It cannot be the zero address.
     /// @param subtractedValue The subtracted value.
     /// @return Returns a boolean value indicating whether the operation succeeded.
-    function decreaseAllowance(
-        address spender,
-        uint256 subtractedValue
-    ) public returns (bool) {
+    function decreaseAllowance(address spender, uint256 subtractedValue) public returns (bool) {
         address owner = msg.sender;
         uint256 currentAllowance = _allowances[owner][spender];
-        require(
-            currentAllowance >= subtractedValue,
-            "ERC20: decreased allowance below zero"
-        );
+        require(currentAllowance >= subtractedValue, "ERC20: decreased allowance below zero");
         unchecked {
             _approve(owner, spender, currentAllowance - subtractedValue);
         }
+
+        return true;
+    }
+
+    /// @notice Moves `amount` tokens from the caller's account to `dest`, which is AccountId32 type account.
+    /// @dev It'll emit an {TransferToAccountId32} event. The caller must have a balance of at least `amount`.
+    /// @param dest The dest AccountId32 type account, it cannot be the zero AccountId32.
+    /// @param amount The transfer amount.
+    /// @return Returns a boolean value indicating whether the operation succeeded.
+    function transferToAccountId32(bytes32 dest, uint256 amount) public returns (bool) {
+        address from = msg.sender;
+        require(from != address(0), "ERC20: transfer from the zero address");
+        require(
+            dest != 0x0000000000000000000000000000000000000000000000000000000000000000,
+            "ERC20: transfer to the zero AccountId32"
+        );
+
+        MultiCurrency.transferToAccountId(from, dest, amount);
+        emit TransferToAccountId32(from, dest, amount);
 
         return true;
     }
@@ -182,17 +186,10 @@ contract Token is IERC20 {
     /// Does not update the allowance amount in case of infinite allowance.
     /// Revert if not enough allowance is available.
     /// Might emit an {Approval} event.
-    function _spendAllowance(
-        address owner,
-        address spender,
-        uint256 amount
-    ) internal {
+    function _spendAllowance(address owner, address spender, uint256 amount) internal {
         uint256 currentAllowance = allowance(owner, spender);
         if (currentAllowance != type(uint256).max) {
-            require(
-                currentAllowance >= amount,
-                "ERC20: insufficient allowance"
-            );
+            require(currentAllowance >= amount, "ERC20: insufficient allowance");
             unchecked {
                 _approve(owner, spender, currentAllowance - amount);
             }
