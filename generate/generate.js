@@ -14,6 +14,7 @@ const generate = async () => {
   const karuraTokensFile = path.join(__dirname, '../resources', 'karura_tokens.json');
   const mandalaTokensFile = path.join(__dirname, '../resources', 'mandala_tokens.json');
   const bytecodesFile = path.join(__dirname, '../resources', 'bytecodes.json');
+  const deployedBytecodesFile = path.join(__dirname, '../resources', 'deployedBytecodes.json');
   const addressDir = path.join(__dirname, '../contracts/utils');
 
   const acalaTokens = require(acalaTokensFile);
@@ -34,51 +35,74 @@ const generate = async () => {
     return [...output, [symbol, ethers.utils.getAddress(address), token]];
   }, []);
 
+  const { deployedBytecode: tokenDeployedBytecode } = await hre.artifacts.readArtifact("Token");
+  const acalaTokenDeployedBytecodeList = acalaTokens.reduce((output, { symbol, address }) => {
+    return [...output, [symbol, ethers.utils.getAddress(address), tokenDeployedBytecode]];
+  }, []);
+  const karuraTokenDeployedBytecodeList = karuraTokens.reduce((output, { symbol, address }) => {
+    return [...output, [symbol, ethers.utils.getAddress(address), tokenDeployedBytecode]];
+  }, []);
+  const mandalaTokenDeployedBytecodeList = mandalaTokens.reduce((output, { symbol, address }) => {
+    return [...output, [symbol, ethers.utils.getAddress(address), tokenDeployedBytecode]];
+  }, []);
+
   let bytecodes = [];
+  let deployedBytecodes = [];
 
   // add EVM bytecodes
-  const { bytecode: evm } = await hre.artifacts.readArtifact("EVM");
+  const { bytecode: evm, deployedBytecode: evmDeployedBytecode } = await hre.artifacts.readArtifact("EVM");
   bytecodes.push(['EVM', ethers.utils.getAddress('0x0000000000000000000000000000000000000800'), evm]);
+  deployedBytecodes.push(['EVM', ethers.utils.getAddress('0x0000000000000000000000000000000000000800'), evmDeployedBytecode]);
 
   // add Oracle bytecodes
-  const { bytecode: oracle } = await hre.artifacts.readArtifact("Oracle");
+  const { bytecode: oracle, deployedBytecode: oracleDeployedBytecode } = await hre.artifacts.readArtifact("Oracle");
   bytecodes.push(['ORACLE', ethers.utils.getAddress('0x0000000000000000000000000000000000000801'), oracle]);
+  deployedBytecodes.push(['ORACLE', ethers.utils.getAddress('0x0000000000000000000000000000000000000801'), oracleDeployedBytecode]);
 
   // add Schedule bytecodes
-  const { bytecode: schedule } = await hre.artifacts.readArtifact("Schedule");
+  const { bytecode: schedule, deployedBytecode: scheduleDeployedBytecode } = await hre.artifacts.readArtifact("Schedule");
   bytecodes.push(['SCHEDULE', ethers.utils.getAddress('0x0000000000000000000000000000000000000802'), schedule]);
+  deployedBytecodes.push(['SCHEDULE', ethers.utils.getAddress('0x0000000000000000000000000000000000000802'), scheduleDeployedBytecode]);
 
   // add DEX bytecodes
-  const { bytecode: dex } = await hre.artifacts.readArtifact("DEX");
+  const { bytecode: dex, deployedBytecode: dexDeployedBytecode } = await hre.artifacts.readArtifact("DEX");
   bytecodes.push(['DEX', ethers.utils.getAddress('0x0000000000000000000000000000000000000803'), dex]);
+  deployedBytecodes.push(['DEX', ethers.utils.getAddress('0x0000000000000000000000000000000000000803'), dexDeployedBytecode]);
 
   // add StableAsset bytecodes
-  const { bytecode: stableAsset } = await hre.artifacts.readArtifact("StableAsset");
+  const { bytecode: stableAsset, deployedBytecode: stableAssetDeployedBytecode } = await hre.artifacts.readArtifact("StableAsset");
   bytecodes.push(['STABLE_ASSET', ethers.utils.getAddress('0x0000000000000000000000000000000000000804'), stableAsset]);
+  deployedBytecodes.push(['STABLE_ASSET', ethers.utils.getAddress('0x0000000000000000000000000000000000000804'), stableAssetDeployedBytecode]);
 
   // add Homa bytecodes
-  const { bytecode: homa } = await hre.artifacts.readArtifact("Homa");
+  const { bytecode: homa, deployedBytecode: homaDeployedBytecode } = await hre.artifacts.readArtifact("Homa");
   bytecodes.push(['HOMA', ethers.utils.getAddress('0x0000000000000000000000000000000000000805'), homa]);
+  deployedBytecodes.push(['HOMA', ethers.utils.getAddress('0x0000000000000000000000000000000000000805'), homaDeployedBytecode]);
 
   // add EVMAccounts bytecodes
-  const { bytecode: evmAccounts } = await hre.artifacts.readArtifact("EVMAccounts");
+  const { bytecode: evmAccounts, deployedBytecode: evmAccountsDeployedBytecode } = await hre.artifacts.readArtifact("EVMAccounts");
   bytecodes.push(['EVM_ACCOUNTS', ethers.utils.getAddress('0x0000000000000000000000000000000000000806'), evmAccounts]);
+  deployedBytecodes.push(['EVM_ACCOUNTS', ethers.utils.getAddress('0x0000000000000000000000000000000000000806'), evmAccountsDeployedBytecode]);
 
   // add Honzon bytecodes
-  const { bytecode: honzon } = await hre.artifacts.readArtifact("Honzon");
+  const { bytecode: honzon, deployedBytecode: honzonDeployedBytecode } = await hre.artifacts.readArtifact("Honzon");
   bytecodes.push(['HONZON', ethers.utils.getAddress('0x0000000000000000000000000000000000000807'), honzon]);
+  deployedBytecodes.push(['HONZON', ethers.utils.getAddress('0x0000000000000000000000000000000000000807'), honzonDeployedBytecode]);
 
   // add Incentives bytecodes
-  const { bytecode: incentives } = await hre.artifacts.readArtifact("Incentives");
+  const { bytecode: incentives, deployedBytecode: incentivesDeployedBytecode } = await hre.artifacts.readArtifact("Incentives");
   bytecodes.push(['INCENTIVES', ethers.utils.getAddress('0x0000000000000000000000000000000000000808'), incentives]);
+  deployedBytecodes.push(['INCENTIVES', ethers.utils.getAddress('0x0000000000000000000000000000000000000808'), incentivesDeployedBytecode]);
 
   // add Xtokens bytecodes
-  const { bytecode: xtokens } = await hre.artifacts.readArtifact("Xtokens");
+  const { bytecode: xtokens, deployedBytecode: xtokensDeployedBytecode } = await hre.artifacts.readArtifact("Xtokens");
   bytecodes.push(['XTOKENS', ethers.utils.getAddress('0x0000000000000000000000000000000000000809'), xtokens]);
+  deployedBytecodes.push(['XTOKENS', ethers.utils.getAddress('0x0000000000000000000000000000000000000809'), xtokensDeployedBytecode]);
 
   // add LiquidCrowdloan bytecodes
-  const { bytecode: liquidCrowdloan } = await hre.artifacts.readArtifact("LiquidCrowdloan");
+  const { bytecode: liquidCrowdloan, deployedBytecode: liquidCrowdloanDeployedBytecode } = await hre.artifacts.readArtifact("LiquidCrowdloan");
   bytecodes.push(['LIQUID_CROWDLOAN', ethers.utils.getAddress('0x000000000000000000000000000000000000080a'), liquidCrowdloan]);
+  deployedBytecodes.push(['LIQUID_CROWDLOAN', ethers.utils.getAddress('0x000000000000000000000000000000000000080a'), liquidCrowdloanDeployedBytecode]);
 
   // Maybe each nft will deploy a contract, like the mirrored token.
   // add NFT bytecodes
@@ -86,6 +110,7 @@ const generate = async () => {
   // bytecodes.push(['NFT', ethers.utils.getAddress('0x00000000000000000000000000000000000008XX'), nft]);
 
   await writeFile(bytecodesFile, JSON.stringify(acalaTokenList.concat(karuraTokenList).concat(bytecodes), null, 2), 'utf8');
+  await writeFile(deployedBytecodesFile, JSON.stringify(acalaTokenDeployedBytecodeList.concat(karuraTokenDeployedBytecodeList).concat(deployedBytecodes), null, 2), 'utf8');
 
   // generate address constant for sol
   let tmpl = fs.readFileSync(path.resolve(__dirname, '../resources', 'tokens.sol.hbs'), 'utf8');

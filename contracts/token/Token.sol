@@ -9,12 +9,13 @@ import {SafeMath} from "@openzeppelin/contracts/utils/math/SafeMath.sol";
 import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
 import {MultiCurrency} from "./MultiCurrency.sol";
+import {IToken} from "./IToken.sol";
 
 /// @title MultiCurrency Predeploy Contract
 /// @author Acala Developers
 /// @notice You can use this predeploy contract to call currencies pallet
 /// @dev This contracts will interact with currencies pallet
-contract Token is IERC20 {
+contract Token is IToken {
     using SafeMath for uint256;
 
     mapping(address => mapping(address => uint256)) private _allowances;
@@ -145,6 +146,24 @@ contract Token is IERC20 {
         unchecked {
             _approve(owner, spender, currentAllowance - subtractedValue);
         }
+
+        return true;
+    }
+
+    /// @inheritdoc IToken
+    function transferToAccountId32(
+        bytes32 dest,
+        uint256 amount
+    ) public override returns (bool) {
+        address from = msg.sender;
+        require(
+            dest !=
+                0x0000000000000000000000000000000000000000000000000000000000000000,
+            "ERC20: transfer to the zero AccountId32"
+        );
+
+        MultiCurrency.transferToAccountId(from, dest, amount);
+        emit TransferToAccountId32(from, dest, amount);
 
         return true;
     }

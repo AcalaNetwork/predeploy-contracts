@@ -95,4 +95,24 @@ library MultiCurrency {
             }
         }
     }
+
+    function transferToAccountId(
+        address sender,
+        bytes32 recipient,
+        uint256 amount
+    ) internal {
+        (bool success, bytes memory returnData) = PRECOMPILE.call(
+            abi.encodeWithSignature(
+                "transferToAccountId(address,bytes32,uint256)",
+                sender,
+                recipient,
+                amount
+            )
+        );
+        assembly {
+            if eq(success, 0) {
+                revert(add(returnData, 0x20), returndatasize())
+            }
+        }
+    }
 }
