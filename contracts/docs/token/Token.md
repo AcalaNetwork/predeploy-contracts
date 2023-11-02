@@ -305,7 +305,7 @@ event Transfer(address indexed from, address indexed to, uint256 value)
 ### TransferToAccountId32
 
 ```solidity
-event TransferToAccountId32(address sender, bytes32 dest, uint256 amount)
+event TransferToAccountId32(address indexed sender, bytes32 indexed dest, uint256 amount)
 ```
 
 Transfer event to AccountId32 type account.
@@ -316,8 +316,8 @@ Transfer event to AccountId32 type account.
 
 | Name | Type | Description |
 |---|---|---|
-| sender  | address | The sender of the transaction. |
-| dest  | bytes32 | The dest AccountId32 type account. |
+| sender `indexed` | address | The sender of the transaction. |
+| dest `indexed` | bytes32 | The dest AccountId32 type account. |
 | amount  | uint256 | The transfer amount. |
 
 

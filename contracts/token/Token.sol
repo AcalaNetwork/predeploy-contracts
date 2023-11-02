@@ -9,22 +9,16 @@ import {SafeMath} from "@openzeppelin/contracts/utils/math/SafeMath.sol";
 import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
 import {MultiCurrency} from "./MultiCurrency.sol";
+import {IToken} from "./IToken.sol";
 
 /// @title MultiCurrency Predeploy Contract
 /// @author Acala Developers
 /// @notice You can use this predeploy contract to call currencies pallet
 /// @dev This contracts will interact with currencies pallet
-contract Token is IERC20 {
+contract Token is IToken {
     using SafeMath for uint256;
 
     mapping(address => mapping(address => uint256)) private _allowances;
-
-    /// @notice Transfer event to AccountId32 type account.
-    /// @param sender The sender of the transaction.
-    /// @param dest The dest AccountId32 type account.
-    /// @param amount The transfer amount.
-    /// @dev This is Transfer event which transfer AccountId32 type account.
-    event TransferToAccountId32(address sender, bytes32 dest, uint256 amount);
 
     /// @notice Get the name of the token.
     /// @return Returns the name of the token.
@@ -156,15 +150,11 @@ contract Token is IERC20 {
         return true;
     }
 
-    /// @notice Moves `amount` tokens from the caller's account to `dest`, which is AccountId32 type account.
-    /// @dev It'll emit an {TransferToAccountId32} event. The caller must have a balance of at least `amount`.
-    /// @param dest The dest AccountId32 type account, it cannot be the zero AccountId32.
-    /// @param amount The transfer amount.
-    /// @return Returns a boolean value indicating whether the operation succeeded.
+    /// @inheritdoc IToken
     function transferToAccountId32(
         bytes32 dest,
         uint256 amount
-    ) public returns (bool) {
+    ) public override returns (bool) {
         address from = msg.sender;
         require(
             dest !=
