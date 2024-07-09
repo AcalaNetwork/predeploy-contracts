@@ -104,6 +104,11 @@ const generate = async () => {
   bytecodes.push(['LIQUID_CROWDLOAN', ethers.utils.getAddress('0x000000000000000000000000000000000000080a'), liquidCrowdloan]);
   deployedBytecodes.push(['LIQUID_CROWDLOAN', ethers.utils.getAddress('0x000000000000000000000000000000000000080a'), liquidCrowdloanDeployedBytecode]);
 
+  // add Earning bytecodes
+  const { bytecode: earning, deployedBytecode: earningDeployedBytecode } = await hre.artifacts.readArtifact("Earning");
+  bytecodes.push(['EARNING', ethers.utils.getAddress('0x000000000000000000000000000000000000080b'), earning]);
+  deployedBytecodes.push(['EARNING', ethers.utils.getAddress('0x000000000000000000000000000000000000080b'), earningDeployedBytecode]);
+
   // Maybe each nft will deploy a contract, like the mirrored token.
   // add NFT bytecodes
   // const { bytecode: nft } = require(`../build/contracts/NFT.json`);
