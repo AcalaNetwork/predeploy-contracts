@@ -62,7 +62,7 @@ interface IEarning {
     function unbondInstant(uint256 unbondAmount) external returns (bool);
 
     /// @notice Rebond.
-    /// @dev It'll emit an {Bonded} event.
+    /// @dev It'll emit an {Rebonded} event.
     /// @param rebondAmount The amount of native currency used to rebond.
     /// @return Returns a boolean value indicating whether the operation succeeded.
     function rebond(uint256 rebondAmount) external returns (bool);

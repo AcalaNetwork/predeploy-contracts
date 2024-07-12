@@ -131,7 +131,7 @@ function rebond(uint256 rebondAmount) external nonpayable returns (bool)
 
 Rebond.
 
-*It&#39;ll emit an {Bonded} event.*
+*It&#39;ll emit an {Rebonded} event.*
 
 #### Parameters
 
