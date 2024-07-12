@@ -64,7 +64,7 @@ contract Earning is IEarning {
             if eq(success, 0) { revert(add(returnData, 0x20), returndatasize()) }
         }
 
-        emit Bonded(msg.sender, abi.decode(returnData, (uint256)));
+        emit Rebonded(msg.sender, abi.decode(returnData, (uint256)));
         return true;
     }
 

@@ -227,6 +227,23 @@ Bonded event.
 | sender `indexed` | address | The sender of the transaction. |
 | amount  | uint256 | The bond amount. |
 
+### Rebonded
+
+```solidity
+event Rebonded(address indexed sender, uint256 amount)
+```
+
+Rebonded event.
+
+
+
+#### Parameters
+
+| Name | Type | Description |
+|---|---|---|
+| sender `indexed` | address | The sender of the transaction. |
+| amount  | uint256 | The rebond amount. |
+
 ### Unbonded
 
 ```solidity

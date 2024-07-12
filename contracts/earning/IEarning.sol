@@ -33,6 +33,11 @@ interface IEarning {
     /// @param amount The unbond amount.
     event Unbonded(address indexed sender, uint256 amount);
 
+    /// @notice Rebonded event.
+    /// @param sender The sender of the transaction.
+    /// @param amount The rebond amount.
+    event Rebonded(address indexed sender, uint256 amount);
+
     /// @notice Withdraw unbonded.
     /// @param sender The sender of the transaction.
     /// @param amount The withdrawn unbonded amount.
