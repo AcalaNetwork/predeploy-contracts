@@ -139,7 +139,7 @@ contract DEX is IDEX {
             }
         }
 
-        emit Swaped(
+        emit Swapped(
             msg.sender,
             path,
             supplyAmount,
@@ -174,7 +174,7 @@ contract DEX is IDEX {
             }
         }
 
-        emit Swaped(
+        emit Swapped(
             msg.sender,
             path,
             abi.decode(returnData, (uint256)),

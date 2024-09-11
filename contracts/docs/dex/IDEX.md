@@ -163,7 +163,7 @@ function swapWithExactSupply(address[] path, uint256 supplyAmount, uint256 minTa
 
 Swap with exact supply.
 
-*It&#39;ll emit an {Swaped} event.*
+*It&#39;ll emit an {Swapped} event.*
 
 #### Parameters
 
@@ -187,7 +187,7 @@ function swapWithExactTarget(address[] path, uint256 targetAmount, uint256 maxSu
 
 Swap with exact target.
 
-*It&#39;ll emit an {Swaped} event.*
+*It&#39;ll emit an {Swapped} event.*
 
 #### Parameters
 
@@ -246,13 +246,13 @@ Removed liquidity event.
 | tokenB `indexed` | address | The ERC20 address of the currency_id_b. |
 | removeShare  | uint256 | The liquidity amount has been removed. |
 
-### Swaped
+### Swapped
 
 ```solidity
-event Swaped(address indexed sender, address[] path, uint256 supplyAmount, uint256 targetAmount)
+event Swapped(address indexed sender, address[] path, uint256 supplyAmount, uint256 targetAmount)
 ```
 
-Swaped event with DEX.
+Swapped event with DEX.
 
 
 

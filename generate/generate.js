@@ -64,11 +64,6 @@ const generate = async () => {
   bytecodes.push(['SCHEDULE', ethers.utils.getAddress('0x0000000000000000000000000000000000000802'), schedule]);
   deployedBytecodes.push(['SCHEDULE', ethers.utils.getAddress('0x0000000000000000000000000000000000000802'), scheduleDeployedBytecode]);
 
-  // add DEX bytecodes
-  const { bytecode: dex, deployedBytecode: dexDeployedBytecode } = await hre.artifacts.readArtifact("DEX");
-  bytecodes.push(['DEX', ethers.utils.getAddress('0x0000000000000000000000000000000000000803'), dex]);
-  deployedBytecodes.push(['DEX', ethers.utils.getAddress('0x0000000000000000000000000000000000000803'), dexDeployedBytecode]);
-
   // add DEXV2 bytecodes
   const { bytecode: dexV2, deployedBytecode: dexV2DeployedBytecode } = await hre.artifacts.readArtifact("DEXV2");
   bytecodes.push(['DEXV2', ethers.utils.getAddress('0x0000000000000000000000000000000000000803'), dexV2]);
