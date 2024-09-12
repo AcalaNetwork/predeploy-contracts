@@ -10,7 +10,7 @@ import {IDEX} from "./IDEX.sol";
 /// @dev This contracts will interact with dex pallet
 contract DEX is IDEX {
     /// @dev The DEX precompile address.
-    address private constant PRECOMPILE =
+    address internal constant PRECOMPILE =
         address(0x0000000000000000000000000000000000000405);
 
     /// @inheritdoc IDEX
@@ -66,7 +66,7 @@ contract DEX is IDEX {
         address[] memory path,
         uint256 supplyAmount
     ) public view override returns (uint256) {
-        for (uint i = 0; i < path.length; i++) {
+        for (uint256 i = 0; i < path.length; i++) {
             require(path[i] != address(0), "DEX: token is zero address");
         }
         require(supplyAmount != 0, "DEX: supplyAmount is zero");
@@ -92,7 +92,7 @@ contract DEX is IDEX {
         address[] memory path,
         uint256 targetAmount
     ) public view override returns (uint256) {
-        for (uint i = 0; i < path.length; i++) {
+        for (uint256 i = 0; i < path.length; i++) {
             require(path[i] != address(0), "DEX: token is zero address");
         }
         require(targetAmount != 0, "DEX: targetAmount is zero");
@@ -119,7 +119,7 @@ contract DEX is IDEX {
         uint256 supplyAmount,
         uint256 minTargetAmount
     ) public override returns (bool) {
-        for (uint i = 0; i < path.length; i++) {
+        for (uint256 i = 0; i < path.length; i++) {
             require(path[i] != address(0), "DEX: token is zero address");
         }
         require(supplyAmount != 0, "DEX: supplyAmount is zero");
@@ -139,7 +139,7 @@ contract DEX is IDEX {
             }
         }
 
-        emit Swaped(
+        emit Swapped(
             msg.sender,
             path,
             supplyAmount,
@@ -154,7 +154,7 @@ contract DEX is IDEX {
         uint256 targetAmount,
         uint256 maxSupplyAmount
     ) public override returns (bool) {
-        for (uint i = 0; i < path.length; i++) {
+        for (uint256 i = 0; i < path.length; i++) {
             require(path[i] != address(0), "DEX: token is zero address");
         }
         require(targetAmount != 0, "DEX: targetAmount is zero");
@@ -174,7 +174,7 @@ contract DEX is IDEX {
             }
         }
 
-        emit Swaped(
+        emit Swapped(
             msg.sender,
             path,
             abi.decode(returnData, (uint256)),

@@ -7,12 +7,12 @@ pragma solidity ^0.8.0;
 /// @notice You can use this predeploy contract to call dex pallet
 /// @dev The interface through which solidity contracts will interact with dex pallet
 interface IDEX {
-    /// @notice Swaped event with DEX.
+    /// @notice Swapped event with DEX.
     /// @param sender The sender of the transaction.
     /// @param path The trading path of the swap transaction.
     /// @param supplyAmount The exact supply amount.
     /// @param targetAmount The exact target amount.
-    event Swaped(
+    event Swapped(
         address indexed sender,
         address[] path,
         uint256 supplyAmount,
@@ -82,7 +82,7 @@ interface IDEX {
     ) external view returns (uint256);
 
     /// @notice Swap with exact supply.
-    /// @dev It'll emit an {Swaped} event.
+    /// @dev It'll emit an {Swapped} event.
     /// @param path The trading path of the swap transaction.
     /// @param supplyAmount The exact gsupply amount.
     /// @param minTargetAmount The acceptable minimum target amount.
@@ -94,7 +94,7 @@ interface IDEX {
     ) external returns (bool);
 
     /// @notice Swap with exact target.
-    /// @dev It'll emit an {Swaped} event.
+    /// @dev It'll emit an {Swapped} event.
     /// @param path The trading path of the swap transaction.
     /// @param targetAmount The exact target amount.
     /// @param maxSupplyAmount The acceptable maximum supply amount.
