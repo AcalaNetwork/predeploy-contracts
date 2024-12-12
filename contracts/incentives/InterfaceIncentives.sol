@@ -11,38 +11,28 @@ interface InterfaceIncentives {
     /// @param sender The sender of the transaction.
     /// @param currencyId The LP token currency id.
     /// @param amount The amount to stake.
-    event DepositedShare(
-        address indexed sender,
-        address indexed currencyId,
-        uint256 amount
-    );
+    event DepositedShare(address indexed sender, address indexed currencyId, uint256 amount);
 
     /// @notice The withdrew share event.
     /// @param sender The sender of the transaction.
     /// @param currencyId The LP token currency id.
     /// @param amount The amount to unstake.
-    event WithdrewShare(
-        address indexed sender,
-        address indexed currencyId,
-        uint256 amount
-    );
+    event WithdrewShare(address indexed sender, address indexed currencyId, uint256 amount);
 
     /// @notice The Claimed rewards event.
     /// @param sender The sender of the transaction.
     /// @param pool The pool type.
     /// @param poolCurrencyId The LP token currency id.
-    event ClaimedRewards(
-        address indexed sender,
-        PoolId indexed pool,
-        address indexed poolCurrencyId
-    );
+    event ClaimedRewards(address indexed sender, PoolId indexed pool, address indexed poolCurrencyId);
 
     /// @notice Gets reward amount in `rewardCurrency` added per period.
     /// @param LOANS Record the shares and rewards for users of Loans(Honzon protocol).
     /// @param DEX Record the shares and rewards for DEX makers who staking LP token.
+    /// @param EARNING Record the shares and rewards for users who staking native token.
     enum PoolId {
         LOANS,
-        DEX
+        DEX,
+        EARNING
     }
 
     /// @notice Gets reward amount in `rewardCurrency` added per period.
@@ -50,60 +40,45 @@ interface InterfaceIncentives {
     /// @param poolCurrencyId The LP token currency id.
     /// @param rewardCurrencyId The reward currency id.
     /// @return Returns (reward_amount).
-    function getIncentiveRewardAmount(
-        PoolId pool,
-        address poolCurrencyId,
-        address rewardCurrencyId
-    ) external view returns (uint256);
+    function getIncentiveRewardAmount(PoolId pool, address poolCurrencyId, address rewardCurrencyId)
+        external
+        view
+        returns (uint256);
 
     /// @notice Stake LP token to add shares to PoolId::Dex.
     /// @dev It'll emit an {DepositedShare} event.
     /// @param currencyId The LP token currency id.
     /// @param amount The amount to stake.
     /// @return Returns a boolean value indicating whether the operation succeeded.
-    function depositDexShare(
-        address currencyId,
-        uint256 amount
-    ) external returns (bool);
+    function depositDexShare(address currencyId, uint256 amount) external returns (bool);
 
     /// @notice Unstake LP token to remove shares from PoolId::Dex.
     /// @dev It'll emit an {WithdrewShare} event.
     /// @param currencyId The LP token currency id.
     /// @param amount The amount to unstake.
     /// @return Returns a boolean value indicating whether the operation succeeded.
-    function withdrawDexShare(
-        address currencyId,
-        uint256 amount
-    ) external returns (bool);
+    function withdrawDexShare(address currencyId, uint256 amount) external returns (bool);
 
     /// @notice Claim all avalible multi currencies rewards for specific PoolId.
     /// @dev It'll emit an {ClaimedRewards} event.
     /// @param pool The pool type.
     /// @param poolCurrencyId The LP token currency id.
     /// @return Returns a boolean value indicating whether the operation succeeded.
-    function claimRewards(
-        PoolId pool,
-        address poolCurrencyId
-    ) external returns (bool);
+    function claimRewards(PoolId pool, address poolCurrencyId) external returns (bool);
 
     /// @notice Gets deduction rate for claiming reward early.
     /// @param pool The pool type.
     /// @param poolCurrencyId The LP token currency id.
     /// @return Returns (claim_reward_deduction_rate) as a FixedU128 representing a decimal value.
-    function getClaimRewardDeductionRate(
-        PoolId pool,
-        address poolCurrencyId
-    ) external view returns (uint256);
+    function getClaimRewardDeductionRate(PoolId pool, address poolCurrencyId) external view returns (uint256);
 
     /// @notice Gets the pending rewards for a pool, actual reward could be deducted.
     /// @param pool The pool type.
     /// @param poolCurrencyId The LP token currency id.
     /// @param who The specified user.
     /// @return Returns (balances), an array of reward balances corresponding to currencyIds.
-    function getPendingRewards(
-        address[] calldata currencyIds,
-        PoolId pool,
-        address poolCurrencyId,
-        address who
-    ) external view returns (uint256[] memory);
+    function getPendingRewards(address[] calldata currencyIds, PoolId pool, address poolCurrencyId, address who)
+        external
+        view
+        returns (uint256[] memory);
 }
