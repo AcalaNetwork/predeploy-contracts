@@ -29,10 +29,12 @@ interface InterfaceIncentives {
     /// @param LOANS Record the shares and rewards for users of Loans(Honzon protocol).
     /// @param DEX Record the shares and rewards for DEX makers who staking LP token.
     /// @param EARNING Record the shares and rewards for users who staking native token.
+    /// @param NOMINEESELECTION Record the shares and rewards for users who staking for Homa nominees election.
     enum PoolId {
         LOANS,
         DEX,
-        EARNING
+        EARNING,
+        NOMINEESELECTION
     }
 
     /// @notice Gets reward amount in `rewardCurrency` added per period.
