@@ -123,7 +123,7 @@ Get stable asset pool tokens.
 | Name | Type | Description |
 |---|---|---|
 | _0 | bool | poolExists whether pool exists or not. |
-| _1 | address[] | tokens stabel asset pool tokens. |
+| _1 | address[] | tokens stable asset pool tokens. |
 
 ### getStableAssetPoolTotalSupply
 
