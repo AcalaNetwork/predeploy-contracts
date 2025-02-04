@@ -16,7 +16,7 @@ You can use this predeploy contract to call incentives pallet
 function claimRewards(enum InterfaceIncentives.PoolId pool, address poolCurrencyId) external nonpayable returns (bool)
 ```
 
-Claim all avalible multi currencies rewards for specific PoolId.
+Claim all available multi currencies rewards for specific PoolId.
 
 *It&#39;ll emit an {ClaimedRewards} event.*
 
