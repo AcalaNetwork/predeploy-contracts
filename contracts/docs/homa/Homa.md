@@ -106,7 +106,7 @@ Mint liquid currency with staking currency.
 function requestRedeem(uint256 redeemAmount, bool fastMatch) external nonpayable returns (bool)
 ```
 
-Request to redeem liquid curency for staking currency.
+Request to redeem liquid currency for staking currency.
 
 *It&#39;ll emit an {RequestedRedeem} event.*
 
