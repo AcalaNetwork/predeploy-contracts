@@ -54,7 +54,7 @@ interface IStableAsset {
     /// @param poolId The ID of the pool.
     /// @param redeemAmount The amount of pool token to be redeemed.
     /// @param i The the array index of the input token in stable pool.
-    /// @param minRedeemAmount The minimum amount of token recieved.
+    /// @param minRedeemAmount The minimum amount of token received.
     /// @param assetLength The length of array of tokens in stable pool.
     event StableAssetRedeemedSingle(
         address indexed sender,
@@ -68,7 +68,7 @@ interface IStableAsset {
     /// @notice The scheduled call event.
     /// @param sender The sender of the transaction.
     /// @param poolId The ID of the pool.
-    /// @param amounts The amount of underlying token to be recieved.
+    /// @param amounts The amount of underlying token to be received.
     /// @param maxRedeemAmount The maximum amount of pool token to be input.
     event StableAssetRedeemedMulti(
         address indexed sender,
@@ -80,7 +80,7 @@ interface IStableAsset {
     /// @notice Get stable asset pool tokens.
     /// @param poolId The ID of the pool.
     /// @return poolExists whether pool exists or not.
-    /// @return tokens stabel asset pool tokens.
+    /// @return tokens stable asset pool tokens.
     function getStableAssetPoolTokens(
         uint32 poolId
     ) external view returns (bool, address[] memory);
@@ -172,7 +172,7 @@ interface IStableAsset {
     /// @param poolId The ID of the pool.
     /// @param redeemAmount The amount of pool token to be redeemed.
     /// @param i The the array index of the input token in stable pool.
-    /// @param minRedeemAmount The minimum amount of token recieved.
+    /// @param minRedeemAmount The minimum amount of token received.
     /// @param assetLength The length of array of tokens in stable pool.
     /// @return Returns a boolean value indicating whether the operation succeeded.
     function stableAssetRedeemSingle(
@@ -186,7 +186,7 @@ interface IStableAsset {
     /// @notice Stable asset redeem multi, Redeems token into single token from pool.
     /// @dev It'll emit an {StableAssetRedeemedMulti} event.
     /// @param poolId The ID of the pool.
-    /// @param amounts The amount of underlying token to be recieved.
+    /// @param amounts The amount of underlying token to be received.
     /// @param maxRedeemAmount The maximum amount of pool token to be input.
     /// @return Returns a boolean value indicating whether the operation succeeded.
     function stableAssetRedeemMulti(

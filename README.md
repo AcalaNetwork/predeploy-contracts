@@ -46,7 +46,7 @@ These contracts make other chain-native functionalities available in Acala EVM.
 
 ### On-chain Automatic Scheduler
 - ScheduleCall contract address: `ADDRESS.SCHEDULE`
-- Docs [contracts/docs/schdule/Schdule.md](./contracts/docs/schdule/Schdule.md)
+- Docs [contracts/docs/schedule/Schedule.md](./contracts/docs/schedule/Schedule.md)
 
 ### DEX
 - DEX contract address: `ADDRESS.DEX`

@@ -123,7 +123,7 @@ Get stable asset pool tokens.
 | Name | Type | Description |
 |---|---|---|
 | _0 | bool | poolExists whether pool exists or not. |
-| _1 | address[] | tokens stabel asset pool tokens. |
+| _1 | address[] | tokens stable asset pool tokens. |
 
 ### getStableAssetPoolTotalSupply
 
@@ -211,7 +211,7 @@ Stable asset redeem multi, Redeems token into single token from pool.
 | Name | Type | Description |
 |---|---|---|
 | poolId | uint32 | The ID of the pool. |
-| amounts | uint256[] | The amount of underlying token to be recieved. |
+| amounts | uint256[] | The amount of underlying token to be received. |
 | maxRedeemAmount | uint256 | The maximum amount of pool token to be input. |
 
 #### Returns
@@ -237,7 +237,7 @@ Stable asset redeem single, Redeems token into single token from pool.
 | poolId | uint32 | The ID of the pool. |
 | redeemAmount | uint256 | The amount of pool token to be redeemed. |
 | i | uint32 | The the array index of the input token in stable pool. |
-| minRedeemAmount | uint256 | The minimum amount of token recieved. |
+| minRedeemAmount | uint256 | The minimum amount of token received. |
 | assetLength | uint32 | The length of array of tokens in stable pool. |
 
 #### Returns
@@ -331,7 +331,7 @@ The scheduled call event.
 |---|---|---|
 | sender `indexed` | address | The sender of the transaction. |
 | poolId `indexed` | uint32 | The ID of the pool. |
-| amounts  | uint256[] | The amount of underlying token to be recieved. |
+| amounts  | uint256[] | The amount of underlying token to be received. |
 | maxRedeemAmount  | uint256 | The maximum amount of pool token to be input. |
 
 ### StableAssetRedeemedSingle
@@ -352,7 +352,7 @@ The scheduled call event.
 | poolId `indexed` | uint32 | The ID of the pool. |
 | redeemAmount  | uint256 | The amount of pool token to be redeemed. |
 | i  | uint32 | The the array index of the input token in stable pool. |
-| minRedeemAmount  | uint256 | The minimum amount of token recieved. |
+| minRedeemAmount  | uint256 | The minimum amount of token received. |
 | assetLength  | uint32 | The length of array of tokens in stable pool. |
 
 ### StableAssetSwapped

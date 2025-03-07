@@ -80,7 +80,7 @@ interface InterfaceIncentives {
         uint256 amount
     ) external returns (bool);
 
-    /// @notice Claim all avalible multi currencies rewards for specific PoolId.
+    /// @notice Claim all available multi currencies rewards for specific PoolId.
     /// @dev It'll emit an {ClaimedRewards} event.
     /// @param pool The pool type.
     /// @param poolCurrencyId The LP token currency id.

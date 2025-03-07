@@ -62,7 +62,7 @@ interface IBootstrap {
         address tokenB
     ) external view returns (uint256, uint256);
 
-    /// @notice Add provision to the bootstraping trading pair.
+    /// @notice Add provision to the bootstrapping trading pair.
     /// @dev It'll emit an {AddProvision} event.
     /// @param tokenA The ERC20 address of the tokenA.
     /// @param tokenB The ERC20 address of the tokenB.
