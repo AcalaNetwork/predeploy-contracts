@@ -16,7 +16,7 @@ You can use this predeploy contract to call the bootstrap functions of dex palle
 function addProvision(address tokenA, address tokenB, uint256 amountA, uint256 amountB) external nonpayable returns (bool)
 ```
 
-Add provision to the bootstraping trading pair.
+Add provision to the bootstrapping trading pair.
 
 *It&#39;ll emit an {AddProvision} event.*
 

@@ -28,7 +28,7 @@ interface IHoma {
     /// @return Returns a boolean value indicating whether the operation succeeded.
     function mint(uint256 mintAmount) external returns (bool);
 
-    /// @notice Request to redeem liquid curency for staking currency.
+    /// @notice Request to redeem liquid currency for staking currency.
     /// @dev It'll emit an {RequestedRedeem} event.
     /// @param redeemAmount The amount of liquid currency to be requested  redeemed into Staking currency.
     /// @param fastMatch Allow the request to be fast matched, fast match will take a fixed rate as fee.
